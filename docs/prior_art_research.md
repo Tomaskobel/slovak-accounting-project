@@ -50,6 +50,13 @@
 - **Our takeaway:** Exactly how we need to version DPH rate changes. When Slovakia changed DPH 20% → 23% on 2025-01-01, graph needs both: old rate (valid_to = 2024-12-31) and new rate (valid_from = 2025-01-01)
 - **Source:** [Neo4j Temporal Blog](https://medium.com/neo4j/keeping-track-of-graph-changes-using-temporal-versioning-3b0f854536fa)
 
+### AgentiveAIQ — Dual Knowledge Architecture
+- **What:** General-purpose AI agent builder (not accounting-specific). Uses LangGraph/LangChain
+- **Knowledge architecture:** Dual system — (1) pgvector for semantic search across chunked documents, (2) Neo4j + Graphiti for entity extraction and relationship mapping with temporal awareness
+- **Graphiti (by Zep):** Open-source library that builds temporal knowledge graphs — entities and relationships with timestamps. Incremental updates as new data arrives
+- **Our takeaway:** Not architecturally relevant (LLM-first, no deterministic engine), BUT the dual knowledge pattern is useful: **graph for structured rule relationships + vector for semantic similarity search**. Maps to our design: graph stores rules/relationships (Layer 1), pgvector enables AI layer to find relevant legal sources when answering questions (Layer 3). Graphiti's temporal graph pattern aligns with our bi-temporal versioning need
+- **Source:** [AgentiveAIQ](https://agentiveaiq.com/how-it-works), [Graphiti](https://github.com/getzep/graphiti)
+
 ---
 
 ## 3. Declarative Accounting Rule Systems (Open Source)
@@ -132,6 +139,55 @@
 
 ---
 
+## 7. AI-Native Accounting Products (2025-2026 Wave)
+
+### Digits — Autonomous General Ledger (WATCH CLOSELY)
+- **What:** AI-native GL that replaces QuickBooks. $825B in training data, dozens of specialized models
+- **Architecture:** Orchestrates multiple specialized models (NOT generic LLMs). Custom models outperform GPT-4o by 54% on accounting tasks. Bookkeeping Agent categorizes continuously, flags low-confidence entries to human inbox
+- **Key pattern:** AI does classification + categorization, but maintains tight human feedback loops with US-based accountants. 97.8% accuracy (vs 79.1% from outsourced humans). Automates 90%+ of SMB bookkeeping
+- **Our takeaway:** Validates our confidence-based routing: deterministic for high-confidence, human review for low-confidence. But Digits is LLM-first (AI makes the booking decision), we are rule-first (deterministic engine makes the decision). Different philosophy — we bet on explainability and regulatory traceability over raw ML accuracy
+- **Source:** [Digits AGL Launch](https://www.globenewswire.com/news-release/2025/03/10/3039814/0/en/AI-Startup-Digits-Takes-on-QuickBooks-with-the-World-s-First-Autonomous-General-Ledger-for-Accounting-Xero-Co-founder-Craig-Walker-Joins-Digits.html)
+
+### Sphere — TRAM Tax Compliance (RELEVANT PATTERN)
+- **What:** AI-native global sales tax / VAT compliance. $21M Series A from a16z. 100+ jurisdictions
+- **Architecture:** Proprietary TRAM (Tax Review and Assessment Model) — fine-tuned LLM trained to index and understand tax law. Determines taxability across jurisdictions with backing citations
+- **Critical design:** Human teams review and approve every TRAM output before it hits the live tax engine. "That part of the system has no AI so there is zero chance of hallucinations"
+- **Our takeaway:** **Exactly our two-layer pattern.** AI analyzes and proposes (TRAM), deterministic engine executes (live tax engine), human validates in between. Sphere proves this hybrid works at scale with a16z validation. Their TRAM = our Layer 3 + knowledge graph. Their live tax engine = our Layer 2
+- **Sources:** [TechCrunch](https://techcrunch.com/2025/11/18/a16z-leads-21m-series-a-into-tax-compliance-platform-sphere/), [Sphere](https://www.getsphere.com/)
+
+---
+
+## 8. Compliance Graph Patterns
+
+### Compliance Graph Architecture (PuppyGraph)
+- **What:** Formal model for how compliance data should be structured as a graph
+- **Structure:** Two linked chains: (1) Intent chain: Requirement → Policy → Control, (2) Implementation chain: Control → Assets/Identities → Evidence
+- **Temporal:** Each node and edge includes provenance and timestamps. Point-in-time compliance views without rebuilding reports
+- **Rule enforcement:** Graph pattern matching queries detect violations (e.g., find all roles with privileged access missing MFA control)
+- **Our takeaway:** Our graph has a parallel structure: Legal Source → Rule → Account/Rate → Report Section → Filing. The intent/implementation split maps to: graph defines what should happen (intent), engine executes what actually happens (implementation), audit trail proves they match
+- **Source:** [PuppyGraph Compliance Graph](https://www.puppygraph.com/blog/compliance-graph)
+
+### RAGulating Compliance — Multi-Agent KG for Regulatory QA
+- **What:** Academic paper (2025). Ontology-free knowledge graph from regulatory documents + RAG + multi-agent system
+- **Architecture:** Schema-light — no predefined ontology, schemas emerge naturally from data. Subject-Predicate-Object triplets extracted from regulatory text. Each triplet maintains provenance (reference to original source)
+- **Pipeline:** 5 specialized agents: Document Ingestion → Extraction (LLM detects SPO triplets) → Normalization → Indexing (vector store) → Retrieval & Generation
+- **Key result:** With triplets, average shortest path between related regulatory sections decreased from 2.0 to 1.3 — faster navigation through regulatory interconnections
+- **Our takeaway:** Schema-light approach is interesting for initial graph construction — let the schema emerge from Postupy účtovania rather than pre-designing it. But for execution rules, we DO need a strict schema. Use schema-light for knowledge ingestion, strict schema for the execution contract
+- **Source:** [arXiv 2508.09893](https://arxiv.org/html/2508.09893v1)
+
+---
+
+## 9. Programmable Ledger Infrastructure
+
+### GoDBLedger — Programmable Double-Entry Server
+- **What:** Open-source accounting system in Go. GRPC endpoints + SQL backends (SQLite, MySQL)
+- **Architecture:** Central server for financial transactions. Apps transmit transactions via API, server records them in user-controlled database. Clear schema for external analysis
+- **Design philosophy:** Make double-entry bookkeeping programmable. API-first, database-first. Influenced by Go-Ethereum (Geth) architecture. Schema influenced by GnuCash
+- **Our takeaway:** Closest open-source analog to our Layer 2 concept — a programmable ledger server that receives structured transactions and records them with double-entry validation. We add: declarative rule resolution before posting, DPH calculation, KV DPH section mapping. GoDBLedger is the bare ledger; we add the regulatory intelligence layer on top
+- **Source:** [GitHub](https://github.com/darcys22/godbledger), [GoDBLedger.com](https://godbledger.com/)
+
+---
+
 ## Synthesis: Validated Patterns for Our Architecture
 
 ### 1. Knowledge graph for regulatory rules works at scale
@@ -152,6 +208,15 @@ Vertex pattern: specific rule → category rule → default rule. Build this int
 ### 6. Deterministic first pass + AI fallback
 Beancount smart_importer pattern: explicit rules for known patterns, ML/AI for the rest. Matches our design: deterministic engine handles standard flows, AI assists on ambiguous cases.
 
+### 7. AI proposes → human validates → deterministic engine executes
+Sphere's TRAM model: AI analyzes tax law, human approves determination, live engine executes with zero AI. a16z-validated at $21M Series A.
+
+### 8. Schema-light for ingestion, strict schema for execution
+RAGulating Compliance paper: let graph schema emerge from source material during ingestion. But execution rules need a strict, machine-interpretable contract.
+
+### 9. Programmable ledger as API-first server
+GoDBLedger: double-entry server with GRPC endpoints. Transactions arrive via API, validated and recorded. Our engine adds rule resolution + tax calculation on top of this pattern.
+
 ---
 
 ## Architecture Recommendations from Research
@@ -163,5 +228,9 @@ Beancount smart_importer pattern: explicit rules for known patterns, ML/AI for t
 | Versioning | Bi-temporal (business date + process date) on rules and rates | Neo4j pattern, AscentAI, regulatory best practice |
 | Classification | Hierarchical with fallback: specific → category → default | Vertex tax engine pattern |
 | Change management | AI extracts → proposes diff → human validates → apply with effective date | AscentAI, Corlytics, Be Informed (20+ years proven) |
-| AI boundary | Deterministic first pass, AI only for uncertain classification | Beancount smart_importer, our corrected architecture |
+| AI boundary | Deterministic first pass, AI only for uncertain classification | Beancount smart_importer, Digits confidence routing |
 | Separation | Classification (what) → Context (who/where) → Rule lookup (how to book) | Avalara three-concern separation |
+| AI ↔ Engine boundary | AI proposes, human validates, deterministic engine executes (no AI in posting) | Sphere TRAM pattern (a16z validated) |
+| Graph ingestion | Schema-light initial extraction, strict schema for execution rules | RAGulating Compliance paper |
+| Ledger architecture | API-first programmable server, double-entry validation at core | GoDBLedger pattern |
+| Knowledge dual layer | Graph for rule relationships + pgvector for semantic search | AgentiveAIQ, Graphiti |
