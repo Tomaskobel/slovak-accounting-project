@@ -75,9 +75,27 @@ The graph is the **authoritative policy model**, not just RAG material for an LL
 - **Finančná správa methodical guidelines** — KV DPH, Súhrnný výkaz instructions
 - **E-invoicing regulation** — EN 16931, 2027 mandate rules
 
-### Rule schema (the critical artifact)
+### Two distinct schemas
 
-The concrete representation of a rule — this is more important than the choice of storage engine:
+**1. Knowledge graph schema** — models the law. Entities, relationships, legal sources, validity dates. This is the regulatory content layer.
+
+**2. Execution rule schema** — the contract the deterministic engine reads. Derived from the graph, but adds the engineering layer: formula evaluation, condition matching, priority ordering, conflict resolution, rounding policy.
+
+These are separate design artifacts. The graph is the source of truth. Execution rules are derived from it.
+
+### Knowledge graph schema
+
+Stores regulatory knowledge as structured data:
+- What the law says about each transaction type
+- Which accounts are involved and why
+- How concepts relate (account → rule → rate → report section → legal source)
+- Validity dates and version history
+
+The graph schema should emerge from the actual source material (Postupy účtovania, DPH law), not be designed in a vacuum.
+
+### Execution rule schema (the critical engineering artifact)
+
+The contract between the graph and the engine. Example:
 
 ```json
 {
@@ -103,11 +121,18 @@ The concrete representation of a rule — this is more important than the choice
   ],
   "legal_source": ["source_ref_001"],
   "valid_from": "2025-01-01",
-  "valid_to": null
+  "valid_to": null,
+  "priority": 100
 }
 ```
 
-**Key principle:** The graph stores **declarative rule objects**. The execution engine interprets them. The UI reads required inputs from them. AI explains them. The graph does NOT directly generate arbitrary business logic code.
+This schema must also handle (not yet designed):
+- Formula language for amount expressions (how engine computes `tax_base` from `gross_amount` and `vat_rate`)
+- Conditional branching (if amount > threshold → different account)
+- Multi-line computed splits (salary = 10+ posting lines)
+- Priority and conflict resolution when multiple rules match
+
+**Key principle:** The graph stores regulatory knowledge. Execution rules are derived from it and add the engineering contract. The engine interprets execution rules. The UI reads required inputs from them. AI explains them using the graph. The graph does NOT directly generate arbitrary business logic code.
 
 ### Graph structure
 **Entities (nodes):**
@@ -423,16 +448,21 @@ That is a much better problem to have.
 - No code written yet
 - Source material collection not started
 
-## Next Step
+## Next Steps
 
-Design the rule schema and evaluation pipeline:
-1. Formalize the rule JSON schema with all fields
-2. Define the evaluation pipeline (matching, priority, conflict resolution)
-3. Build test fixtures for 10 common transaction types
-4. Validate schema design with an accountant
-
-Before writing any code: collect and organize the source material.
+### Step 1: Source material collection
 1. Download Postupy účtovania (MF SR 23054/2002-92 with all amendments)
 2. Download DPH law (222/2004 Z.z. current consolidated version)
 3. Download Finančná správa methodical guidelines for KV DPH
-4. Find a Slovak accountant willing to validate the rules
+4. Find a Slovak accountant willing to validate
+
+### Step 2: Extract real rule patterns from source material
+Read the actual Postupy účtovania for 10 common s.r.o. transaction types. Extract the real rule logic — what conditions, what accounts, what amounts, what edge cases. Let the schemas emerge from what's actually in the law.
+
+### Step 3: Design both schemas
+1. **Knowledge graph schema** — from the patterns found in Step 2
+2. **Execution rule schema** — derived from graph, adding formula language, priority, conflict resolution
+3. Validate both with accountant against expected posting outputs
+
+### Step 4: Build evaluation pipeline
+Match → prioritize → resolve conflicts → compute amounts → generate postings → validate
