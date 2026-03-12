@@ -20,7 +20,30 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 | **Zákon č. 222/2004 Z.z. o DPH** (VAT Act) | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2004/222/) | VAT rates, registration, deductions, reverse charge |
 | DPH Law (PDF, Jan 2025) | [financnasprava.sk](https://www.financnasprava.sk/_img/pfsedit/Dokumenty_PFS/Zverejnovanie_dok/Sprievodca/Sprievodca_danami/2025/2025.01.28_zakon_DPH.pdf) | Current consolidated version |
 | **Zákon č. 595/2003 Z.z. o dani z príjmov** (Income Tax) | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2003/595/) | Corporate tax, depreciation rules, deductions |
+| **Zákon č. 563/2009 Z.z. o správe daní** (Daňový poriadok) | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2009/563/) | Tax administration — deadlines, penalties, filing procedures, taxpayer obligations |
+
+### Commercial & Corporate Law
+| Document | URL | Coverage |
+|----------|-----|----------|
 | **Zákon č. 513/1991 Zb. Obchodný zákonník** (Commercial Code) | [slov-lex.sk](https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1991/513/) | s.r.o. requirements, financial statement deadlines |
+
+### Social Insurance & Payroll Laws
+| Document | URL | Coverage |
+|----------|-----|----------|
+| **Zákon č. 461/2003 Z.z. o sociálnom poistení** | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2003/461/) | Social insurance — pension, disability, sickness, unemployment, guarantee, accident, reserve fund contributions |
+| **Zákon č. 580/2004 Z.z. o zdravotnom poistení** | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2004/580/) | Health insurance — employee/employer contributions, annual settlement |
+| **Zákon č. 152/1994 Z.z. o sociálnom fonde** | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/1994/152/) | Social fund — mandatory 0.6–1.0% employer contribution, permitted uses |
+
+### eKasa & Cash Register Law
+| Document | URL | Coverage |
+|----------|-----|----------|
+| **Zákon č. 289/2008 Z.z. o používaní elektronickej registračnej pokladnice** | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2008/289/) | eKasa system — cash register requirements, electronic records |
+| **Zákon č. 384/2025 Z.z. o evidencii tržieb** (new, from Jan 2026) | [tax-audit.sk](https://www.tax-audit.sk/en/novinky/new-act-on-revenue-recording-from-1-1-2026-what-changes-in-ekasa-and-what-are-the-new-obligations) | Replaces 289/2008, new revenue recording obligations |
+
+### Data Protection
+| Document | URL | Coverage |
+|----------|-----|----------|
+| **Zákon č. 18/2018 Z.z. o ochrane osobných údajov** | [slov-lex.sk](https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2018/18/) | GDPR implementation — required for any SaaS handling company data |
 
 ### Financial Statements Regulations
 | Document | URL | Coverage |
@@ -38,15 +61,42 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 | **All XSD schemas** | [financnasprava.sk/xsd-schemy](https://www.financnasprava.sk/sk/danovi-a-colni-specialisti/technicke-informacie/podklady-pre-tvorcov-sw/xsd-schemy) |
 | **Direct XSD access** | [ekr.financnasprava.sk/Formulare/XSD/](https://ekr.financnasprava.sk/Formulare/XSD/) |
 
-### Specific Schemas
+### Tax Return Schemas
+| Schema | URL | Format |
+|--------|-----|--------|
+| **DPH daňové priznanie 2025** (VAT return) | [dph2025.xsd](https://ekr.financnasprava.sk/Formulare/XSD/dph2025.xsd) | XML |
+| **DPH daňové priznanie 2021** | [dph2021.xsd](https://ekr.financnasprava.sk/Formulare/XSD/dph2021.xsd) | XML |
+| **DPPO 2025** (Corporate income tax return) | [dppo2025.xsd](https://ekr.financnasprava.sk/Formulare/XSD/dppo2025.xsd) | XML |
+| **DPPO 2024** | [dppo2024.xsd](https://ekr.financnasprava.sk/Formulare/XSD/dppo2024.xsd) | XML |
+| **DPFO A 2025** (Individual income tax part A) | [dpfo_a2025.xsd](https://ekr.financnasprava.sk/Formulare/XSD/dpfo_a2025.xsd) | XML |
+| **DPFO B 2025** (Individual income tax part B) | [dpfo_b2025.xsd](https://ekr.financnasprava.sk/Formulare/XSD/dpfo_b2025.xsd) | XML |
+
+### VAT Reporting Schemas
 | Schema | URL | Format |
 |--------|-----|--------|
 | **KV DPH 2025** (Kontrolný výkaz) | [kv_dph_2025.xsd](https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2025.xsd) | XML |
 | **KV DPH 2023** | [kv_dph_2023.xsd](https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2023.xsd) | XML |
-| **Súhrnný výkaz DPH** (form 471) | [Form portal](https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.471.html) | XML |
+| **Súhrnný výkaz DPH** | [svdph20.xsd](https://ekr.financnasprava.sk/Formulare/XSD/svdph20.xsd) | XML |
+| **OSS/VAT One-Stop Shop** | [dposs_eu.xsd](https://ekr.financnasprava.sk/Formulare/XSD/dposs_eu.xsd) | XML |
+
+### Financial Statement Schemas
+| Schema | URL | Format |
+|--------|-----|--------|
+| **Účtovná závierka (general)** | [vp_uct2021.xsd](https://ekr.financnasprava.sk/Formulare/XSD/vp_uct2021.xsd) | XML |
+| **Účtovná závierka (registration)** | [vp_reg2024.xsd](https://ekr.financnasprava.sk/Formulare/XSD/vp_reg2024.xsd) | XML |
+| **Účtovná závierka (small business)** | [vp_spd2024.xsd](https://ekr.financnasprava.sk/Formulare/XSD/vp_spd2024.xsd) | XML |
+| **Form 588** (financial statement, large) | [form.588.sk.xsd](https://ekr.financnasprava.sk/Formulare/XSD/form.588.sk.xsd) | XML |
+| **Form 479** | [form.479.sk.xsd](https://ekr.financnasprava.sk/Formulare/XSD/form.479.sk.xsd) | XML |
+| **Form 515** | [form.515.sk.xsd](https://ekr.financnasprava.sk/Formulare/XSD/form.515.sk.xsd) | XML |
+
+### Other Forms
+| Schema | URL | Format |
+|--------|-----|--------|
+| **Súhrnný výkaz form** (form 471) | [Form portal](https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.471.html) | XML |
 | Súhrnný výkaz PDF template | [SVDPHv20.pdf](https://pfseform.financnasprava.sk/Formulare/VzoryTlaciv/SVDPHv20.pdf) | PDF |
 | Súhrnný výkaz instructions | [SVDPHv20-poucenie.pdf](https://pfseform.financnasprava.sk/Formulare/Poucenia/SVDPHv20-poucenie.pdf) | PDF |
 | **KV DPH form** (form 607) | [Form portal](https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.607.html) | XML |
+| **Registration DP** | [regdp2024.xsd](https://ekr.financnasprava.sk/Formulare/XSD/regdp2024.xsd) | XML |
 | **All forms portal** | [pfseform.financnasprava.sk](https://pfseform.financnasprava.sk/) | Various |
 
 ---
@@ -59,6 +109,7 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 | **eDane user guide (PDF)** | [User_guide_eDANE_java.pdf](https://www.financnasprava.sk/_img/pfsedit/Dokumenty_PFS/Elektronicke_sluzby/Elektronicka_komunikacia/Elektronicka_komunikacia_dane/Prirucky_navody/2024/User_guide_eDANE_java.pdf) |
 | **Electronic submission portal** | [financnasprava.sk/elektronicka-podatelna](https://www.financnasprava.sk/sk/elektronicke-sluzby/elektronicka-komunikacia/elektronicka-komunikacia-dane/elektronicka-podatelna-danove) |
 | **Register účtovných závierok** | [registeruz.sk](https://www.registeruz.sk/cruz-public/home) |
+| **SW developer technical info** | [financnasprava.sk/podklady-pre-tvorcov-sw](https://www.financnasprava.sk/sk/danovi-a-colni-specialisti/technicke-informacie/podklady-pre-tvorcov-sw) |
 
 ---
 
@@ -139,7 +190,119 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 
 ---
 
-## 8. PRACTICAL GUIDES & WORKED EXAMPLES
+## 8. PAYROLL — LAWS, RATES & ACCOUNTING
+
+### 8.1 Social Insurance Rates (2025)
+
+**Employee contributions (from gross salary):**
+
+| Insurance Type | Rate | Notes |
+|---|---|---|
+| Old-age (starobné) | 4.00% | Tier 1 pension |
+| Disability (invalidné) | 3.00% | Invalidity |
+| Sickness (nemocenské) | 1.40% | Sick leave |
+| Unemployment (nezamestnanosť) | 1.00% | Unemployment |
+| **Total employee** | **9.40%** | Capped at max assessment basis |
+
+**Employer contributions:**
+
+| Insurance Type | Rate | Notes |
+|---|---|---|
+| Old-age (starobné) | 14.00% | Largest employer burden |
+| Disability (invalidné) | 3.00% | |
+| Sickness (nemocenské) | 1.40% | |
+| Solidarity reserve fund | 4.75% | |
+| Unemployment (nezamestnanosť) | 0.75% | |
+| Guarantee (garančné) | 0.25% | |
+| Accident (úrazové) | 0.80% | **Uncapped** |
+| **Total employer social** | **24.40%** | Capped (except accident) |
+
+**Assessment basis cap (2025):** €15,730/month (€16,764 from 2026)
+
+### 8.2 Health Insurance Rates (2025)
+
+| Party | Rate | Notes |
+|---|---|---|
+| Employee | 4.00% | From gross salary |
+| Employer | 11.00% | **Uncapped** |
+
+**Health insurance providers:** VšZP (~62% market share), Dôvera (~22%), Union (~16%)
+
+### 8.3 Social Fund
+
+| Item | Details |
+|---|---|
+| Mandatory for | All employers with ≥1 employee |
+| Rate | 0.6% to 1.0% of gross wages (employer choice) |
+| Account | Debit 527 (Zákonné sociálne náklady) / Credit 472 (Záväzky zo sociálneho fondu) |
+| Storage | Must be in separate bank account or analytical account |
+
+### 8.4 Tax Values (2025)
+
+| Item | Amount |
+|---|---|
+| Non-taxable portion (nezdaniteľná časť) | €5,753.79/year (€479.48/month) |
+| Tax rate (standard) | 19% (up to €48,441.43) |
+| Tax rate (higher) | 25% (above €48,441.43) |
+| Tax bonus per child (under 15) | €100/month |
+| Tax bonus per child (15–18) | €50/month |
+| Minimum wage | €816/month |
+| Minimum living standard | €273.99/month |
+
+### 8.5 Payroll Accounts (Chart of Accounts)
+
+| Account | Name | Usage |
+|---|---|---|
+| **331** | Zamestnanci | Employee salary liability |
+| **333** | Ostatné záväzky voči zamestnancom | Travel advances, other payroll obligations |
+| **335** | Pohľadávky voči zamestnancom | Amounts owed by employees |
+| **336** | Zúčtovanie s orgánmi SP a ZP | Insurance contribution liabilities |
+| **342** | Ostatné priame dane | Income tax withholding liability |
+| **472** | Záväzky zo sociálneho fondu | Social fund reserves |
+| **521** | Mzdy zamestnancov | Wage expense (P&L) |
+| **524** | Sociálne poistenie zamestnávateľa | Employer insurance expense |
+| **527** | Zákonné sociálne náklady | Social fund contributions expense |
+
+### 8.6 Standard Payroll Journal Entry
+
+| Transaction | Debit | Credit |
+|---|---|---|
+| Record gross salary | 521 | 331 |
+| Health insurance (employee 4%) | 331 | 336 |
+| Social insurance (employee 9.4%) | 331 | 336 |
+| Income tax withholding | 331 | 342 |
+| Employer social insurance (24.4%) | 524 | 336 |
+| Employer health insurance (11%) | 524 | 336 |
+| Social fund (0.6–1.0%) | 527 | 472 |
+| Salary payment to employee | 331 | 221 (Bank) |
+| Insurance payment to authorities | 336 | 221 (Bank) |
+| Tax payment to authorities | 342 | 221 (Bank) |
+
+### 8.7 Payroll Reporting Portals
+
+| Institution | Portal | Purpose |
+|---|---|---|
+| **Sociálna poisťovňa** | [esluzby.socpoist.sk](https://esluzby.socpoist.sk/) | Monthly contribution reporting, employee registration/deregistration |
+| **VšZP** | [vszp.sk/platitelia](https://www.vszp.sk/platitelia/) | Employer reporting, advance payments |
+| **Dôvera** | [dovera.sk](https://www.dovera.sk/) | Employer e-branch |
+| **Union** | [union.sk](https://www.union.sk/) | Annual settlement, employer docs |
+
+### 8.8 Payroll Practical Guides
+
+| Resource | URL | Content |
+|----------|-----|---------|
+| Wage & contribution accounting | [podnikajte.sk](https://www.podnikajte.sk/uctovnictvo/uctovanie-miezd-odvodov) | Full payroll booking walkthrough |
+| Payroll in double-entry | [humanet.sk](https://humanet.sk/blog/uctovanie-miezd-podvojne-uctovnictvo) | Account-by-account examples |
+| 2025 contribution rates | [podnikajte.sk](https://www.podnikajte.sk/socialne-a-zdravotne-odvody/odvody-zamestnanca-zamestnavatela-od-1-1-2025) | Current year rates |
+| Net salary calculator 2025 | [danovecentrum.sk](https://www.danovecentrum.sk/kalkulacky/vypocet-cistej-mzdy-od-1-1-2025-do-31-12-2025.htm) | Interactive tool |
+| SP contribution tables | [socpoist.sk](https://www.socpoist.sk/en/social-insurance/contribution-payment-tables-january-1-2026) | Official rates & caps |
+| VšZP changes 2025 | [vszp.sk](https://www.vszp.sk/platitelia/platenie-poistneho/oznamenia-zmeny/zmeny-od-01-01.2025/) | Health insurance updates |
+| Social fund rules | [employment.gov.sk](https://www.employment.gov.sk/sk/praca-zamestnanost/vztah-zamestnanca-zamestnavatela/socialny-fond/) | Legal framework |
+| All wage values 2025 | [relia.sk](https://www.relia.sk/Article.aspx?ID=1154) | Summary of all parameters |
+
+---
+
+## 9. PRACTICAL GUIDES & WORKED EXAMPLES
 
 ### DPH / VAT Examples
 | Resource | URL | Content |
@@ -169,13 +332,6 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 | Accruals (časové rozlíšenie) | [podnikajte.sk](https://www.podnikajte.sk/uctovnictvo/casove-rozlisenie-uctovanie) |
 | Reserves & provisions | [podnikajte.sk](https://www.podnikajte.sk/uctovnictvo/rezervy) |
 
-### Payroll
-| Resource | URL |
-|----------|-----|
-| Wage & contribution accounting | [podnikajte.sk](https://www.podnikajte.sk/uctovnictvo/uctovanie-miezd-odvodov) |
-| Payroll in double-entry | [humanet.sk](https://humanet.sk/blog/uctovanie-miezd-podvojne-uctovnictvo) |
-| 2025 contribution rates | [podnikajte.sk](https://www.podnikajte.sk/socialne-a-zdravotne-odvody/odvody-zamestnanca-zamestnavatela-od-1-1-2025) |
-
 ### Fixed Assets & Depreciation
 | Resource | URL |
 |----------|-----|
@@ -186,7 +342,7 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 
 ---
 
-## 9. CHART OF ACCOUNTS RESOURCES
+## 10. CHART OF ACCOUNTS RESOURCES
 
 | Resource | URL | Notes |
 |----------|-----|-------|
@@ -197,7 +353,7 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 
 ---
 
-## 10. PROFESSIONAL ORGANIZATIONS
+## 11. PROFESSIONAL ORGANIZATIONS
 
 | Organization | URL | Purpose |
 |-------------|-----|---------|
@@ -208,7 +364,18 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 
 ---
 
-## 11. TOP PRACTICAL RESOURCES (ranked by usefulness for knowledge graph)
+## 12. BUSINESS REGISTERS & COMPANY VERIFICATION
+
+| Resource | URL | Purpose |
+|----------|-----|---------|
+| **Obchodný register SR** | [orsr.sk](https://www.orsr.sk/) | Company lookup by IČO, name, address |
+| **Register účtovných závierok** | [registeruz.sk](https://www.registeruz.sk/cruz-public/home) | Published financial statements (public) |
+| **Finstat** | [finstat.sk](https://www.finstat.sk/) | Company financials, IČO lookup, credit ratings |
+| **Register právnických osôb (RPO)** | [rpo.statistics.sk](https://rpo.statistics.sk/) | Statistical office — all legal entities |
+
+---
+
+## 13. TOP PRACTICAL RESOURCES (ranked by usefulness for knowledge graph)
 
 1. **Opatrenie 23054/2002-92 (Postupy účtovania)** — THE source of all booking rules
 2. **danovecentrum.sk** — Best worked examples for DPH and all transaction types
@@ -217,12 +384,27 @@ Complete inventory of all laws, regulations, technical specs, and practical guid
 5. **money.sk/navod/** — Step-by-step guides matching real software workflows
 6. **financnasprava.sk XSD schemas** — Technical specs for all filing formats
 7. **PEPPOL BIS Billing 3.0** — E-invoicing technical standard
+8. **socpoist.sk + vszp.sk** — Official payroll/insurance rates and reporting specs
 
 ---
 
-## 12. OPEN SOURCE REFERENCES
+## 14. OPEN SOURCE REFERENCES
 
 | Resource | URL | Notes |
 |----------|-----|-------|
 | Daňové priznanie Digital (DPFO) | [github.com/slovensko-digital](https://github.com/slovensko-digital/priznanie-digital) | Open source tax return project |
 | Tatra banka PHP API wrapper | github.com/pavolbiely/tatrabanka-api | Community PSD2 integration |
+
+---
+
+## 15. KNOWN GAPS (require direct contact or login)
+
+These resources exist but are not publicly documented or require registration:
+
+| Resource | Status | How to obtain |
+|----------|--------|---------------|
+| Finančná správa submission API (SOAP/REST) | Not publicly documented | Contact FS technical support |
+| registeruz.sk submission API | Requires registration | Apply for access at registeruz.sk |
+| eKasa integration API specs | Behind login | Register as eKasa integrator at financnasprava.sk |
+| Obchodný register API | No public API | Use web scraping or finstat.sk as proxy |
+| Sociálna poisťovňa electronic reporting format | Requires employer registration | Register at esluzby.socpoist.sk |
