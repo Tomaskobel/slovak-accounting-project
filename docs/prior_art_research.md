@@ -155,6 +155,19 @@
 - **Our takeaway:** **Exactly our two-layer pattern.** AI analyzes and proposes (TRAM), deterministic engine executes (live tax engine), human validates in between. Sphere proves this hybrid works at scale with a16z validation. Their TRAM = our Layer 3 + knowledge graph. Their live tax engine = our Layer 2
 - **Sources:** [TechCrunch](https://techcrunch.com/2025/11/18/a16z-leads-21m-series-a-into-tax-compliance-platform-sphere/), [Sphere](https://www.getsphere.com/)
 
+### Tellen.ai — Audit Automation with Traceability
+- **What:** AI audit automation platform. Deploys within client's own cloud (Azure/AWS/GCP). SOC 2 Type II certified
+- **Architecture:** AI agents automate audit fieldwork — read from client systems → execute audit procedures → write workpapers. Uses firm's own templates for output standardization
+- **Key pattern:** 100% traceability — every AI decision, consideration, and rationale is logged. All outputs backed by verifiable sources. ISQM 1/SQMS 1 compliance
+- **Our takeaway:** Different domain (audit vs. posting), but the **traceability principle** is directly relevant — every booking decision should trace back to a rule + legal source. Template-driven output also maps to how our engine uses declarative rules to produce standard journal entries
+- **Source:** [Tellen.ai](https://www.tellen.ai/)
+
+### TigerGraph — Graph Analytics Platform
+- **What:** High-performance graph database with hybrid graph+vector search. GSQL query language + OpenCypher support
+- **Architecture:** Native parallel graph processing. In-memory graph computation. Supports hybrid Graph+Vector search for combining structured relationships with semantic similarity
+- **Our takeaway:** Alternative to Neo4j if graph traversal becomes a performance bottleneck. Hybrid graph+vector search natively combines what we'd otherwise need PostgreSQL (graph tables) + pgvector (semantic search) to achieve. Monitor as potential future migration target, but PostgreSQL-first is correct for our scale
+- **Source:** [TigerGraph Docs](https://docs.tigergraph.com/home/)
+
 ---
 
 ## 8. Compliance Graph Patterns
@@ -217,6 +230,9 @@ RAGulating Compliance paper: let graph schema emerge from source material during
 ### 9. Programmable ledger as API-first server
 GoDBLedger: double-entry server with GRPC endpoints. Transactions arrive via API, validated and recorded. Our engine adds rule resolution + tax calculation on top of this pattern.
 
+### 10. Domain-decomposed knowledge graphs
+Regulatory knowledge decomposes into atomic domains with independent versioning. Validated by DDD (bounded contexts), compliance graph patterns (PuppyGraph), and Avalara's three-concern separation. Applied to Slovak accounting: four domain graphs (Posting Rules, DPH/VAT, Reporting, Payroll), each with different density, update frequency, and legal sources. Cross-graph references link them without coupling versioning.
+
 ---
 
 ## Architecture Recommendations from Research
@@ -234,3 +250,6 @@ GoDBLedger: double-entry server with GRPC endpoints. Transactions arrive via API
 | Graph ingestion | Schema-light initial extraction, strict schema for execution rules | RAGulating Compliance paper |
 | Ledger architecture | API-first programmable server, double-entry validation at core | GoDBLedger pattern |
 | Knowledge dual layer | Graph for rule relationships + pgvector for semantic search | AgentiveAIQ, Graphiti |
+| Domain decomposition | Four atomic graphs (Posting Rules, DPH, Reporting, Payroll) with independent versioning | DDD bounded contexts, Avalara separation, compliance graph patterns |
+| Traceability | Every AI output backed by verifiable source, full audit trail | Tellen.ai, Intuit TKG, compliance best practice |
+| Graph scaling | Start PostgreSQL, monitor TigerGraph as hybrid graph+vector alternative to Neo4j | TigerGraph hybrid search capability |

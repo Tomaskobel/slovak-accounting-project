@@ -183,6 +183,36 @@ Those need the execution engine (Layer 2) and governance model.
 3. Human accountant validates every rule before production
 4. Version the graph (each regulatory change = new graph version with effective date)
 
+### Domain-decomposed knowledge graphs
+
+The regulatory knowledge decomposes into four atomic domain graphs, each independently versioned:
+
+| Graph | Domain | Scope | Update frequency | Primary legal source |
+|-------|--------|-------|-----------------|---------------------|
+| **Graph 1: Posting Rules** | Account mappings, transaction types, conditions, posting patterns | Which accounts, what side, what conditions | Rarely (~every few years) | Opatrenie MF SR 23054/2002-92, Postupy účtovania |
+| **Graph 2: DPH (VAT)** | Rates, treatments, reverse charge, KV sections, exemptions, thresholds | Dense edge cases, many conditional paths | Often (rates changed 2025, thresholds shift) | Act 222/2004 Z.z. |
+| **Graph 3: Reporting** | Súvaha structure, VZaS mapping, KV DPH XML schema, filing rules, deadlines | Report structure and compliance outputs | Medium (XML schemas update, new filing requirements) | Finančná správa methodical guidelines |
+| **Graph 4: Payroll** | Social/health insurance rates, income tax brackets, deductions, caps, minimums | Very dense, very specific | Annually (rates, caps, minimums change every Jan 1) | Multiple acts + annual parameter decrees |
+
+**Why four graphs, not one:**
+- **Independent versioning** — DPH rate change (Graph 2) doesn't touch posting rules (Graph 1)
+- **Focused validation** — accountant validates one domain at a time
+- **Cleaner dependencies** — posting rules reference DPH treatments but don't contain them
+- **Phased build** — Graph 1+2 first (covers ~80% of s.r.o. transactions), Graph 3 for compliance exports, Graph 4 deferred
+
+**Cross-graph references:**
+- Posting rule (Graph 1) → references DPH treatment (Graph 2) for tax calculation
+- Posting rule (Graph 1) → maps to report section (Graph 3) for filing
+- DPH treatment (Graph 2) → maps to KV DPH section (Graph 3) for XML generation
+
+**Execution engine resolution path:**
+```
+transaction event → match posting rule (Graph 1)
+                  → look up DPH rate/treatment (Graph 2)
+                  → determine report section (Graph 3)
+                  → generate complete journal entry
+```
+
 ---
 
 ## Layer 2: Deterministic Execution Engine
@@ -338,18 +368,21 @@ document/event → classification attempt
    - Period control
    - Chart of accounts for s.r.o.
 
-2. **Week 3-4:** Declarative rule schema + executor
+2. **Week 3-4:** Declarative rule schema + executor + Graph 1 & 2
    - Define rule JSON schema (the critical artifact)
+   - Build Graph 1 (Posting Rules) — account mappings, transaction types, conditions
+   - Build Graph 2 (DPH) — rates, treatments, reverse charge, KV sections
    - Build rule resolution engine (transaction type + conditions → matching rule)
    - Build posting generator (rule + amounts → journal entry)
    - Rule priority / conflict resolution
-   - DPH calculation module
+   - DPH calculation module (reads rates from Graph 2)
 
 3. **Week 5-6:** Rule coverage + validation harness
-   - Encode top 20-30 transaction types as declarative rules
+   - Encode top 20-30 transaction types as declarative rules across Graph 1 + 2
    - Build test fixtures with accountant-approved expected outputs
    - Validate: deterministic engine produces correct entries for all fixtures
    - Target: 90%+ match against certified accountant decisions
+   - Cross-graph resolution tested (posting rule → DPH treatment → report section)
 
 **Verification:** Run all test fixtures, compare engine output against expected postings.
 
@@ -359,11 +392,12 @@ document/event → classification attempt
 
 **Steps:**
 1. Rule authoring format (JSON schema + validation)
-2. Graph versioning with effective dates
-3. Rule simulation environment (what-if testing)
-4. Accountant approval workflow for rule changes
-5. Test fixtures for all transaction scenarios
-6. Report mapping (KV DPH sections, filing rules)
+2. Graph versioning with effective dates (per-domain independent versioning)
+3. Graph 3 (Reporting) — súvaha structure, VZaS mapping, KV DPH XML, filing rules
+4. Rule simulation environment (what-if testing)
+5. Accountant approval workflow for rule changes
+6. Test fixtures for all transaction scenarios
+7. Full cross-graph report mapping (Graph 1 → Graph 2 → Graph 3)
 
 ### Phase 3: AI Layer (Weeks 11-14)
 
