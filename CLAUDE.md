@@ -479,6 +479,8 @@ That is a much better problem to have.
 ## Current State
 
 - Architecture plan finalized (2026-03-12)
+- **Stage 1 scope defined (2026-03-13):** Posting Rules (Graph 1) + full DPH (Graph 2) + deterministic engine. See `docs/stage_1_scope.md`
+- Regulatory sources inventory complete — see `docs/regulatory_sources.md`
 - No code written yet
 - Source material collection not started
 
