@@ -1,0 +1,693 @@
+{
+  "source": "Opatrenie MF SR 23054/2002-92, Priloha c. 2 (consolidated with amendments through 2025)",
+  "title": "Ramcova uctova osnova pre podnikatelov uctujucich v sustave podvojneho uctovnictva",
+  "effective_date": "2025-01-01",
+  "total_accounts": 236,
+  "notes": "Applies to entrepreneurs (podnikatelia) using double-entry accounting, including s.r.o. Account 011 removed effective 2016. Municipal-specific accounts excluded. Classes 8-9 user-defined.",
+  "classes": [
+    {
+      "class_number": 0,
+      "name_sk": "Dlhodoby majetok",
+      "name_en": "Long-term Assets",
+      "groups": [
+        {
+          "group_number": "01",
+          "name_sk": "Dlhodoby nehmotny majetok",
+          "name_en": "Long-term intangible assets",
+          "accounts": [
+            {"code": "012", "name_sk": "Aktivovane naklady na vyvoj", "name_en": "Capitalized development costs", "type": "asset", "notes": null},
+            {"code": "013", "name_sk": "Software", "name_en": "Software", "type": "asset", "notes": null},
+            {"code": "014", "name_sk": "Ocenitelne prava", "name_en": "Valuable rights", "type": "asset", "notes": "Patents, licenses, trademarks"},
+            {"code": "015", "name_sk": "Goodwill", "name_en": "Goodwill", "type": "asset", "notes": null},
+            {"code": "019", "name_sk": "Ostatny dlhodoby nehmotny majetok", "name_en": "Other long-term intangible assets", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "02",
+          "name_sk": "Dlhodoby hmotny majetok - odpisovany",
+          "name_en": "Long-term tangible assets - depreciable",
+          "accounts": [
+            {"code": "021", "name_sk": "Stavby", "name_en": "Buildings and structures", "type": "asset", "notes": null},
+            {"code": "022", "name_sk": "Samostatne hnutelne veci a subory hnutelnych veci", "name_en": "Machinery and equipment", "type": "asset", "notes": null},
+            {"code": "025", "name_sk": "Pestovatelske celky trvalych porastov", "name_en": "Permanent crop plantings", "type": "asset", "notes": null},
+            {"code": "026", "name_sk": "Zakladne stado a tazne zvierata", "name_en": "Livestock and draught animals", "type": "asset", "notes": null},
+            {"code": "029", "name_sk": "Ostatny dlhodoby hmotny majetok", "name_en": "Other long-term tangible assets", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "03",
+          "name_sk": "Dlhodoby hmotny majetok - neodpisovany",
+          "name_en": "Long-term tangible assets - non-depreciable",
+          "accounts": [
+            {"code": "031", "name_sk": "Pozemky", "name_en": "Land", "type": "asset", "notes": "Not depreciated"},
+            {"code": "032", "name_sk": "Umelecke diela a zbierky", "name_en": "Art works and collections", "type": "asset", "notes": "Not depreciated"}
+          ]
+        },
+        {
+          "group_number": "04",
+          "name_sk": "Obstaranie dlhodobeho majetku",
+          "name_en": "Acquisition of long-term assets",
+          "accounts": [
+            {"code": "041", "name_sk": "Obstaranie dlhodobeho nehmotneho majetku", "name_en": "Acquisition of long-term intangible assets", "type": "asset", "notes": "Clearing account"},
+            {"code": "042", "name_sk": "Obstaranie dlhodobeho hmotneho majetku", "name_en": "Acquisition of long-term tangible assets", "type": "asset", "notes": "Clearing account"},
+            {"code": "043", "name_sk": "Obstaranie dlhodobeho financneho majetku", "name_en": "Acquisition of long-term financial assets", "type": "asset", "notes": "Clearing account"}
+          ]
+        },
+        {
+          "group_number": "05",
+          "name_sk": "Poskytnutne preddavky na dlhodoby majetok",
+          "name_en": "Advances for long-term assets",
+          "accounts": [
+            {"code": "051", "name_sk": "Poskytnutne preddavky na dlhodoby nehmotny majetok", "name_en": "Advances for long-term intangible assets", "type": "asset", "notes": null},
+            {"code": "052", "name_sk": "Poskytnutne preddavky na dlhodoby hmotny majetok", "name_en": "Advances for long-term tangible assets", "type": "asset", "notes": null},
+            {"code": "053", "name_sk": "Poskytnutne preddavky na dlhodoby financny majetok", "name_en": "Advances for long-term financial assets", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "06",
+          "name_sk": "Dlhodoby financny majetok",
+          "name_en": "Long-term financial assets",
+          "accounts": [
+            {"code": "061", "name_sk": "Podielove cenne papiere a podiely v dcerskej uctovnej jednotke", "name_en": "Shares in subsidiaries", "type": "asset", "notes": null},
+            {"code": "062", "name_sk": "Podielove cenne papiere a podiely v spolocnosti s podstatnym vplyvom", "name_en": "Shares in associates", "type": "asset", "notes": null},
+            {"code": "063", "name_sk": "Realizovatelne cenne papiere a podiely", "name_en": "Available-for-sale securities and shares", "type": "asset", "notes": null},
+            {"code": "065", "name_sk": "Dlhove cenne papiere drzane do splatnosti", "name_en": "Held-to-maturity debt securities", "type": "asset", "notes": null},
+            {"code": "066", "name_sk": "Pozicky uctovnej jednotke v konsolidovanom celku", "name_en": "Loans to entities in consolidated group", "type": "asset", "notes": null},
+            {"code": "067", "name_sk": "Ostatne pozicky", "name_en": "Other loans", "type": "asset", "notes": null},
+            {"code": "069", "name_sk": "Ostatny dlhodoby financny majetok", "name_en": "Other long-term financial assets", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "07",
+          "name_sk": "Opravky k dlhodobemu nehmotnemu majetku",
+          "name_en": "Accumulated amortization - intangible assets",
+          "accounts": [
+            {"code": "072", "name_sk": "Opravky k aktivovanym nakladom na vyvoj", "name_en": "Accum. amort. - capitalized development costs", "type": "contra-asset", "notes": null},
+            {"code": "073", "name_sk": "Opravky k softwaru", "name_en": "Accum. amort. - software", "type": "contra-asset", "notes": null},
+            {"code": "074", "name_sk": "Opravky k ocenitelnym pravam", "name_en": "Accum. amort. - valuable rights", "type": "contra-asset", "notes": null},
+            {"code": "075", "name_sk": "Opravky ku goodwillu", "name_en": "Accum. amort. - goodwill", "type": "contra-asset", "notes": null},
+            {"code": "079", "name_sk": "Opravky k ostatnemu dlhodobemu nehmotnemu majetku", "name_en": "Accum. amort. - other intangible assets", "type": "contra-asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "08",
+          "name_sk": "Opravky k dlhodobemu hmotnemu majetku",
+          "name_en": "Accumulated depreciation - tangible assets",
+          "accounts": [
+            {"code": "081", "name_sk": "Opravky k stavbam", "name_en": "Accum. depr. - buildings", "type": "contra-asset", "notes": null},
+            {"code": "082", "name_sk": "Opravky k samostatnym hnutelnym veciam a k suboru hnutelnych veci", "name_en": "Accum. depr. - machinery and equipment", "type": "contra-asset", "notes": null},
+            {"code": "085", "name_sk": "Opravky k pestovatelskym celkom trvalych porastov", "name_en": "Accum. depr. - permanent crop plantings", "type": "contra-asset", "notes": null},
+            {"code": "086", "name_sk": "Opravky k zakladnemu stadu a taznym zvieratam", "name_en": "Accum. depr. - livestock and draught animals", "type": "contra-asset", "notes": null},
+            {"code": "089", "name_sk": "Opravky k ostatnemu dlhodobemu hmotnemu majetku", "name_en": "Accum. depr. - other tangible assets", "type": "contra-asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "09",
+          "name_sk": "Opravne polozky k dlhodobemu majetku",
+          "name_en": "Impairment allowances - long-term assets",
+          "accounts": [
+            {"code": "091", "name_sk": "Opravne polozky k dlhodobemu nehmotnemu majetku", "name_en": "Impairment - long-term intangible assets", "type": "contra-asset", "notes": null},
+            {"code": "092", "name_sk": "Opravne polozky k dlhodobemu hmotnemu majetku", "name_en": "Impairment - long-term tangible assets", "type": "contra-asset", "notes": null},
+            {"code": "093", "name_sk": "Opravne polozky k nedokoncenemu dlhodobemu nehmotnemu majetku", "name_en": "Impairment - intangible assets in progress", "type": "contra-asset", "notes": null},
+            {"code": "094", "name_sk": "Opravne polozky k nedokoncenemu dlhodobemu hmotnemu majetku", "name_en": "Impairment - tangible assets in progress", "type": "contra-asset", "notes": null},
+            {"code": "095", "name_sk": "Opravne polozky k poskytnutym preddavkom na dlhodoby majetok", "name_en": "Impairment - advances for long-term assets", "type": "contra-asset", "notes": null},
+            {"code": "096", "name_sk": "Opravne polozky k dlhodobemu financnemu majetku", "name_en": "Impairment - long-term financial assets", "type": "contra-asset", "notes": null},
+            {"code": "097", "name_sk": "Opravne polozky k nadobudnutemu majetku", "name_en": "Impairment - acquired assets (goodwill on consolidation)", "type": "contra-asset", "notes": null},
+            {"code": "098", "name_sk": "Opravky k opravnej polozke k nadobudnutemu majetku", "name_en": "Accum. amort. of impairment - acquired assets", "type": "contra-asset", "notes": null}
+          ]
+        }
+      ]
+    },
+    {
+      "class_number": 1,
+      "name_sk": "Zasoby",
+      "name_en": "Inventories",
+      "groups": [
+        {
+          "group_number": "11",
+          "name_sk": "Material",
+          "name_en": "Materials",
+          "accounts": [
+            {"code": "111", "name_sk": "Obstaranie materialu", "name_en": "Material acquisition", "type": "asset", "notes": "Clearing account"},
+            {"code": "112", "name_sk": "Material na sklade", "name_en": "Materials in warehouse", "type": "asset", "notes": null},
+            {"code": "119", "name_sk": "Material na ceste", "name_en": "Materials in transit", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "12",
+          "name_sk": "Zasoby vlastnej vyroby",
+          "name_en": "Own production inventories",
+          "accounts": [
+            {"code": "121", "name_sk": "Nedokoncena vyroba", "name_en": "Work in progress", "type": "asset", "notes": null},
+            {"code": "122", "name_sk": "Polotovary vlastnej vyroby", "name_en": "Semi-finished goods of own production", "type": "asset", "notes": null},
+            {"code": "123", "name_sk": "Vyrobky", "name_en": "Finished goods", "type": "asset", "notes": null},
+            {"code": "124", "name_sk": "Zvierata", "name_en": "Animals", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "13",
+          "name_sk": "Tovar",
+          "name_en": "Merchandise",
+          "accounts": [
+            {"code": "131", "name_sk": "Obstaranie tovaru", "name_en": "Merchandise acquisition", "type": "asset", "notes": "Clearing account"},
+            {"code": "132", "name_sk": "Tovar na sklade a v predajniach", "name_en": "Merchandise in warehouse and shops", "type": "asset", "notes": null},
+            {"code": "133", "name_sk": "Nehnutelnosti na predaj", "name_en": "Real estate held for sale", "type": "asset", "notes": null},
+            {"code": "139", "name_sk": "Tovar na ceste", "name_en": "Merchandise in transit", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "19",
+          "name_sk": "Opravne polozky k zasobam",
+          "name_en": "Impairment allowances - inventories",
+          "accounts": [
+            {"code": "191", "name_sk": "Opravne polozky k materialu", "name_en": "Impairment - materials", "type": "contra-asset", "notes": null},
+            {"code": "192", "name_sk": "Opravne polozky k nedokoncenej vyrobe", "name_en": "Impairment - work in progress", "type": "contra-asset", "notes": null},
+            {"code": "193", "name_sk": "Opravne polozky k polotovarom vlastnej vyroby", "name_en": "Impairment - semi-finished goods", "type": "contra-asset", "notes": null},
+            {"code": "194", "name_sk": "Opravne polozky k vyrobkom", "name_en": "Impairment - finished goods", "type": "contra-asset", "notes": null},
+            {"code": "195", "name_sk": "Opravne polozky k zvieratam", "name_en": "Impairment - animals", "type": "contra-asset", "notes": null},
+            {"code": "196", "name_sk": "Opravne polozky k tovaru", "name_en": "Impairment - merchandise", "type": "contra-asset", "notes": null}
+          ]
+        }
+      ]
+    },
+    {
+      "class_number": 2,
+      "name_sk": "Financne ucty",
+      "name_en": "Financial Accounts",
+      "groups": [
+        {
+          "group_number": "21",
+          "name_sk": "Peniaze",
+          "name_en": "Cash",
+          "accounts": [
+            {"code": "211", "name_sk": "Pokladnica", "name_en": "Cash on hand", "type": "asset", "notes": null},
+            {"code": "213", "name_sk": "Ceniny", "name_en": "Vouchers and stamps", "type": "asset", "notes": "Postage stamps, meal vouchers, etc."}
+          ]
+        },
+        {
+          "group_number": "22",
+          "name_sk": "Ucty v bankach",
+          "name_en": "Bank accounts",
+          "accounts": [
+            {"code": "221", "name_sk": "Bankove ucty", "name_en": "Bank accounts", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "23",
+          "name_sk": "Bezne bankove uvery",
+          "name_en": "Current bank credits",
+          "accounts": [
+            {"code": "231", "name_sk": "Kratkodobe bankove uvery", "name_en": "Short-term bank loans", "type": "liability", "notes": null},
+            {"code": "232", "name_sk": "Eskontne uvery", "name_en": "Discount loans", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "24",
+          "name_sk": "Ine kratkodobe financne vypomoci",
+          "name_en": "Other short-term financial assistance",
+          "accounts": [
+            {"code": "241", "name_sk": "Vydane kratkodobe dlhopisy", "name_en": "Short-term bonds issued", "type": "liability", "notes": null},
+            {"code": "249", "name_sk": "Ostatne kratkodobe financne vypomoci", "name_en": "Other short-term financial assistance", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "25",
+          "name_sk": "Kratkodoby financny majetok",
+          "name_en": "Short-term financial assets",
+          "accounts": [
+            {"code": "251", "name_sk": "Majetkove cenne papiere na obchodovanie", "name_en": "Trading equity securities", "type": "asset", "notes": null},
+            {"code": "252", "name_sk": "Vlastne akcie a vlastne obchodne podiely", "name_en": "Treasury shares and own business shares", "type": "asset", "notes": null},
+            {"code": "253", "name_sk": "Dlhove cenne papiere na obchodovanie", "name_en": "Trading debt securities", "type": "asset", "notes": null},
+            {"code": "255", "name_sk": "Vlastne dlhopisy", "name_en": "Own bonds", "type": "asset", "notes": null},
+            {"code": "256", "name_sk": "Dlhove cenne papiere so splatnostou do jedneho roka drzane do splatnosti", "name_en": "Held-to-maturity debt securities (< 1 year)", "type": "asset", "notes": null},
+            {"code": "257", "name_sk": "Ostatne realizovatelne cenne papiere", "name_en": "Other available-for-sale securities", "type": "asset", "notes": null},
+            {"code": "258", "name_sk": "Virtualna mena", "name_en": "Virtual currency / cryptocurrency", "type": "asset", "notes": "Added by 2018 amendment"},
+            {"code": "259", "name_sk": "Obstaranie kratkodobeho financneho majetku", "name_en": "Acquisition of short-term financial assets", "type": "asset", "notes": "Clearing account"}
+          ]
+        },
+        {
+          "group_number": "26",
+          "name_sk": "Prevody medzi financnymi uctami",
+          "name_en": "Transfers between financial accounts",
+          "accounts": [
+            {"code": "261", "name_sk": "Peniaze na ceste", "name_en": "Cash in transit", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "29",
+          "name_sk": "Opravne polozky ku kratkodobemu financnemu majetku",
+          "name_en": "Impairment - short-term financial assets",
+          "accounts": [
+            {"code": "291", "name_sk": "Opravne polozky ku kratkodobemu financnemu majetku", "name_en": "Impairment - short-term financial assets", "type": "contra-asset", "notes": null}
+          ]
+        }
+      ]
+    },
+    {
+      "class_number": 3,
+      "name_sk": "Zuctovacie vztahy",
+      "name_en": "Settlement Relationships",
+      "groups": [
+        {
+          "group_number": "31",
+          "name_sk": "Pohladavky",
+          "name_en": "Receivables",
+          "accounts": [
+            {"code": "311", "name_sk": "Odberatelia", "name_en": "Trade receivables", "type": "asset", "notes": null},
+            {"code": "312", "name_sk": "Zmenky na inkaso", "name_en": "Bills of exchange receivable", "type": "asset", "notes": null},
+            {"code": "313", "name_sk": "Pohladavky za eskontovane cenne papiere", "name_en": "Receivables for discounted securities", "type": "asset", "notes": null},
+            {"code": "314", "name_sk": "Poskytnutne preddavky", "name_en": "Advances paid (short-term)", "type": "asset", "notes": null},
+            {"code": "315", "name_sk": "Ostatne pohladavky", "name_en": "Other receivables", "type": "asset", "notes": null},
+            {"code": "316", "name_sk": "Cista hodnota zakazky", "name_en": "Net contract value", "type": "asset", "notes": "Construction contracts"}
+          ]
+        },
+        {
+          "group_number": "32",
+          "name_sk": "Zavazky",
+          "name_en": "Payables",
+          "accounts": [
+            {"code": "321", "name_sk": "Dodavatelia", "name_en": "Trade payables", "type": "liability", "notes": null},
+            {"code": "322", "name_sk": "Zmenky na uhradu", "name_en": "Bills of exchange payable", "type": "liability", "notes": null},
+            {"code": "323", "name_sk": "Kratkodobe rezervy", "name_en": "Short-term provisions", "type": "liability", "notes": null},
+            {"code": "324", "name_sk": "Prijate preddavky", "name_en": "Advances received", "type": "liability", "notes": null},
+            {"code": "325", "name_sk": "Ostatne zavazky", "name_en": "Other payables", "type": "liability", "notes": null},
+            {"code": "326", "name_sk": "Nevyfakturovane dodavky", "name_en": "Unbilled deliveries", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "33",
+          "name_sk": "Zuctovanie so zamestnancami a organmi",
+          "name_en": "Employee and social insurance settlements",
+          "accounts": [
+            {"code": "331", "name_sk": "Zamestnanci", "name_en": "Employees (wages payable)", "type": "liability", "notes": null},
+            {"code": "333", "name_sk": "Ostatne zavazky voci zamestnancom", "name_en": "Other liabilities to employees", "type": "liability", "notes": null},
+            {"code": "335", "name_sk": "Pohladavky voci zamestnancom", "name_en": "Receivables from employees", "type": "asset", "notes": null},
+            {"code": "336", "name_sk": "Zuctovanie s organmi socialneho poistenia a zdravotneho poistenia", "name_en": "Social and health insurance settlements", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "34",
+          "name_sk": "Zuctovanie dani a dotacii",
+          "name_en": "Tax and subsidy settlements",
+          "accounts": [
+            {"code": "341", "name_sk": "Dan z prijmov", "name_en": "Income tax payable", "type": "liability", "notes": null},
+            {"code": "342", "name_sk": "Ostatne priame dane", "name_en": "Other direct taxes", "type": "liability", "notes": "Withholding tax etc."},
+            {"code": "343", "name_sk": "Dan z pridanej hodnoty", "name_en": "Value added tax (VAT)", "type": "mixed", "notes": "Debit = input VAT (asset), Credit = output VAT (liability)"},
+            {"code": "345", "name_sk": "Ostatne dane a poplatky", "name_en": "Other taxes and fees", "type": "liability", "notes": null},
+            {"code": "346", "name_sk": "Dotacie zo statneho rozpoctu", "name_en": "State budget subsidies", "type": "asset", "notes": "Receivable from state"},
+            {"code": "347", "name_sk": "Ostatne dotacie", "name_en": "Other subsidies", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "35",
+          "name_sk": "Pohladavky voci spolocnikom a clenom",
+          "name_en": "Receivables from partners and members",
+          "accounts": [
+            {"code": "351", "name_sk": "Pohladavky v ramci konsolidovaneho celku", "name_en": "Receivables within consolidated group", "type": "asset", "notes": null},
+            {"code": "353", "name_sk": "Pohladavky za upisane vlastne imanie", "name_en": "Receivables for subscribed equity", "type": "asset", "notes": null},
+            {"code": "354", "name_sk": "Pohladavky voci spolocnikom a clenom pri uhrade straty", "name_en": "Receivables from partners for loss coverage", "type": "asset", "notes": null},
+            {"code": "355", "name_sk": "Ostatne pohladavky voci spolocnikom a clenom", "name_en": "Other receivables from partners and members", "type": "asset", "notes": null},
+            {"code": "358", "name_sk": "Pohladavky voci ucastnikom zdruzenia", "name_en": "Receivables from association participants", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "36",
+          "name_sk": "Zavazky voci spolocnikom a clenom",
+          "name_en": "Liabilities to partners and members",
+          "accounts": [
+            {"code": "361", "name_sk": "Zavazky v ramci konsolidovaneho celku", "name_en": "Liabilities within consolidated group", "type": "liability", "notes": null},
+            {"code": "364", "name_sk": "Zavazky voci spolocnikom a clenom pri rozdelovani zisku", "name_en": "Liabilities to partners for profit distribution", "type": "liability", "notes": "Dividends payable"},
+            {"code": "365", "name_sk": "Ostatne zavazky voci spolocnikom a clenom", "name_en": "Other liabilities to partners and members", "type": "liability", "notes": null},
+            {"code": "366", "name_sk": "Zavazky voci spolocnikom a clenom zo zavislej cinnosti", "name_en": "Liabilities to partners from dependent activity", "type": "liability", "notes": null},
+            {"code": "367", "name_sk": "Zavazky z upisanych nesplatenych cennych papierov a vkladov", "name_en": "Liabilities from unpaid subscribed securities", "type": "liability", "notes": null},
+            {"code": "368", "name_sk": "Zavazky voci ucastnikom zdruzenia", "name_en": "Liabilities to association participants", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "37",
+          "name_sk": "Ine pohladavky a ine zavazky",
+          "name_en": "Other receivables and liabilities",
+          "accounts": [
+            {"code": "371", "name_sk": "Pohladavky z predaja podniku", "name_en": "Receivables from sale of enterprise", "type": "asset", "notes": null},
+            {"code": "372", "name_sk": "Zavazky z kupy podniku", "name_en": "Liabilities from purchase of enterprise", "type": "liability", "notes": null},
+            {"code": "373", "name_sk": "Pohladavky a zavazky z pevnych terminovych operacii", "name_en": "Receivables/liabilities from fixed-term operations", "type": "mixed", "notes": "Derivatives"},
+            {"code": "374", "name_sk": "Pohladavky z najmu", "name_en": "Receivables from lease", "type": "asset", "notes": "Finance lease receivable"},
+            {"code": "375", "name_sk": "Pohladavky z vydanych dlhopisov", "name_en": "Receivables from issued bonds", "type": "asset", "notes": null},
+            {"code": "376", "name_sk": "Nakupene opcie", "name_en": "Purchased options", "type": "asset", "notes": null},
+            {"code": "377", "name_sk": "Predane opcie", "name_en": "Written options", "type": "liability", "notes": null},
+            {"code": "378", "name_sk": "Ine pohladavky", "name_en": "Other receivables (miscellaneous)", "type": "asset", "notes": null},
+            {"code": "379", "name_sk": "Ine zavazky", "name_en": "Other liabilities (miscellaneous)", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "38",
+          "name_sk": "Casove rozlisenie",
+          "name_en": "Accruals and deferrals",
+          "accounts": [
+            {"code": "381", "name_sk": "Naklady buducich obdobi", "name_en": "Prepaid expenses", "type": "asset", "notes": null},
+            {"code": "382", "name_sk": "Komplexne naklady buducich obdobi", "name_en": "Complex prepaid expenses", "type": "asset", "notes": null},
+            {"code": "383", "name_sk": "Vydavky buducich obdobi", "name_en": "Accrued expenses", "type": "liability", "notes": null},
+            {"code": "384", "name_sk": "Vynosy buducich obdobi", "name_en": "Deferred revenue", "type": "liability", "notes": null},
+            {"code": "385", "name_sk": "Prijmy buducich obdobi", "name_en": "Accrued revenue", "type": "asset", "notes": null}
+          ]
+        },
+        {
+          "group_number": "39",
+          "name_sk": "Opravne polozky k zuctovacim vztahom a vnutorne zuctovanie",
+          "name_en": "Impairment and internal clearing",
+          "accounts": [
+            {"code": "391", "name_sk": "Opravne polozky k pohladavkam", "name_en": "Impairment - receivables", "type": "contra-asset", "notes": null},
+            {"code": "395", "name_sk": "Vnutorne zuctovanie", "name_en": "Internal clearing", "type": "mixed", "notes": "Intra-company settlements"},
+            {"code": "398", "name_sk": "Spojovaci ucet pri zdruzeni", "name_en": "Connecting account for association", "type": "mixed", "notes": "Joint venture clearing"}
+          ]
+        }
+      ]
+    },
+    {
+      "class_number": 4,
+      "name_sk": "Kapitalove ucty a dlhodobe zavazky",
+      "name_en": "Capital Accounts and Long-term Liabilities",
+      "groups": [
+        {
+          "group_number": "41",
+          "name_sk": "Zakladne imanie a kapitalove fondy",
+          "name_en": "Share capital and capital funds",
+          "accounts": [
+            {"code": "411", "name_sk": "Zakladne imanie", "name_en": "Share capital / registered capital", "type": "equity", "notes": null},
+            {"code": "412", "name_sk": "Emisne azio", "name_en": "Share premium", "type": "equity", "notes": null},
+            {"code": "413", "name_sk": "Ostatne kapitalove fondy", "name_en": "Other capital funds", "type": "equity", "notes": null},
+            {"code": "414", "name_sk": "Ocenovacie rozdiely z precenenia majetku a zavazkov", "name_en": "Revaluation differences - assets and liabilities", "type": "equity", "notes": null},
+            {"code": "415", "name_sk": "Ocenovacie rozdiely z kapitalovych ucastin", "name_en": "Revaluation differences - equity investments", "type": "equity", "notes": null},
+            {"code": "416", "name_sk": "Ocenovacie rozdiely z precenenia pri zluceni, splynuti a rozdeleni", "name_en": "Revaluation differences from mergers and demergers", "type": "equity", "notes": null},
+            {"code": "417", "name_sk": "Zakonny rezervny fond z kapitalovych vkladov", "name_en": "Legal reserve fund from capital contributions", "type": "equity", "notes": null},
+            {"code": "418", "name_sk": "Nedelitelny fond z kapitalovych vkladov", "name_en": "Indivisible fund from capital contributions", "type": "equity", "notes": "Cooperatives"},
+            {"code": "419", "name_sk": "Zmeny zakladneho imania", "name_en": "Changes in share capital", "type": "equity", "notes": "Transitional account"}
+          ]
+        },
+        {
+          "group_number": "42",
+          "name_sk": "Fondy tvorene zo zisku a prevedene vysledky hospodarenia",
+          "name_en": "Profit reserves and retained earnings",
+          "accounts": [
+            {"code": "421", "name_sk": "Zakonny rezervny fond", "name_en": "Legal reserve fund", "type": "equity", "notes": "Mandatory for s.r.o. and a.s."},
+            {"code": "422", "name_sk": "Nedelitelny fond", "name_en": "Indivisible fund", "type": "equity", "notes": "Cooperatives"},
+            {"code": "423", "name_sk": "Statutarne fondy", "name_en": "Statutory funds", "type": "equity", "notes": "Per articles of association"},
+            {"code": "427", "name_sk": "Ostatne fondy", "name_en": "Other funds", "type": "equity", "notes": null},
+            {"code": "428", "name_sk": "Nerozdeleny zisk minulych rokov", "name_en": "Retained earnings", "type": "equity", "notes": null},
+            {"code": "429", "name_sk": "Neuhradena strata minulych rokov", "name_en": "Accumulated losses", "type": "equity", "notes": "Debit balance (contra-equity)"}
+          ]
+        },
+        {
+          "group_number": "43",
+          "name_sk": "Vysledok hospodarenia",
+          "name_en": "Current year result",
+          "accounts": [
+            {"code": "431", "name_sk": "Vysledok hospodarenia v schvalovani", "name_en": "Profit/loss pending approval", "type": "equity", "notes": "Transitional - AGM approval"}
+          ]
+        },
+        {
+          "group_number": "45",
+          "name_sk": "Rezervy",
+          "name_en": "Long-term provisions",
+          "accounts": [
+            {"code": "451", "name_sk": "Rezervy zakonne", "name_en": "Legal provisions", "type": "liability", "notes": "Required by law"},
+            {"code": "459", "name_sk": "Ostatne rezervy", "name_en": "Other provisions", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "46",
+          "name_sk": "Dlhodobe bankove uvery",
+          "name_en": "Long-term bank loans",
+          "accounts": [
+            {"code": "461", "name_sk": "Bankove uvery", "name_en": "Long-term bank loans", "type": "liability", "notes": "Maturity > 1 year"}
+          ]
+        },
+        {
+          "group_number": "47",
+          "name_sk": "Dlhodobe zavazky",
+          "name_en": "Long-term liabilities",
+          "accounts": [
+            {"code": "471", "name_sk": "Dlhodobe zavazky v ramci konsolidovaneho celku", "name_en": "Long-term liabilities within consolidated group", "type": "liability", "notes": null},
+            {"code": "472", "name_sk": "Zavazky zo socialneho fondu", "name_en": "Social fund liabilities", "type": "liability", "notes": null},
+            {"code": "473", "name_sk": "Vydane dlhopisy", "name_en": "Bonds issued", "type": "liability", "notes": null},
+            {"code": "474", "name_sk": "Zavazky z najmu", "name_en": "Lease liabilities", "type": "liability", "notes": "Finance lease"},
+            {"code": "475", "name_sk": "Dlhodobe prijate preddavky", "name_en": "Long-term advances received", "type": "liability", "notes": null},
+            {"code": "476", "name_sk": "Dlhodobe nevyfakturovane dodavky", "name_en": "Long-term unbilled deliveries", "type": "liability", "notes": null},
+            {"code": "478", "name_sk": "Dlhodobe zmenky na uhradu", "name_en": "Long-term bills of exchange payable", "type": "liability", "notes": null},
+            {"code": "479", "name_sk": "Ostatne dlhodobe zavazky", "name_en": "Other long-term liabilities", "type": "liability", "notes": null}
+          ]
+        },
+        {
+          "group_number": "48",
+          "name_sk": "Odlozeny danovy zavazok a odlozena danova pohladavka",
+          "name_en": "Deferred tax",
+          "accounts": [
+            {"code": "481", "name_sk": "Odlozeny danovy zavazok a odlozena danova pohladavka", "name_en": "Deferred tax liability / deferred tax asset", "type": "mixed", "notes": "Debit = deferred tax asset, Credit = deferred tax liability"}
+          ]
+        },
+        {
+          "group_number": "49",
+          "name_sk": "Fyzicka osoba - podnikatel",
+          "name_en": "Individual entrepreneur",
+          "accounts": [
+            {"code": "491", "name_sk": "Vlastne imanie fyzickej osoby - podnikatela", "name_en": "Equity of individual entrepreneur", "type": "equity", "notes": "Only for sole traders (SZCO)"}
+          ]
+        }
+      ]
+    },
+    {
+      "class_number": 5,
+      "name_sk": "Naklady",
+      "name_en": "Expenses",
+      "groups": [
+        {
+          "group_number": "50",
+          "name_sk": "Spotrebovane nakupy",
+          "name_en": "Consumed purchases",
+          "accounts": [
+            {"code": "501", "name_sk": "Spotreba materialu", "name_en": "Material consumption", "type": "expense", "notes": null},
+            {"code": "502", "name_sk": "Spotreba energie", "name_en": "Energy consumption", "type": "expense", "notes": "Electricity, gas, water, heating"},
+            {"code": "503", "name_sk": "Spotreba ostatnych neskladovatelnych dodavok", "name_en": "Consumption of other non-storable supplies", "type": "expense", "notes": null},
+            {"code": "504", "name_sk": "Predany tovar", "name_en": "Cost of merchandise sold", "type": "expense", "notes": null},
+            {"code": "505", "name_sk": "Tvorba a zuctovanie opravnych poloziek k zasobam", "name_en": "Creation/release of inventory impairment", "type": "expense", "notes": null},
+            {"code": "507", "name_sk": "Predana nehnutelnost", "name_en": "Cost of real estate sold", "type": "expense", "notes": "Real estate held for sale"}
+          ]
+        },
+        {
+          "group_number": "51",
+          "name_sk": "Sluzby",
+          "name_en": "Services",
+          "accounts": [
+            {"code": "511", "name_sk": "Opravy a udrzovanie", "name_en": "Repairs and maintenance", "type": "expense", "notes": null},
+            {"code": "512", "name_sk": "Cestovne", "name_en": "Travel expenses", "type": "expense", "notes": null},
+            {"code": "513", "name_sk": "Naklady na reprezentaciu", "name_en": "Representation expenses", "type": "expense", "notes": "Entertainment, gifts to clients"},
+            {"code": "518", "name_sk": "Ostatne sluzby", "name_en": "Other services", "type": "expense", "notes": "Telecom, legal, accounting, etc."}
+          ]
+        },
+        {
+          "group_number": "52",
+          "name_sk": "Osobne naklady",
+          "name_en": "Personnel expenses",
+          "accounts": [
+            {"code": "521", "name_sk": "Mzdove naklady", "name_en": "Wage costs", "type": "expense", "notes": null},
+            {"code": "522", "name_sk": "Prijmy spolocnikov a clenov zo zavislej cinnosti", "name_en": "Income of partners from dependent activity", "type": "expense", "notes": null},
+            {"code": "523", "name_sk": "Odmeny clenom organov spolocnosti a druzstva", "name_en": "Remuneration of company/cooperative bodies", "type": "expense", "notes": "Board members"},
+            {"code": "524", "name_sk": "Zakonne socialne poistenie", "name_en": "Statutory social insurance", "type": "expense", "notes": "Employer contributions"},
+            {"code": "525", "name_sk": "Ostatne socialne poistenie", "name_en": "Other social insurance", "type": "expense", "notes": "Supplementary pension etc."},
+            {"code": "526", "name_sk": "Socialne naklady fyzickej osoby - podnikatela", "name_en": "Social costs of individual entrepreneur", "type": "expense", "notes": "SZCO only"},
+            {"code": "527", "name_sk": "Zakonne socialne naklady", "name_en": "Statutory social costs", "type": "expense", "notes": "Social fund contributions"},
+            {"code": "528", "name_sk": "Ostatne socialne naklady", "name_en": "Other social costs", "type": "expense", "notes": null}
+          ]
+        },
+        {
+          "group_number": "53",
+          "name_sk": "Dane a poplatky",
+          "name_en": "Taxes and fees (non-income)",
+          "accounts": [
+            {"code": "531", "name_sk": "Dan z motorovych vozidiel", "name_en": "Motor vehicle tax", "type": "expense", "notes": null},
+            {"code": "532", "name_sk": "Dan z nehnutelnosti", "name_en": "Real estate tax", "type": "expense", "notes": null},
+            {"code": "538", "name_sk": "Ostatne dane a poplatky", "name_en": "Other taxes and fees", "type": "expense", "notes": "Administrative fees, court fees etc."}
+          ]
+        },
+        {
+          "group_number": "54",
+          "name_sk": "Ine naklady na hospodarsku cinnost",
+          "name_en": "Other operating expenses",
+          "accounts": [
+            {"code": "541", "name_sk": "Zostatkova cena predaneho dlhodobeho nehmotneho majetku a dlhodobeho hmotneho majetku", "name_en": "Net book value of sold long-term assets", "type": "expense", "notes": null},
+            {"code": "542", "name_sk": "Predany material", "name_en": "Cost of materials sold", "type": "expense", "notes": null},
+            {"code": "543", "name_sk": "Dary", "name_en": "Donations / gifts", "type": "expense", "notes": null},
+            {"code": "544", "name_sk": "Zmluvne pokuty, penale a uroky z omeskania", "name_en": "Contractual penalties and late interest", "type": "expense", "notes": null},
+            {"code": "545", "name_sk": "Ostatne pokuty, penale a uroky z omeskania", "name_en": "Other penalties and late interest", "type": "expense", "notes": "Tax penalties etc."},
+            {"code": "546", "name_sk": "Odpis pohladavky", "name_en": "Write-off of receivables", "type": "expense", "notes": null},
+            {"code": "547", "name_sk": "Tvorba a zuctovanie opravnych poloziek k pohladavkam", "name_en": "Creation/release of receivable impairment", "type": "expense", "notes": null},
+            {"code": "548", "name_sk": "Ostatne naklady na hospodarsku cinnost", "name_en": "Other operating expenses", "type": "expense", "notes": null},
+            {"code": "549", "name_sk": "Manka a skody", "name_en": "Shortages and damages", "type": "expense", "notes": null}
+          ]
+        },
+        {
+          "group_number": "55",
+          "name_sk": "Odpisy a opravne polozky k dlhodobemu majetku",
+          "name_en": "Depreciation and impairment of long-term assets",
+          "accounts": [
+            {"code": "551", "name_sk": "Odpisy dlhodobeho nehmotneho majetku a dlhodobeho hmotneho majetku", "name_en": "Depreciation/amortization of long-term assets", "type": "expense", "notes": null},
+            {"code": "553", "name_sk": "Tvorba a zuctovanie opravnych poloziek k dlhodobemu majetku", "name_en": "Creation/release of long-term asset impairment", "type": "expense", "notes": null},
+            {"code": "555", "name_sk": "Zuctovanie komplexnych nakladov buducich obdobi", "name_en": "Release of complex prepaid expenses", "type": "expense", "notes": null},
+            {"code": "557", "name_sk": "Zuctovanie opravky k opravnej polozke k nadobudnutemu majetku", "name_en": "Amortization of impairment of acquired assets", "type": "expense", "notes": null}
+          ]
+        },
+        {
+          "group_number": "56",
+          "name_sk": "Financne naklady",
+          "name_en": "Financial expenses",
+          "accounts": [
+            {"code": "561", "name_sk": "Predane cenne papiere a podiely", "name_en": "Cost of securities and shares sold", "type": "expense", "notes": null},
+            {"code": "562", "name_sk": "Uroky", "name_en": "Interest expense", "type": "expense", "notes": null},
+            {"code": "563", "name_sk": "Kurzove straty", "name_en": "Foreign exchange losses", "type": "expense", "notes": null},
+            {"code": "564", "name_sk": "Naklady na precenenie cennych papierov", "name_en": "Revaluation losses on securities", "type": "expense", "notes": null},
+            {"code": "565", "name_sk": "Tvorba a zuctovanie opravnych poloziek k financnemu majetku", "name_en": "Creation/release of financial asset impairment", "type": "expense", "notes": null},
+            {"code": "566", "name_sk": "Naklady na kratkodoby financny majetok", "name_en": "Costs of short-term financial assets", "type": "expense", "notes": null},
+            {"code": "567", "name_sk": "Naklady na derivatove operacie", "name_en": "Costs of derivative operations", "type": "expense", "notes": null},
+            {"code": "568", "name_sk": "Ostatne financne naklady", "name_en": "Other financial expenses", "type": "expense", "notes": "Bank fees etc."},
+            {"code": "569", "name_sk": "Manka a skody na financnom majetku", "name_en": "Shortages and damages on financial assets", "type": "expense", "notes": null}
+          ]
+        },
+        {
+          "group_number": "59",
+          "name_sk": "Dane z prijmov a prevod podielov",
+          "name_en": "Income taxes and profit transfers",
+          "accounts": [
+            {"code": "591", "name_sk": "Splatna dan z prijmov", "name_en": "Current income tax expense", "type": "expense", "notes": null},
+            {"code": "592", "name_sk": "Odlozena dan z prijmov", "name_en": "Deferred income tax expense", "type": "expense", "notes": null},
+            {"code": "595", "name_sk": "Dodatocne odvody dane z prijmov", "name_en": "Additional income tax charges", "type": "expense", "notes": null},
+            {"code": "596", "name_sk": "Prevod podielov na vysledku hospodarenia spolocnikom", "name_en": "Transfer of profit shares to partners", "type": "expense", "notes": "Silent partnerships"}
+          ]
+        }
+      ]
+    },
+    {
+      "class_number": 6,
+      "name_sk": "Vynosy",
+      "name_en": "Revenues",
+      "groups": [
+        {
+          "group_number": "60",
+          "name_sk": "Trzby za vlastne vykony a tovar",
+          "name_en": "Sales revenue",
+          "accounts": [
+            {"code": "601", "name_sk": "Trzby za vlastne vyrobky", "name_en": "Revenue from own products", "type": "revenue", "notes": null},
+            {"code": "602", "name_sk": "Trzby z predaja sluzieb", "name_en": "Revenue from services", "type": "revenue", "notes": null},
+            {"code": "604", "name_sk": "Trzby za tovar", "name_en": "Revenue from merchandise", "type": "revenue", "notes": null},
+            {"code": "606", "name_sk": "Vynosy zo zakazky", "name_en": "Revenue from contracts", "type": "revenue", "notes": "Construction contracts"},
+            {"code": "607", "name_sk": "Vynosy z nehnutelnosti na predaj", "name_en": "Revenue from real estate held for sale", "type": "revenue", "notes": null}
+          ]
+        },
+        {
+          "group_number": "61",
+          "name_sk": "Zmeny stavu vnutroorganizacnych zasob",
+          "name_en": "Changes in internal inventories",
+          "accounts": [
+            {"code": "611", "name_sk": "Zmena stavu nedokoncenej vyroby", "name_en": "Change in work in progress", "type": "revenue", "notes": "Can be negative (debit)"},
+            {"code": "612", "name_sk": "Zmena stavu polotovarov", "name_en": "Change in semi-finished goods", "type": "revenue", "notes": "Can be negative (debit)"},
+            {"code": "613", "name_sk": "Zmena stavu vyrobkov", "name_en": "Change in finished goods", "type": "revenue", "notes": "Can be negative (debit)"},
+            {"code": "614", "name_sk": "Zmena stavu zvierat", "name_en": "Change in animals", "type": "revenue", "notes": "Can be negative (debit)"}
+          ]
+        },
+        {
+          "group_number": "62",
+          "name_sk": "Aktivacia",
+          "name_en": "Capitalization / own work capitalized",
+          "accounts": [
+            {"code": "621", "name_sk": "Aktivacia materialu a tovaru", "name_en": "Capitalization of materials and merchandise", "type": "revenue", "notes": "Own production for own use"},
+            {"code": "622", "name_sk": "Aktivacia vnutroorganizacnych sluzieb", "name_en": "Capitalization of internal services", "type": "revenue", "notes": null},
+            {"code": "623", "name_sk": "Aktivacia dlhodobeho nehmotneho majetku", "name_en": "Capitalization of long-term intangible assets", "type": "revenue", "notes": null},
+            {"code": "624", "name_sk": "Aktivacia dlhodobeho hmotneho majetku", "name_en": "Capitalization of long-term tangible assets", "type": "revenue", "notes": null}
+          ]
+        },
+        {
+          "group_number": "64",
+          "name_sk": "Ine vynosy z hospodarskej cinnosti",
+          "name_en": "Other operating revenue",
+          "accounts": [
+            {"code": "641", "name_sk": "Trzby z predaja dlhodobeho nehmotneho majetku a dlhodobeho hmotneho majetku", "name_en": "Revenue from sale of long-term assets", "type": "revenue", "notes": null},
+            {"code": "642", "name_sk": "Trzby z predaja materialu", "name_en": "Revenue from sale of materials", "type": "revenue", "notes": null},
+            {"code": "644", "name_sk": "Zmluvne pokuty, penale a uroky z omeskania", "name_en": "Contractual penalties and late interest received", "type": "revenue", "notes": null},
+            {"code": "645", "name_sk": "Ostatne pokuty, penale a uroky z omeskania", "name_en": "Other penalties and late interest received", "type": "revenue", "notes": null},
+            {"code": "646", "name_sk": "Vynosy z odpisanych pohladavok", "name_en": "Revenue from written-off receivables recovered", "type": "revenue", "notes": null},
+            {"code": "648", "name_sk": "Ostatne vynosy z hospodarskej cinnosti", "name_en": "Other operating revenue", "type": "revenue", "notes": null}
+          ]
+        },
+        {
+          "group_number": "65",
+          "name_sk": "Zuctovanie",
+          "name_en": "Settlement of complex items",
+          "accounts": [
+            {"code": "655", "name_sk": "Zuctovanie komplexnych nakladov buducich obdobi", "name_en": "Settlement of complex prepaid expenses", "type": "revenue", "notes": "Contra to 555"},
+            {"code": "657", "name_sk": "Zuctovanie opravky k opravnej polozke k nadobudnutemu majetku", "name_en": "Settlement of amort. of impairment - acquired assets", "type": "revenue", "notes": "Contra to 557"}
+          ]
+        },
+        {
+          "group_number": "66",
+          "name_sk": "Financne vynosy",
+          "name_en": "Financial revenue",
+          "accounts": [
+            {"code": "661", "name_sk": "Trzby z predaja cennych papierov a podielov", "name_en": "Revenue from sale of securities and shares", "type": "revenue", "notes": null},
+            {"code": "662", "name_sk": "Uroky", "name_en": "Interest income", "type": "revenue", "notes": null},
+            {"code": "663", "name_sk": "Kurzove zisky", "name_en": "Foreign exchange gains", "type": "revenue", "notes": null},
+            {"code": "664", "name_sk": "Vynosy z precenenia cennych papierov", "name_en": "Revaluation gains on securities", "type": "revenue", "notes": null},
+            {"code": "665", "name_sk": "Vynosy z dlhodobeho financneho majetku", "name_en": "Revenue from long-term financial assets", "type": "revenue", "notes": "Dividends received"},
+            {"code": "666", "name_sk": "Vynosy z kratkodobeho financneho majetku", "name_en": "Revenue from short-term financial assets", "type": "revenue", "notes": null},
+            {"code": "667", "name_sk": "Vynosy z derivatovych operacii", "name_en": "Revenue from derivative operations", "type": "revenue", "notes": null},
+            {"code": "668", "name_sk": "Ostatne financne vynosy", "name_en": "Other financial revenue", "type": "revenue", "notes": null}
+          ]
+        }
+      ]
+    },
+    {
+      "class_number": 7,
+      "name_sk": "Uzavierkove ucty a podsuvahove ucty",
+      "name_en": "Closing and Off-balance Sheet Accounts",
+      "groups": [
+        {
+          "group_number": "70",
+          "name_sk": "Suvahove uzavierkove ucty",
+          "name_en": "Balance sheet closing accounts",
+          "accounts": [
+            {"code": "701", "name_sk": "Zaciatocny ucet suvahovy", "name_en": "Opening balance sheet account", "type": "closing", "notes": "Year-opening entries"},
+            {"code": "702", "name_sk": "Konecny ucet suvahovy", "name_en": "Closing balance sheet account", "type": "closing", "notes": "Year-end closing entries"}
+          ]
+        },
+        {
+          "group_number": "71",
+          "name_sk": "Vysledkovy uzavierkovy ucet",
+          "name_en": "Income statement closing account",
+          "accounts": [
+            {"code": "710", "name_sk": "Ucet ziskov a strat", "name_en": "Profit and loss account", "type": "closing", "notes": "Income statement closing"},
+            {"code": "711", "name_sk": "Zaciatocny ucet nakladov a vynosov", "name_en": "Opening account for expenses and revenues", "type": "closing", "notes": "Only for mid-year entity starts"}
+          ]
+        },
+        {
+          "group_number": "75-79",
+          "name_sk": "Podsuvahove ucty",
+          "name_en": "Off-balance sheet accounts",
+          "accounts": [],
+          "notes": "Not prescribed at synthetic level. Entity defines own accounts for: leased assets, pledged assets, contingent liabilities/assets, assets in custody, written-off receivables still pursued."
+        }
+      ]
+    },
+    {
+      "class_number": 8,
+      "name_sk": "Vnutroorganizacne uctovnictvo",
+      "name_en": "Internal Management Accounting (Class 8)",
+      "groups": [],
+      "notes": "User-defined. Not prescribed by the framework chart. Used for cost center accounting, activity-based costing, internal transfers, budgeting."
+    },
+    {
+      "class_number": 9,
+      "name_sk": "Vnutroorganizacne uctovnictvo",
+      "name_en": "Internal Management Accounting (Class 9)",
+      "groups": [],
+      "notes": "User-defined. Not prescribed by the framework chart. Used for cost center accounting, activity-based costing, internal transfers, budgeting."
+    }
+  ]
+}

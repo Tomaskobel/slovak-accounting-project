@@ -1,0 +1,1736 @@
+{
+  "source": "Act 222/2004 Z.z.",
+  "title": "DPH Law - Structured Extract for Accounting Engine",
+  "effective_date": "2025-01-01",
+  "amended_by": "Act 422/2024 Coll.",
+  "url": "https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2004/222/",
+  "english_pdf": "https://www.mfsr.sk/files/en/taxes-customs-accounting/indirect-taxes/vat/act-222/2004-coll-on-value-added-tax/in-wording-effective-from-1-january-2025/222_2004from01012025_f.pdf",
+  "extraction_date": "2026-03-13",
+  "parts": [
+    {
+      "part_number": 1,
+      "title": "Vseobecne ustanovenia",
+      "title_en": "General Provisions",
+      "sections": [
+        {
+          "id": "s1",
+          "title": "Predmet upravy",
+          "title_en": "Subject Matter",
+          "topics": ["scope", "territorial_application"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Regulates VAT on supply of goods and services in Slovakia",
+            "Applies to acquisition of goods from other EU member states",
+            "Applies to import of goods into Slovakia"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s2",
+          "title": "Predmet dane",
+          "title_en": "Subject of Tax",
+          "topics": ["taxable_transactions"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Four categories: supply of goods, supply of services, IC acquisition, import"
+          ],
+          "conditions": [
+            "Must be for consideration",
+            "Must be in territory of Slovakia",
+            "Must be by taxable person acting as such"
+          ],
+          "exceptions": []
+        },
+        {
+          "id": "s3",
+          "title": "Zdanitelna osoba",
+          "title_en": "Taxable Person",
+          "topics": ["taxable_person", "economic_activity"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Any person carrying out independent economic activity",
+            "Includes legal persons, natural persons, state bodies"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s4",
+          "title": "Registracna povinnost",
+          "title_en": "Registration Obligation",
+          "topics": ["registration", "thresholds", "mandatory"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Mandatory registration: EUR 50,000 turnover in calendar year",
+            "Alternative threshold: EUR 62,500 from single supply in current calendar year",
+            "Registration filed within 5 working days of exceeding threshold",
+            "VAT number assigned within 10 working days (retroactively effective)",
+            "From 2025: turnover calculated per calendar year (reset Jan 1), NOT rolling 12 months"
+          ],
+          "conditions": [
+            "Turnover = taxable supplies in Slovakia (not exempt without deduction)",
+            "Threshold applies to domestic taxable persons only"
+          ],
+          "exceptions": [
+            "Persons making only exempt supplies under ss 37-39 not required to register",
+            "Voluntary registration available below threshold (s 4 ods. 2)"
+          ],
+          "subsections": [
+            {
+              "id": "s4_ods1",
+              "content": "Mandatory registration when turnover exceeds EUR 50,000 in calendar year or EUR 62,500 from single supply"
+            },
+            {
+              "id": "s4_ods2",
+              "content": "Voluntary registration available for persons below threshold"
+            }
+          ],
+          "thresholds": [
+            {
+              "type": "mandatory_annual",
+              "amount": 50000,
+              "currency": "EUR",
+              "period": "calendar_year"
+            },
+            {
+              "type": "mandatory_single_supply",
+              "amount": 62500,
+              "currency": "EUR",
+              "period": "single_transaction"
+            }
+          ]
+        },
+        {
+          "id": "s4a",
+          "title": "Registracne ustanovenia",
+          "title_en": "Registration Provisions",
+          "topics": ["registration"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s4b",
+          "title": "Skupinova registracia",
+          "title_en": "Group Registration",
+          "topics": ["group_registration"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s4c",
+          "title": "Danova zaruka",
+          "title_en": "Tax Security",
+          "topics": ["tax_security", "deposit"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Tax office may require security deposit: EUR 1,000 to EUR 500,000"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s5",
+          "title": "Registracia zahranicnej osoby",
+          "title_en": "Foreign Person Registration",
+          "topics": ["registration", "foreign_person"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Foreign persons making taxable supplies in Slovakia must register",
+            "No turnover threshold for foreign persons"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s6",
+          "title": "Osobitna oznamovacia povinnost",
+          "title_en": "Special Notification Obligation",
+          "topics": ["notification"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s7",
+          "title": "Registracna povinnost pri nadobudnuti",
+          "title_en": "Registration for IC Acquisition",
+          "topics": ["registration", "ic_acquisition"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Registration obligation for IC acquisition when threshold EUR 14,000 exceeded"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s7a",
+          "title": "Registracna povinnost pri prijati sluzieb",
+          "title_en": "Registration for Services from Abroad",
+          "topics": ["registration", "cross_border_services"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Registration for any B2B service received from other EU MS (no threshold)"
+          ],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    },
+    {
+      "part_number": 2,
+      "title": "Zdanitelne plnenia",
+      "title_en": "Taxable Transactions",
+      "sections": [
+        {
+          "id": "s8",
+          "title": "Dodanie tovaru",
+          "title_en": "Supply of Goods",
+          "topics": ["supply_of_goods", "transfer_of_ownership"],
+          "rates": ["depends_on_category"],
+          "kv_sections": ["A1", "A2", "B1", "B2", "B3"],
+          "key_provisions": [
+            "Transfer of right to dispose of tangible property as owner",
+            "Includes: electricity, gas, heat, cold, water",
+            "Deemed supply: private use of business goods, gifts over EUR 17"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s8a",
+          "title": "Rezim call-off skladu",
+          "title_en": "Call-off Stock Regime",
+          "topics": ["call_off_stock", "simplification"],
+          "rates": [],
+          "kv_sections": ["A1"],
+          "key_provisions": [
+            "Simplified treatment for goods moved to another EU MS for known customer"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s9",
+          "title": "Dodanie sluzieb",
+          "title_en": "Supply of Services",
+          "topics": ["supply_of_services"],
+          "rates": ["depends_on_category"],
+          "kv_sections": ["A1", "A2", "B1", "B2", "B3"],
+          "key_provisions": [
+            "Anything that is not supply of goods",
+            "Includes transfer/assignment of rights, obligation to refrain"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s9a",
+          "title": "Dodanie s pouzitim poukazov",
+          "title_en": "Vouchers",
+          "topics": ["vouchers", "single_purpose", "multi_purpose"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s11",
+          "title": "Nadobudnutie tovaru z EU",
+          "title_en": "IC Acquisition of Goods",
+          "topics": ["ic_acquisition", "intra_community"],
+          "rates": ["standard"],
+          "kv_sections": ["B1"],
+          "key_provisions": [
+            "Obtaining goods from another EU MS where goods dispatched/transported",
+            "Threshold for non-taxable persons: EUR 14,000"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s12",
+          "title": "Dovoz tovaru",
+          "title_en": "Import of Goods",
+          "topics": ["import", "third_countries", "customs"],
+          "rates": ["standard"],
+          "kv_sections": [],
+          "key_provisions": [
+            "Entry of goods from outside EU into Slovakia",
+            "VAT assessed by customs authorities",
+            "From July 2025: self-assessment for Authorized Economic Operators"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s13",
+          "title": "Miesto dodania tovaru",
+          "title_en": "Place of Supply - Goods",
+          "topics": ["place_of_supply", "goods", "transport"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Without transport: where goods located at time of supply",
+            "With transport: where transport begins",
+            "Installation/assembly: where goods installed"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s14",
+          "title": "Zasielkovy predaj",
+          "title_en": "Distance Sales",
+          "topics": ["distance_sales", "ecommerce"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "EU-wide EUR 10,000 threshold",
+            "Above threshold: VAT in destination country",
+            "OSS/IOSS simplification available"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s15",
+          "title": "Miesto dodania sluzieb",
+          "title_en": "Place of Supply - Services",
+          "topics": ["place_of_supply", "services", "b2b", "b2c"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "B2B general rule: where customer established",
+            "B2C general rule: where supplier established",
+            "Special rules for immovable property, transport, events, electronic services"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s16",
+          "title": "Osobitne pravidla pre sluzby",
+          "title_en": "Special Service Place Rules",
+          "topics": ["place_of_supply", "immovable_property", "transport", "events", "restaurant"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Immovable property: where property located",
+            "Passenger transport: where transport takes place",
+            "Restaurant/catering: where performed",
+            "Short-term rental of transport: where put at disposal"
+          ],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    },
+    {
+      "part_number": 3,
+      "title": "Danova povinnost",
+      "title_en": "Tax Liability (Tax Point)",
+      "sections": [
+        {
+          "id": "s19",
+          "title": "Danova povinnost pri dodani",
+          "title_en": "Tax Point for Supply",
+          "topics": ["tax_point", "chargeability", "supply"],
+          "rates": [],
+          "kv_sections": ["all"],
+          "key_provisions": [
+            "General: tax point = date of supply (den dodania)",
+            "Payment before supply: tax point = date of payment for amount received",
+            "Continuous/repeated supplies: last day of period or date of payment",
+            "Construction services with acceptance protocol: date of acceptance",
+            "Invoice date is NOT the tax point"
+          ],
+          "conditions": [
+            "Tax point determines which VAT period the transaction belongs to"
+          ],
+          "exceptions": []
+        },
+        {
+          "id": "s20",
+          "title": "Danova povinnost pri nadobudnuti",
+          "title_en": "Tax Point for IC Acquisition",
+          "topics": ["tax_point", "ic_acquisition"],
+          "rates": [],
+          "kv_sections": ["B1"],
+          "key_provisions": [
+            "Tax point = 15th day of month following acquisition",
+            "If invoice issued before that date: tax point = invoice date"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s21",
+          "title": "Danova povinnost pri dovoze",
+          "title_en": "Tax Point for Import",
+          "topics": ["tax_point", "import"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Tax point = date when customs debt arises"
+          ],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    },
+    {
+      "part_number": 4,
+      "title": "Zaklad dane a sadzba dane",
+      "title_en": "Tax Base and Rates",
+      "sections": [
+        {
+          "id": "s22",
+          "title": "Zaklad dane pri dodani",
+          "title_en": "Tax Base for Supply",
+          "topics": ["tax_base", "consideration"],
+          "rates": [],
+          "kv_sections": ["all"],
+          "key_provisions": [
+            "Tax base = consideration received or to be received",
+            "Includes ancillary costs: packing, transport, insurance",
+            "Excludes discounts granted at time of supply",
+            "If no consideration: cost price or value of similar goods/services"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s23",
+          "title": "Zaklad dane pri nadobudnuti",
+          "title_en": "Tax Base for IC Acquisition",
+          "topics": ["tax_base", "ic_acquisition"],
+          "rates": [],
+          "kv_sections": ["B1"],
+          "key_provisions": [
+            "Same rules as s 22 applied to IC acquisition"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s24",
+          "title": "Zaklad dane pri dovoze",
+          "title_en": "Tax Base for Import",
+          "topics": ["tax_base", "import", "customs"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Tax base = customs value + customs duty + excise duty (if applicable)"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s25",
+          "title": "Oprava zakladu dane",
+          "title_en": "Adjustment of Tax Base",
+          "topics": ["adjustment", "credit_notes", "corrections"],
+          "rates": [],
+          "kv_sections": ["C1", "C2"],
+          "key_provisions": [
+            "Adjustment when: order cancelled, goods returned, price changed",
+            "Credit note required for reductions",
+            "Relates back to original or current period depending on circumstance"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s25a",
+          "title": "Oprava zakladu dane pri nezaplateni",
+          "title_en": "Bad Debt Relief",
+          "topics": ["bad_debt", "non_payment", "adjustment"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Supplier can adjust tax base if customer does not pay within 150 days",
+            "Customer must correspondingly adjust their input deduction"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s26",
+          "title": "Prepocet cudzej meny a zaokruhlovanie",
+          "title_en": "Currency Conversion and Rounding",
+          "topics": ["currency", "rounding", "exchange_rate"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Foreign currency: ECB reference rate on day preceding tax point",
+            "Or NBS rate if ECB rate not available",
+            "Rounding to 2 decimal places"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s27",
+          "title": "Sadzba dane",
+          "title_en": "Tax Rates",
+          "topics": ["rates", "standard", "reduced", "zero"],
+          "rates": ["23", "19", "5", "0"],
+          "kv_sections": ["all"],
+          "key_provisions": [
+            "Standard rate: 23% (from 2025-01-01, previously 20%)",
+            "Reduced rate: 19% for goods in Annex 7 point 1 and services in Annex 7a point 1",
+            "Reduced rate: 5% for goods in Annex 7 points 2-3 and services in Annex 7a point 2",
+            "Zero rate: exports (s 47) and IC supplies (s 43)"
+          ],
+          "conditions": [],
+          "exceptions": [],
+          "rate_details": [
+            {
+              "rate": 23,
+              "type": "standard",
+              "valid_from": "2025-01-01",
+              "valid_to": null,
+              "applies_to": "All goods and services not in Annex 7 or 7a",
+              "previous_rate": 20,
+              "previous_valid_to": "2024-12-31"
+            },
+            {
+              "rate": 19,
+              "type": "reduced",
+              "valid_from": "2025-01-01",
+              "valid_to": null,
+              "applies_to": "Goods in Annex 7 point 1, Services in Annex 7a point 1",
+              "replaces": "10% reduced rate abolished"
+            },
+            {
+              "rate": 5,
+              "type": "reduced",
+              "valid_from": "2025-01-01",
+              "valid_to": null,
+              "applies_to": "Goods in Annex 7 points 2-3, Services in Annex 7a point 2"
+            },
+            {
+              "rate": 0,
+              "type": "zero",
+              "valid_from": null,
+              "valid_to": null,
+              "applies_to": "Exports (s 47), IC supplies to VAT-registered persons in other EU MS (s 43), international transport (s 46)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "part_number": "4_exempt",
+      "title": "Oslobodenie od dane bez prava na odpocitanie",
+      "title_en": "Exempt Without Deduction Right",
+      "sections": [
+        {
+          "id": "s28",
+          "title": "Postove sluzby",
+          "title_en": "Postal Services",
+          "topics": ["exempt", "postal"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": ["Universal postal services exempt"],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s29",
+          "title": "Zdravotna starostlivost",
+          "title_en": "Healthcare",
+          "topics": ["exempt", "healthcare"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [
+            "Healthcare services by licensed providers",
+            "Supply of human organs, blood, human milk"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s30",
+          "title": "Sluzby socialnej pomoci",
+          "title_en": "Social Care",
+          "topics": ["exempt", "social_care"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": ["Social care services exempt"],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s31",
+          "title": "Vzdelavacie sluzby",
+          "title_en": "Educational Services",
+          "topics": ["exempt", "education"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [
+            "Education by accredited schools and universities",
+            "Professional training and retraining"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s32",
+          "title": "Sluzby dodavane clenom",
+          "title_en": "Member Services",
+          "topics": ["exempt", "member_organizations"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s34",
+          "title": "Kulturne sluzby",
+          "title_en": "Cultural Services",
+          "topics": ["exempt", "culture"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s35",
+          "title": "Zhromazdovanie financnych prostriedkov",
+          "title_en": "Fundraising",
+          "topics": ["exempt", "fundraising"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s36",
+          "title": "Verejnopravne vysielanie",
+          "title_en": "Public Broadcasting",
+          "topics": ["exempt", "broadcasting"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s37",
+          "title": "Poistne sluzby",
+          "title_en": "Insurance Services",
+          "topics": ["exempt", "insurance"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [
+            "Insurance and reinsurance services",
+            "Related services by brokers and agents"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s38",
+          "title": "Dodanie a najom nehnutelnosti",
+          "title_en": "Real Estate Supply and Lease",
+          "topics": ["exempt", "real_estate", "option_to_tax"],
+          "rates": ["exempt"],
+          "kv_sections": ["A1", "A2"],
+          "key_provisions": [
+            "Building after 5 years from first use: exempt (option to tax available)",
+            "Land (not building land): exempt",
+            "Lease of real property: exempt (option to tax for B2B)",
+            "Building land and new buildings (< 5 years): always taxable at standard rate"
+          ],
+          "conditions": [],
+          "exceptions": [
+            "Hotel/accommodation: not exempt (5%)",
+            "Parking: not exempt (23%)",
+            "Storage: not exempt (23%)"
+          ]
+        },
+        {
+          "id": "s39",
+          "title": "Financne sluzby",
+          "title_en": "Financial Services",
+          "topics": ["exempt", "financial_services", "banking"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [
+            "Credit granting and negotiation",
+            "Deposit and current account operations",
+            "Payment and transfer operations",
+            "Foreign exchange",
+            "Securities supply"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s40",
+          "title": "Postove znamky a poplatky",
+          "title_en": "Postal Stamps",
+          "topics": ["exempt", "postal_stamps"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s41",
+          "title": "Loteriove operacie",
+          "title_en": "Lottery Operations",
+          "topics": ["exempt", "lottery"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    },
+    {
+      "part_number": 5,
+      "title": "Oslobodenie od dane s pravom na odpocitanie",
+      "title_en": "Exempt With Deduction Right",
+      "sections": [
+        {
+          "id": "s43",
+          "title": "Oslobodenie pri dodani tovaru do EU",
+          "title_en": "IC Supply Exemption",
+          "topics": ["exempt_with_deduction", "ic_supply", "zero_rate"],
+          "rates": ["0"],
+          "kv_sections": ["A1"],
+          "key_provisions": [
+            "Supply of goods dispatched to another EU MS",
+            "Customer must be VAT-registered in another MS",
+            "Must be reported in Suhrnny vykaz (EC Sales List, s 80)"
+          ],
+          "conditions": [
+            "Supplier must have customer VAT ID",
+            "Goods must physically leave Slovakia"
+          ],
+          "exceptions": []
+        },
+        {
+          "id": "s45",
+          "title": "Trojstranny obchod",
+          "title_en": "Triangulation",
+          "topics": ["triangulation", "three_party_trade"],
+          "rates": ["0"],
+          "kv_sections": ["A1"],
+          "key_provisions": [
+            "Simplification for three-party trade within EU"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s46",
+          "title": "Oslobodenie prepravnych sluzieb",
+          "title_en": "Transport Exemption",
+          "topics": ["exempt_with_deduction", "international_transport"],
+          "rates": ["0"],
+          "kv_sections": ["A1"],
+          "key_provisions": [
+            "International transport of goods and passengers"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s47",
+          "title": "Oslobodenie pri vyvoze",
+          "title_en": "Export Exemption",
+          "topics": ["exempt_with_deduction", "export", "zero_rate"],
+          "rates": ["0"],
+          "kv_sections": ["A1"],
+          "key_provisions": [
+            "Supply of goods dispatched outside EU",
+            "Proof of export required (customs declaration)"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s48",
+          "title": "Oslobodenie pri dovoze",
+          "title_en": "Import Exemption",
+          "topics": ["exempt", "import", "customs_warehouses"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": [
+            "Certain imports exempt (re-imports, diplomatic, etc.)"
+          ],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    },
+    {
+      "part_number": 6,
+      "title": "Odpocitanie dane",
+      "title_en": "Input VAT Deduction",
+      "sections": [
+        {
+          "id": "s49",
+          "title": "Odpocitanie dane platitelom",
+          "title_en": "Deduction by VAT Payer",
+          "topics": ["deduction", "input_vat"],
+          "rates": [],
+          "kv_sections": ["B1", "B2", "B3"],
+          "key_provisions": [
+            "VAT payer may deduct input VAT on goods/services used for taxable supplies",
+            "Deduction right arises when tax becomes chargeable",
+            "Must have valid invoice",
+            "Must be for business purpose"
+          ],
+          "conditions": [
+            "Only registered VAT payers (s 4 or s 5) can deduct",
+            "s 7a registrants: NO deduction right"
+          ],
+          "exceptions": []
+        },
+        {
+          "id": "s50",
+          "title": "Pomerne odpocitanie dane",
+          "title_en": "Proportional Deduction (Coefficient)",
+          "topics": ["coefficient", "partial_deduction", "mixed_use"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "When goods/services used for BOTH taxable and exempt supplies",
+            "Coefficient = taxable supplies / total supplies",
+            "Calculated annually, provisional during year",
+            "Year-end adjustment required",
+            "Rounded up to 2 decimal places"
+          ],
+          "conditions": [],
+          "exceptions": [
+            "Occasional financial transactions excluded from denominator",
+            "Occasional real estate transactions excluded",
+            "Self-supply excluded"
+          ],
+          "formula": "coefficient = taxable_turnover / (taxable_turnover + exempt_turnover); deductible_vat = input_vat * coefficient"
+        },
+        {
+          "id": "s51",
+          "title": "Uplatnenie prava na odpocitanie",
+          "title_en": "Application of Deduction",
+          "topics": ["deduction", "time_limits"],
+          "rates": [],
+          "kv_sections": ["B1", "B2", "B3"],
+          "key_provisions": [
+            "Exercised in VAT return for period when conditions met",
+            "If not exercised: can be claimed in any of following 12 months",
+            "Must have invoice at time of exercising",
+            "From 2025: IC acquisition deduction allowed without invoice if not received by filing deadline"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s53",
+          "title": "Uprava odpocitanej dane",
+          "title_en": "Adjustment of Deducted VAT",
+          "topics": ["adjustment", "change_of_use"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "If purpose changes after deduction, adjustment required",
+            "Taxable to exempt use: repay proportional VAT",
+            "Exempt to taxable use: additional deduction allowed"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s54",
+          "title": "Uprava odpocitanej dane pri investicnom majetku",
+          "title_en": "Capital Goods Adjustment",
+          "topics": ["capital_goods", "adjustment_period"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Movable capital goods (EUR 1,700+): 5-year adjustment period (from 2025)",
+            "Immovable property (buildings): 20-year adjustment period (from 2025)",
+            "Annual adjustment: 1/5 or 1/20 of original deduction",
+            "Triggered by change in proportion of taxable vs exempt use"
+          ],
+          "conditions": [],
+          "exceptions": [],
+          "thresholds": [
+            {
+              "type": "movable_capital_goods",
+              "amount": 1700,
+              "currency": "EUR",
+              "adjustment_years": 5
+            },
+            {
+              "type": "immovable_property",
+              "amount": null,
+              "currency": null,
+              "adjustment_years": 20
+            }
+          ]
+        },
+        {
+          "id": "s55",
+          "title": "Odpocitanie dane pri registracii",
+          "title_en": "Deduction on Registration",
+          "topics": ["registration", "deduction", "existing_stock"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Input VAT deduction on existing stock and assets at time of registration"
+          ],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    },
+    {
+      "part_number": 7,
+      "title": "Osobitne upravy",
+      "title_en": "Special Arrangements",
+      "sections": [
+        {
+          "id": "s65",
+          "title": "Cestovne kancelarie",
+          "title_en": "Travel Agencies",
+          "topics": ["margin_scheme", "travel"],
+          "rates": ["standard_on_margin"],
+          "kv_sections": ["D2"],
+          "key_provisions": ["Margin scheme for travel services"],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s66",
+          "title": "Umenie a zbierky",
+          "title_en": "Art Works and Collectibles",
+          "topics": ["margin_scheme", "second_hand"],
+          "rates": ["standard_on_margin"],
+          "kv_sections": ["D2"],
+          "key_provisions": ["Margin scheme for second-hand goods, art, collectibles"],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s67",
+          "title": "Investicne zlato",
+          "title_en": "Investment Gold",
+          "topics": ["investment_gold", "exempt"],
+          "rates": ["exempt"],
+          "kv_sections": [],
+          "key_provisions": ["Investment gold exempt with option to tax"],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s68d",
+          "title": "Osobitna uprava na zaklade prijatia platby",
+          "title_en": "Cash Accounting Scheme",
+          "topics": ["cash_accounting", "payment_based"],
+          "rates": [],
+          "kv_sections": ["all"],
+          "key_provisions": [
+            "Available for turnover up to EUR 100,000",
+            "Tax chargeable when payment received, not when invoice issued",
+            "Customer deduction right also shifts to payment date"
+          ],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    },
+    {
+      "part_number": 8,
+      "title": "Spravne ustanovenia",
+      "title_en": "Administrative Provisions",
+      "sections": [
+        {
+          "id": "s69",
+          "title": "Osoby povinne platit dan",
+          "title_en": "Persons Liable to Pay Tax (Reverse Charge)",
+          "topics": ["reverse_charge", "self_assessment", "domestic", "cross_border"],
+          "rates": ["self_assessed_at_applicable_rate"],
+          "kv_sections": ["A2", "B1"],
+          "key_provisions": [
+            "s 69 ods. 1: General rule - supplier liable to pay tax",
+            "s 69 ods. 2: Cross-border B2B services - recipient liable (self-assessment)",
+            "s 69 ods. 3: IC acquisition - acquirer liable (self-assessment)",
+            "s 69 ods. 6: Supply by foreign person in SK - domestic recipient liable",
+            "s 69 ods. 12: Domestic reverse charge for specific transactions"
+          ],
+          "conditions": [],
+          "exceptions": [],
+          "subsections": [
+            {
+              "id": "s69_ods1",
+              "content": "General rule: supplier is liable to pay tax"
+            },
+            {
+              "id": "s69_ods2",
+              "content": "Cross-border B2B services: recipient self-assesses Slovak VAT"
+            },
+            {
+              "id": "s69_ods3",
+              "content": "IC acquisition: acquirer self-assesses VAT"
+            },
+            {
+              "id": "s69_ods6",
+              "content": "Foreign supplier in SK: domestic VAT payer self-assesses"
+            },
+            {
+              "id": "s69_ods12",
+              "content": "Domestic reverse charge (tuzemske samozdanenie)"
+            }
+          ],
+          "domestic_reverse_charge_categories": [
+            {
+              "category": "construction_services",
+              "description": "Construction work CPA codes 41-43 between VAT payers",
+              "threshold": null
+            },
+            {
+              "category": "real_estate_option_to_tax",
+              "description": "Supply of real property where supplier opted to tax (s 38)",
+              "threshold": null
+            },
+            {
+              "category": "metal_waste_scrap",
+              "description": "Supply of metal waste and scrap",
+              "threshold": null
+            },
+            {
+              "category": "emission_quotas",
+              "description": "Supply of emission quotas",
+              "threshold": null
+            },
+            {
+              "category": "agricultural_products",
+              "description": "Selected agricultural products",
+              "threshold": null
+            },
+            {
+              "category": "electronics",
+              "description": "Integrated circuits, mobile phones, tablets, laptops",
+              "threshold": 5000,
+              "threshold_currency": "EUR",
+              "threshold_note": "Per transaction"
+            }
+          ]
+        },
+        {
+          "id": "s70",
+          "title": "Evidencne povinnosti",
+          "title_en": "Record Keeping",
+          "topics": ["records", "documentation"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Records kept for 10 years",
+            "Must enable correct determination of tax"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s71",
+          "title": "Povinnost vyhotovit fakturu",
+          "title_en": "Invoice Obligation",
+          "topics": ["invoicing", "obligation"],
+          "rates": [],
+          "kv_sections": ["all"],
+          "key_provisions": [
+            "Invoice required for taxable supply to another taxable person"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s72",
+          "title": "Nahradne udaje faktury",
+          "title_en": "Invoice Requirements",
+          "topics": ["invoicing", "mandatory_elements"],
+          "rates": [],
+          "kv_sections": ["all"],
+          "key_provisions": [
+            "Names, VAT IDs, description, amounts, rate, date required"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s73",
+          "title": "Zjednodusena faktura",
+          "title_en": "Simplified Invoice",
+          "topics": ["invoicing", "simplified"],
+          "rates": [],
+          "kv_sections": ["B3"],
+          "key_provisions": [
+            "From 2025: max EUR 400 including VAT (reduced from EUR 1,000-1,600)"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s77",
+          "title": "Zdanovacie obdobie",
+          "title_en": "Tax Period",
+          "topics": ["tax_period", "monthly", "quarterly"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Standard: calendar month",
+            "Quarterly: if turnover < EUR 100,000 in preceding 12 months",
+            "New registrants: monthly for first 12 months"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s78",
+          "title": "Danove priznanie a splatnost dane",
+          "title_en": "VAT Return and Payment",
+          "topics": ["vat_return", "filing", "payment"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Filed by 25th of month following tax period",
+            "Payment due by same date",
+            "Filed exclusively electronically",
+            "Must include total output VAT, total input VAT, net liability or excess"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s78a",
+          "title": "Kontrolny vykaz",
+          "title_en": "Control Statement (KV DPH)",
+          "topics": ["kv_dph", "control_statement", "anti_fraud"],
+          "rates": [],
+          "kv_sections": ["A1", "A2", "B1", "B2", "B3", "C1", "C2", "D1", "D2"],
+          "key_provisions": [
+            "Filed with each VAT return (same deadline)",
+            "Contains detailed invoice-level data",
+            "Filed exclusively electronically"
+          ],
+          "conditions": [],
+          "exceptions": [],
+          "kv_section_definitions": [
+            {
+              "section": "A1",
+              "title": "Issued invoices - standard domestic supply",
+              "description": "Supplier issues invoice with VAT to domestic VAT payer",
+              "direction": "output",
+              "required_data": ["customer_vat_id", "invoice_number", "invoice_date", "tax_base_per_rate", "vat_amount_per_rate", "total_amount"]
+            },
+            {
+              "section": "A2",
+              "title": "Issued invoices - domestic reverse charge",
+              "description": "Supplier issues invoice without VAT under s 69 ods. 12",
+              "direction": "output",
+              "required_data": ["customer_vat_id", "invoice_number", "invoice_date", "tax_base", "total_amount"]
+            },
+            {
+              "section": "B1",
+              "title": "Received invoices - self-assessment",
+              "description": "Recipient self-assesses VAT (IC acquisition, services from abroad, domestic RC)",
+              "direction": "input",
+              "required_data": ["supplier_vat_id", "invoice_number", "invoice_date", "tax_base", "vat_amount"]
+            },
+            {
+              "section": "B2",
+              "title": "Received invoices - input VAT deduction",
+              "description": "Recipient claims deduction from domestic supplier invoice with VAT",
+              "direction": "input",
+              "required_data": ["supplier_vat_id", "invoice_number", "invoice_date", "tax_base", "vat_amount", "deduction_proportion"]
+            },
+            {
+              "section": "B3",
+              "title": "Other input documents - summarized",
+              "description": "Cash register receipts, fuel receipts, small documents without full invoice data",
+              "direction": "input",
+              "required_data": ["total_tax_base", "total_vat_amount"]
+            },
+            {
+              "section": "C1",
+              "title": "Corrections to issued invoices",
+              "description": "Credit/debit notes correcting A1/A2 invoices",
+              "direction": "output",
+              "required_data": ["customer_vat_id", "original_invoice_number", "correction_invoice_number", "correction_date", "correction_amount"]
+            },
+            {
+              "section": "C2",
+              "title": "Corrections to received invoices",
+              "description": "Credit/debit notes correcting B1/B2 invoices and simplified invoices",
+              "direction": "input",
+              "required_data": ["supplier_vat_id", "original_invoice_number", "correction_invoice_number", "correction_date", "correction_amount"]
+            },
+            {
+              "section": "D1",
+              "title": "ERP (cash register) sales",
+              "description": "Sales recorded through electronic cash register",
+              "direction": "output",
+              "required_data": ["total_amount_per_rate"]
+            },
+            {
+              "section": "D2",
+              "title": "Other output without full invoice",
+              "description": "Sales to non-taxable persons, travel tickets, fuel pump documents, highway vignettes",
+              "direction": "output",
+              "required_data": ["total_amount_per_rate"]
+            }
+          ]
+        },
+        {
+          "id": "s79",
+          "title": "Nadmerny odpocet",
+          "title_en": "Excess Deduction",
+          "topics": ["refund", "excess_deduction"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "If input VAT > output VAT: excess deduction",
+            "Refunded within 30 days after filing deadline",
+            "Can be carried forward to offset future liability"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s80",
+          "title": "Suhrnny vykaz",
+          "title_en": "EC Sales List (Recapitulative Statement)",
+          "topics": ["ec_sales_list", "ic_supply_reporting"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Reports IC supplies to VAT-registered persons in other EU MS",
+            "Filed monthly (or quarterly if supplies < EUR 50,000/quarter)",
+            "Deadline: 25th of month following reporting period",
+            "Contains: customer VAT ID per EU MS, total value of supplies"
+          ],
+          "conditions": [],
+          "exceptions": []
+        },
+        {
+          "id": "s81",
+          "title": "Zrusenie registracie",
+          "title_en": "Deregistration",
+          "topics": ["deregistration"],
+          "rates": [],
+          "kv_sections": [],
+          "key_provisions": [
+            "Voluntary: if turnover below threshold for 12 consecutive months",
+            "Mandatory: cessation of economic activity",
+            "On deregistration: output VAT due on remaining assets/stock"
+          ],
+          "conditions": [],
+          "exceptions": []
+        }
+      ]
+    }
+  ],
+  "annexes": [
+    {
+      "id": "priloha_7",
+      "title": "Zoznam tovarov",
+      "title_en": "List of Goods with Reduced Rates",
+      "points": [
+        {
+          "point": 1,
+          "rate": 19,
+          "title": "Goods at 19% rate",
+          "categories": [
+            {
+              "category": "food_broad",
+              "items": [
+                "Imported and wild meat varieties",
+                "Marine fish and seafood",
+                "Cream, processed cheeses, eggs",
+                "Vegetables (not in 5% list), fruits, nuts, grains",
+                "Oils and fats",
+                "Coffee, tea, spices, cocoa",
+                "Chocolate, confectionery, sweets",
+                "Bread (not in 5% list), pasta, baked goods",
+                "Prepared and preserved foods (canned goods, instant meals)",
+                "Non-alcoholic beverages",
+                "Fruit juices with added sugar",
+                "Salt, vinegar, sauces, condiments"
+              ]
+            },
+            {
+              "category": "medicines_medical",
+              "items": [
+                "Medicines",
+                "Selected medical devices"
+              ]
+            },
+            {
+              "category": "energy",
+              "items": [
+                "Electricity",
+                "Gas and heating"
+              ]
+            }
+          ]
+        },
+        {
+          "point": 2,
+          "rate": 5,
+          "title": "Essential goods at 5% rate",
+          "categories": [
+            {
+              "category": "essential_food",
+              "items": [
+                "Domestic beef, fresh or chilled",
+                "Domestic pork, fresh or chilled",
+                "Domestic sheep and goat meat, fresh or chilled",
+                "Domestic poultry meat, fresh or chilled",
+                "Freshwater fish and fillets",
+                "Unprocessed milk",
+                "Yogurt and fermented dairy products",
+                "Butter",
+                "Sheep bryndza cheese",
+                "Fresh vegetables (select domestic): potatoes, carrots, onions, cabbage, tomatoes",
+                "Fresh fruit (select domestic): apples, pears, cherries, plums, strawberries",
+                "Honey",
+                "Fresh bread and basic baked goods (without additives)",
+                "Fruit juices without added sugar (100% juice)"
+              ]
+            }
+          ]
+        },
+        {
+          "point": 3,
+          "rate": 5,
+          "title": "Books and printed materials at 5% rate",
+          "categories": [
+            {
+              "category": "books_periodicals",
+              "items": [
+                "Books and printed periodicals (advertising < 50%, erotic content < 10%)",
+                "E-books and audiobooks (from 2025)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "priloha_7a",
+      "title": "Zoznam sluzieb",
+      "title_en": "List of Services with Reduced Rates",
+      "points": [
+        {
+          "point": 1,
+          "rate": 19,
+          "title": "Services at 19% rate",
+          "categories": [
+            {
+              "category": "restaurant_catering",
+              "items": [
+                "Restaurant and catering services - serving food and non-alcoholic beverages",
+                "Excludes: alcoholic beverages (> 0.5% ABV) at 23%",
+                "Note: delivery/takeaway food services at 19%, but delivery platform fee at 23%"
+              ]
+            }
+          ]
+        },
+        {
+          "point": 2,
+          "rate": 5,
+          "title": "Services at 5% rate",
+          "categories": [
+            {
+              "category": "accommodation",
+              "items": [
+                "Hotels, guesthouses, hostels, camping"
+              ]
+            },
+            {
+              "category": "sports",
+              "items": [
+                "Sports event admission fees",
+                "Fitness center and gym access fees"
+              ]
+            },
+            {
+              "category": "social_enterprise",
+              "items": [
+                "Goods and services by social enterprises (100% profit reinvestment)"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "thresholds": [
+    {
+      "id": "mandatory_registration_annual",
+      "description": "Mandatory VAT registration - annual turnover",
+      "amount": 50000,
+      "currency": "EUR",
+      "period": "calendar_year",
+      "reference": "s 4 ods. 1",
+      "valid_from": "2025-01-01",
+      "notes": "From 2025: per calendar year (not rolling 12 months)"
+    },
+    {
+      "id": "mandatory_registration_single",
+      "description": "Mandatory VAT registration - single supply",
+      "amount": 62500,
+      "currency": "EUR",
+      "period": "single_transaction",
+      "reference": "s 4 ods. 1",
+      "valid_from": "2025-01-01"
+    },
+    {
+      "id": "ic_acquisition_registration",
+      "description": "IC acquisition registration threshold",
+      "amount": 14000,
+      "currency": "EUR",
+      "period": "calendar_year",
+      "reference": "s 11"
+    },
+    {
+      "id": "quarterly_filing",
+      "description": "Quarterly VAT filing eligibility",
+      "amount": 100000,
+      "currency": "EUR",
+      "period": "preceding_12_months",
+      "reference": "s 77",
+      "notes": "Below this = quarterly allowed; above = monthly required"
+    },
+    {
+      "id": "cash_accounting",
+      "description": "Cash accounting scheme eligibility",
+      "amount": 100000,
+      "currency": "EUR",
+      "period": "preceding_12_months",
+      "reference": "s 68d"
+    },
+    {
+      "id": "simplified_invoice",
+      "description": "Simplified invoice maximum",
+      "amount": 400,
+      "currency": "EUR",
+      "period": "per_invoice",
+      "reference": "s 73",
+      "valid_from": "2025-01-01",
+      "notes": "Including VAT. Reduced from EUR 1,000-1,600"
+    },
+    {
+      "id": "capital_goods_movable",
+      "description": "Capital goods adjustment - movable threshold",
+      "amount": 1700,
+      "currency": "EUR",
+      "period": "per_item",
+      "reference": "s 54d",
+      "valid_from": "2025-01-01",
+      "adjustment_years": 5
+    },
+    {
+      "id": "capital_goods_immovable",
+      "description": "Capital goods adjustment - immovable period",
+      "amount": null,
+      "currency": null,
+      "period": "per_property",
+      "reference": "s 54",
+      "valid_from": "2025-01-01",
+      "adjustment_years": 20
+    },
+    {
+      "id": "tax_free_shopping",
+      "description": "Tax-free shopping minimum purchase",
+      "amount": 100,
+      "currency": "EUR",
+      "period": "per_transaction",
+      "reference": "s 59"
+    },
+    {
+      "id": "domestic_rc_electronics",
+      "description": "Domestic reverse charge threshold for electronics",
+      "amount": 5000,
+      "currency": "EUR",
+      "period": "per_transaction",
+      "reference": "s 69 ods. 12"
+    },
+    {
+      "id": "distance_sales_eu",
+      "description": "EU distance sales threshold",
+      "amount": 10000,
+      "currency": "EUR",
+      "period": "calendar_year",
+      "reference": "s 14"
+    },
+    {
+      "id": "ec_sales_list_quarterly",
+      "description": "EC Sales List quarterly filing threshold",
+      "amount": 50000,
+      "currency": "EUR",
+      "period": "per_quarter",
+      "reference": "s 80",
+      "notes": "Below = quarterly allowed; above = monthly required"
+    }
+  ],
+  "rate_determination_logic": {
+    "description": "Rate selection priority for the deterministic engine",
+    "rules": [
+      {
+        "priority": 1,
+        "condition": "Transaction is exempt without deduction (ss 28-41)",
+        "result": "EXEMPT_NO_DEDUCTION",
+        "rate": null
+      },
+      {
+        "priority": 2,
+        "condition": "Transaction is exempt with deduction (ss 43-48): export, IC supply, international transport",
+        "result": "ZERO_RATE",
+        "rate": 0
+      },
+      {
+        "priority": 3,
+        "condition": "Goods in Annex 7 points 2-3 OR services in Annex 7a point 2",
+        "result": "REDUCED_5",
+        "rate": 5
+      },
+      {
+        "priority": 4,
+        "condition": "Goods in Annex 7 point 1 OR services in Annex 7a point 1",
+        "result": "REDUCED_19",
+        "rate": 19
+      },
+      {
+        "priority": 5,
+        "condition": "All other taxable goods and services",
+        "result": "STANDARD",
+        "rate": 23
+      }
+    ]
+  },
+  "kv_dph_mapping": {
+    "description": "KV DPH section mapping for transaction types",
+    "mappings": [
+      {
+        "transaction_type": "standard_domestic_sale_to_vat_payer",
+        "kv_section": "A1",
+        "direction": "output"
+      },
+      {
+        "transaction_type": "domestic_reverse_charge_sale",
+        "kv_section": "A2",
+        "direction": "output"
+      },
+      {
+        "transaction_type": "ic_acquisition_self_assessed",
+        "kv_section": "B1",
+        "direction": "input"
+      },
+      {
+        "transaction_type": "services_from_abroad_self_assessed",
+        "kv_section": "B1",
+        "direction": "input"
+      },
+      {
+        "transaction_type": "domestic_reverse_charge_received",
+        "kv_section": "B1",
+        "direction": "input"
+      },
+      {
+        "transaction_type": "domestic_purchase_with_deduction",
+        "kv_section": "B2",
+        "direction": "input"
+      },
+      {
+        "transaction_type": "small_document_cash_register_receipt",
+        "kv_section": "B3",
+        "direction": "input"
+      },
+      {
+        "transaction_type": "credit_debit_note_on_issued_invoice",
+        "kv_section": "C1",
+        "direction": "output"
+      },
+      {
+        "transaction_type": "credit_debit_note_on_received_invoice",
+        "kv_section": "C2",
+        "direction": "input"
+      },
+      {
+        "transaction_type": "cash_register_sale",
+        "kv_section": "D1",
+        "direction": "output"
+      },
+      {
+        "transaction_type": "sale_to_non_vat_person",
+        "kv_section": "D2",
+        "direction": "output"
+      }
+    ]
+  },
+  "vat_treatments": [
+    {
+      "id": "standard_output_vat",
+      "description": "Supplier charges VAT on invoice",
+      "reference": "s 69 ods. 1",
+      "supplier_charges_vat": true,
+      "recipient_self_assesses": false
+    },
+    {
+      "id": "reverse_charge_domestic",
+      "description": "Domestic reverse charge (s 69 ods. 12)",
+      "reference": "s 69 ods. 12",
+      "supplier_charges_vat": false,
+      "recipient_self_assesses": true,
+      "applicable_categories": ["construction_services", "real_estate_option_to_tax", "metal_waste_scrap", "emission_quotas", "agricultural_products", "electronics_above_threshold"]
+    },
+    {
+      "id": "reverse_charge_cross_border_services",
+      "description": "Cross-border B2B services (s 69 ods. 2)",
+      "reference": "s 69 ods. 2",
+      "supplier_charges_vat": false,
+      "recipient_self_assesses": true
+    },
+    {
+      "id": "reverse_charge_ic_acquisition",
+      "description": "IC acquisition (s 69 ods. 3)",
+      "reference": "s 69 ods. 3",
+      "supplier_charges_vat": false,
+      "recipient_self_assesses": true
+    },
+    {
+      "id": "reverse_charge_foreign_supplier",
+      "description": "Foreign supplier in SK (s 69 ods. 6)",
+      "reference": "s 69 ods. 6",
+      "supplier_charges_vat": false,
+      "recipient_self_assesses": true
+    },
+    {
+      "id": "exempt_no_deduction",
+      "description": "Exempt without deduction right (ss 28-41)",
+      "reference": "ss 28-41",
+      "supplier_charges_vat": false,
+      "recipient_self_assesses": false,
+      "deduction_right": false
+    },
+    {
+      "id": "exempt_with_deduction_export",
+      "description": "Export exemption with deduction (s 47)",
+      "reference": "s 47",
+      "supplier_charges_vat": false,
+      "recipient_self_assesses": false,
+      "deduction_right": true,
+      "rate": 0
+    },
+    {
+      "id": "exempt_with_deduction_ic_supply",
+      "description": "IC supply exemption with deduction (s 43)",
+      "reference": "s 43",
+      "supplier_charges_vat": false,
+      "recipient_self_assesses": false,
+      "deduction_right": true,
+      "rate": 0
+    },
+    {
+      "id": "margin_scheme_travel",
+      "description": "Margin scheme for travel agencies (s 65)",
+      "reference": "s 65",
+      "supplier_charges_vat": true,
+      "recipient_self_assesses": false,
+      "base": "margin_only"
+    },
+    {
+      "id": "margin_scheme_goods",
+      "description": "Margin scheme for second-hand goods (s 66)",
+      "reference": "s 66",
+      "supplier_charges_vat": true,
+      "recipient_self_assesses": false,
+      "base": "margin_only"
+    },
+    {
+      "id": "cash_accounting",
+      "description": "Cash accounting scheme (s 68d)",
+      "reference": "s 68d",
+      "supplier_charges_vat": true,
+      "recipient_self_assesses": false,
+      "tax_point_override": "payment_date"
+    }
+  ],
+  "formulas": {
+    "vat_calculation": {
+      "forward": "vat_amount = tax_base * rate / 100",
+      "total": "total = tax_base + vat_amount",
+      "reverse": "tax_base = total / (1 + rate / 100)",
+      "reverse_vat": "vat_amount = total - tax_base"
+    },
+    "coefficient": {
+      "calculation": "coefficient = taxable_turnover / (taxable_turnover + exempt_turnover)",
+      "deductible": "deductible_vat = input_vat * coefficient",
+      "rounding": "round_up_to_2_decimal_places"
+    },
+    "capital_goods_adjustment": {
+      "movable_annual": "adjustment = original_vat * (1/5) * (new_proportion - original_proportion)",
+      "immovable_annual": "adjustment = original_vat * (1/20) * (new_proportion - original_proportion)"
+    }
+  },
+  "filing_deadlines": {
+    "vat_return": {
+      "deadline": "25th of month following tax period",
+      "method": "electronic_only",
+      "portal": "financnasprava.sk"
+    },
+    "kv_dph": {
+      "deadline": "25th of month following tax period (same as VAT return)",
+      "method": "electronic_only",
+      "portal": "financnasprava.sk"
+    },
+    "ec_sales_list": {
+      "deadline": "25th of month following reporting period",
+      "method": "electronic_only",
+      "frequency_monthly_if": "IC supplies > EUR 50,000 per quarter",
+      "frequency_quarterly_if": "IC supplies <= EUR 50,000 per quarter"
+    },
+    "registration_application": {
+      "deadline": "5 working days after exceeding threshold"
+    }
+  },
+  "penalties": {
+    "late_filing": {
+      "range": "EUR 30 to EUR 16,000",
+      "exceptional": "EUR 32,000"
+    },
+    "late_payment": {
+      "interest_rate": "4x Slovak National Bank rate",
+      "minimum_annual": "15%"
+    }
+  }
+}

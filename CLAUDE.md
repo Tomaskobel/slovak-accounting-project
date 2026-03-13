@@ -481,16 +481,24 @@ That is a much better problem to have.
 - Architecture plan finalized (2026-03-12)
 - **Stage 1 scope defined (2026-03-13):** Posting Rules (Graph 1) + full DPH (Graph 2) + deterministic engine. See `docs/stage_1_scope.md`
 - Regulatory sources inventory complete — see `docs/regulatory_sources.md`
+- **Stage 1 source extraction complete (2026-03-13):**
+  - Gap analysis: `docs/analysis/stage_1_gap_analysis.md` — Graph 1 fully covered, Graph 2 mostly covered (2 minor gaps)
+  - 10 source files in `docs/sources/` (5 pairs of .md + .json, 428K total):
+    - `chart_of_accounts` — 236 prescribed accounts across 10 classes (0-9)
+    - `postupy_uctovania` — Opatrenie MF SR 23054/2002-92, all booking rules §1-§88
+    - `dph_law` — Act 222/2004 Z.z., all VAT rules with 2025 rates (23%/19%/5%)
+    - `kv_dph_guidelines` — KV DPH section classification (A1/A2/B1/B2/B3/C1/C2/D1/D2)
+    - `practical_examples` — 42 worked examples as future test fixtures
+  - **Supabase:** project `anhowyrefeyxkaouwmjh` (slovak-accounting, eu-central-1), `regulatory_sections` table with pgvector
 - No code written yet
-- Source material collection not started
 
 ## Next Steps
 
-### Step 1: Source material collection
-1. Download Postupy účtovania (MF SR 23054/2002-92 with all amendments)
-2. Download DPH law (222/2004 Z.z. current consolidated version)
-3. Download Finančná správa methodical guidelines for KV DPH
-4. Find a Slovak accountant willing to validate
+### Step 1: Find a Slovak accountant willing to validate
+Critical dependency — accountant validates every rule before production.
+
+### Step 2: Extract real rule patterns from source material
+Read the actual Postupy účtovania for 10 common s.r.o. transaction types. Extract the real rule logic — what conditions, what accounts, what amounts, what edge cases. Let the schemas emerge from what's actually in the law.
 
 ### Step 2: Extract real rule patterns from source material
 Read the actual Postupy účtovania for 10 common s.r.o. transaction types. Extract the real rule logic — what conditions, what accounts, what amounts, what edge cases. Let the schemas emerge from what's actually in the law.

@@ -1,0 +1,1085 @@
+{
+  "source": "ako-uctovat.sk, danovecentrum.sk, podnikajte.sk, humanet.sk, financnasprava.sk, uctuj.sk, zrozumitelne-uctovnictvo.com, fintoro.sk",
+  "title": "Practical Booking Examples (Predkontacie) for s.r.o.",
+  "effective_date": "2025-01-01",
+  "dph_rates": {
+    "standard": 23,
+    "reduced_I": 19,
+    "reduced_II": 5
+  },
+  "examples": [
+    {
+      "id": "purchase_material_domestic_dph",
+      "category": "purchase",
+      "subcategory": "material",
+      "title_sk": "Nakup materialu od tuzemskeho dodavatela s DPH",
+      "title_en": "Purchase of material from domestic supplier with VAT",
+      "scenario": {
+        "invoice_total": 1230.00,
+        "tax_base": 1000.00,
+        "vat_rate": 23,
+        "vat_amount": 230.00,
+        "supplier_country": "SK",
+        "supplier_vat_payer": true,
+        "buyer_vat_payer": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Prijatie materialu na sklad", "description_en": "Material received to stock", "debit": "112", "credit": "321", "amount": 1000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vstupe", "description_en": "Input VAT", "debit": "343", "credit": "321", "amount": 230.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "standard_input_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["Postupy uctovania SS 30-32", "DPH law SS 49-51"],
+      "notes": ["Alternative: use account 501 instead of 112 if material goes directly to consumption (method B)"]
+    },
+    {
+      "id": "purchase_material_domestic_method_b",
+      "category": "purchase",
+      "subcategory": "material",
+      "title_sk": "Nakup materialu - priama spotreba (sposob B)",
+      "title_en": "Purchase of material - direct consumption (method B)",
+      "scenario": {
+        "invoice_total": 1230.00,
+        "tax_base": 1000.00,
+        "vat_rate": 23,
+        "vat_amount": 230.00,
+        "supplier_country": "SK",
+        "supplier_vat_payer": true,
+        "buyer_vat_payer": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Spotreba materialu", "description_en": "Material consumption", "debit": "501", "credit": "321", "amount": 1000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vstupe", "description_en": "Input VAT", "debit": "343", "credit": "321", "amount": 230.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "standard_input_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["Postupy uctovania SS 30-32", "DPH law SS 49-51"],
+      "notes": []
+    },
+    {
+      "id": "purchase_material_eu_ic_acquisition",
+      "category": "purchase",
+      "subcategory": "material",
+      "title_sk": "Nakup materialu z EU - nadobudnutie tovaru",
+      "title_en": "Purchase of material from EU - intra-community acquisition",
+      "scenario": {
+        "invoice_total": 2500.00,
+        "tax_base": 2500.00,
+        "vat_rate": 23,
+        "vat_amount": 575.00,
+        "supplier_country": "DE",
+        "supplier_vat_payer": true,
+        "buyer_vat_payer": true,
+        "reverse_charge": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Prijatie materialu na sklad", "description_en": "Material received to stock", "debit": "112", "credit": "321", "amount": 2500.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Samozdanenie DPH - danova povinnost", "description_en": "Self-assessed VAT - output liability", "debit": "349", "credit": "343", "amount": 575.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Samozdanenie DPH - narok na odpocet", "description_en": "Self-assessed VAT - input deduction", "debit": "343", "credit": "349", "amount": 575.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "ic_acquisition_self_assessed",
+      "kv_section": "B1",
+      "dph_return_lines": ["07", "20"],
+      "legal_source": ["DPH law SS 11", "DPH law SS 69 ods. 6"],
+      "notes": ["Net DPH effect = 0 if fully deductible", "Must have valid EU VAT ID of supplier"]
+    },
+    {
+      "id": "purchase_material_import_non_eu",
+      "category": "purchase",
+      "subcategory": "material",
+      "title_sk": "Dovoz materialu z tretej krajiny",
+      "title_en": "Import of material from non-EU country",
+      "scenario": {
+        "customs_value": 5000.00,
+        "customs_duty_rate": 4,
+        "customs_duty": 200.00,
+        "tax_base": 5200.00,
+        "vat_rate": 23,
+        "vat_amount": 1196.00,
+        "supplier_country": "CN"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Material na sklad (colna hodnota)", "description_en": "Material to stock (customs value)", "debit": "112", "credit": "321", "amount": 5000.00, "amount_expression": "customs_value"},
+        {"line": 2, "description_sk": "Clo", "description_en": "Customs duty", "debit": "112", "credit": "379", "amount": 200.00, "amount_expression": "customs_duty"},
+        {"line": 3, "description_sk": "DPH pri dovoze", "description_en": "Import VAT", "debit": "343", "credit": "379", "amount": 1196.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "import_vat",
+      "kv_section": null,
+      "dph_return_lines": ["22", "20"],
+      "legal_source": ["DPH law SS 20-21", "DPH law SS 49"],
+      "notes": ["DPH base = customs value + customs duty", "Not reported in KV DPH (customs declaration)"]
+    },
+    {
+      "id": "purchase_material_non_vat_payer",
+      "category": "purchase",
+      "subcategory": "material",
+      "title_sk": "Nakup materialu - neplatitel DPH",
+      "title_en": "Purchase of material - non-VAT payer",
+      "scenario": {
+        "invoice_total": 615.00,
+        "tax_base": 500.00,
+        "vat_rate": 23,
+        "vat_amount": 115.00,
+        "supplier_country": "SK",
+        "buyer_vat_payer": false
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Material na sklad (celkova suma s DPH)", "description_en": "Material to stock (full amount incl. VAT)", "debit": "112", "credit": "321", "amount": 615.00, "amount_expression": "invoice_total"}
+      ],
+      "dph_treatment": "non_deductible",
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["Postupy uctovania SS 30-32"],
+      "notes": ["Non-VAT payer cannot deduct DPH", "Full amount including DPH is cost of material"]
+    },
+    {
+      "id": "purchase_service_domestic_dph",
+      "category": "purchase",
+      "subcategory": "service",
+      "title_sk": "Nakup sluzieb od tuzemskeho dodavatela s DPH",
+      "title_en": "Purchase of services from domestic supplier with VAT",
+      "scenario": {
+        "invoice_total": 738.00,
+        "tax_base": 600.00,
+        "vat_rate": 23,
+        "vat_amount": 138.00,
+        "supplier_country": "SK",
+        "service_type": "IT_services"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Ostatne sluzby", "description_en": "Service cost", "debit": "518", "credit": "321", "amount": 600.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vstupe", "description_en": "Input VAT", "debit": "343", "credit": "321", "amount": 138.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "standard_input_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["Postupy uctovania (ucet 518)", "DPH law SS 49"],
+      "notes": []
+    },
+    {
+      "id": "purchase_service_eu_reverse_charge",
+      "category": "purchase",
+      "subcategory": "service",
+      "title_sk": "Nakup sluzieb z EU - reverse charge",
+      "title_en": "Purchase of services from EU - reverse charge",
+      "scenario": {
+        "invoice_total": 3000.00,
+        "tax_base": 3000.00,
+        "vat_rate": 23,
+        "vat_amount": 690.00,
+        "supplier_country": "AT",
+        "reverse_charge": true,
+        "service_type": "consulting"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Naklady na sluzby", "description_en": "Service cost", "debit": "518", "credit": "321", "amount": 3000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Samozdanenie DPH - danova povinnost", "description_en": "Self-assessed VAT - output", "debit": "349", "credit": "343", "amount": 690.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Samozdanenie DPH - narok na odpocet", "description_en": "Self-assessed VAT - input", "debit": "343", "credit": "349", "amount": 690.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "reverse_charge_eu_service",
+      "kv_section": "B1",
+      "dph_return_lines": ["12", "20"],
+      "legal_source": ["DPH law SS 15 ods. 1", "DPH law SS 69 ods. 3"],
+      "notes": ["Place of supply = Slovakia (B2B rule)", "Net DPH effect = 0 if fully deductible"]
+    },
+    {
+      "id": "purchase_service_non_eu",
+      "category": "purchase",
+      "subcategory": "service",
+      "title_sk": "Nakup sluzieb z tretej krajiny",
+      "title_en": "Purchase of services from non-EU country",
+      "scenario": {
+        "invoice_total": 1380.00,
+        "tax_base": 1380.00,
+        "vat_rate": 23,
+        "vat_amount": 317.40,
+        "supplier_country": "US",
+        "reverse_charge": true,
+        "service_type": "software_license"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Naklady na sluzby", "description_en": "Service cost", "debit": "518", "credit": "321", "amount": 1380.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Samozdanenie DPH - danova povinnost", "description_en": "Self-assessed VAT - output", "debit": "349", "credit": "343", "amount": 317.40, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Samozdanenie DPH - narok na odpocet", "description_en": "Self-assessed VAT - input", "debit": "343", "credit": "349", "amount": 317.40, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "reverse_charge_non_eu_service",
+      "kv_section": "B1",
+      "dph_return_lines": ["12", "20"],
+      "legal_source": ["DPH law SS 15 ods. 1", "DPH law SS 69 ods. 3"],
+      "notes": ["Same mechanism as EU services", "ECB exchange rate applies if invoiced in foreign currency"]
+    },
+    {
+      "id": "purchase_goods_resale_domestic",
+      "category": "purchase",
+      "subcategory": "goods_resale",
+      "title_sk": "Nakup tovaru na predaj od tuzemskeho dodavatela",
+      "title_en": "Purchase of goods for resale from domestic supplier",
+      "scenario": {
+        "invoice_total": 6150.00,
+        "tax_base": 5000.00,
+        "vat_rate": 23,
+        "vat_amount": 1150.00,
+        "supplier_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Tovar na sklade", "description_en": "Goods received to stock", "debit": "132", "credit": "321", "amount": 5000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vstupe", "description_en": "Input VAT", "debit": "343", "credit": "321", "amount": 1150.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "standard_input_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["Postupy uctovania SS 35-37"],
+      "notes": ["Method A uses 132 (stock). Method B uses 504 (direct expense)."]
+    },
+    {
+      "id": "purchase_goods_resale_eu",
+      "category": "purchase",
+      "subcategory": "goods_resale",
+      "title_sk": "Nakup tovaru na predaj z EU",
+      "title_en": "Purchase of goods for resale from EU supplier",
+      "scenario": {
+        "invoice_total": 8000.00,
+        "tax_base": 8000.00,
+        "vat_rate": 23,
+        "vat_amount": 1840.00,
+        "supplier_country": "PL",
+        "reverse_charge": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Tovar na sklade", "description_en": "Goods to stock", "debit": "132", "credit": "321", "amount": 8000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Samozdanenie DPH - danova povinnost", "description_en": "Self-assessed VAT - output", "debit": "349", "credit": "343", "amount": 1840.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Samozdanenie DPH - narok na odpocet", "description_en": "Self-assessed VAT - input", "debit": "343", "credit": "349", "amount": 1840.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "ic_acquisition_self_assessed",
+      "kv_section": "B1",
+      "dph_return_lines": ["07", "20"],
+      "legal_source": ["DPH law SS 11", "DPH law SS 69 ods. 6"],
+      "notes": []
+    },
+    {
+      "id": "purchase_fixed_asset_domestic",
+      "category": "purchase",
+      "subcategory": "fixed_asset",
+      "title_sk": "Nakup stroja - dlhodoby hmotny majetok",
+      "title_en": "Purchase of machinery - tangible fixed asset",
+      "scenario": {
+        "invoice_total": 24600.00,
+        "tax_base": 20000.00,
+        "vat_rate": 23,
+        "vat_amount": 4600.00,
+        "supplier_country": "SK",
+        "asset_type": "machinery",
+        "depreciation_group": 2,
+        "useful_life_years": 6
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Obstaranie DHM", "description_en": "Asset acquisition", "debit": "042", "credit": "321", "amount": 20000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vstupe", "description_en": "Input VAT", "debit": "343", "credit": "321", "amount": 4600.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Zaradenie do pouzivania", "description_en": "Asset placed in service", "debit": "022", "credit": "042", "amount": 20000.00, "amount_expression": "tax_base"}
+      ],
+      "dph_treatment": "standard_input_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["Postupy uctovania SS 22-26", "DPH law SS 49"],
+      "notes": ["Step 3 occurs when asset is ready for use", "Depreciation: 551/082"]
+    },
+    {
+      "id": "purchase_vehicle_partial_deduction",
+      "category": "purchase",
+      "subcategory": "fixed_asset",
+      "title_sk": "Nakup osobneho auta - pomerny odpocet DPH",
+      "title_en": "Purchase of passenger vehicle - proportional VAT deduction",
+      "scenario": {
+        "invoice_total": 36900.00,
+        "tax_base": 30000.00,
+        "vat_rate": 23,
+        "vat_amount": 6900.00,
+        "business_use_percent": 70,
+        "deductible_vat": 4830.00,
+        "non_deductible_vat": 2070.00,
+        "supplier_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Obstaranie DHM", "description_en": "Asset acquisition", "debit": "042", "credit": "321", "amount": 30000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Odpocitatelna DPH (70%)", "description_en": "Deductible VAT (70%)", "debit": "343", "credit": "321", "amount": 4830.00, "amount_expression": "deductible_vat"},
+        {"line": 3, "description_sk": "Neodpocitatelna DPH do ceny majetku", "description_en": "Non-deductible VAT added to asset cost", "debit": "042", "credit": "321", "amount": 2070.00, "amount_expression": "non_deductible_vat"},
+        {"line": 4, "description_sk": "Zaradenie do pouzivania", "description_en": "Asset placed in service", "debit": "022", "credit": "042", "amount": 32070.00, "amount_expression": "tax_base + non_deductible_vat"}
+      ],
+      "dph_treatment": "proportional_input_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["DPH law SS 49 ods. 5"],
+      "notes": ["Non-deductible VAT increases acquisition cost of asset", "Proportion must be reviewed annually"]
+    },
+    {
+      "id": "advance_payment_to_supplier",
+      "category": "purchase",
+      "subcategory": "advance",
+      "title_sk": "Zaloha dodavatelovi s DPH",
+      "title_en": "Advance payment to supplier with VAT",
+      "scenario": {
+        "advance_total": 2460.00,
+        "advance_base": 2000.00,
+        "advance_vat": 460.00,
+        "final_invoice_total": 6150.00,
+        "final_base": 5000.00,
+        "final_vat": 1150.00,
+        "vat_rate": 23,
+        "supplier_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Uhrada zalohy", "description_en": "Advance payment", "debit": "314", "credit": "221", "amount": 2460.00, "amount_expression": "advance_total", "step": "payment"},
+        {"line": 2, "description_sk": "DPH zo zalohy (danovy doklad)", "description_en": "VAT from advance (tax document)", "debit": "343", "credit": "314", "amount": 460.00, "amount_expression": "advance_vat", "step": "tax_document"},
+        {"line": 3, "description_sk": "Material - konecna faktura", "description_en": "Material - final invoice", "debit": "112", "credit": "321", "amount": 5000.00, "amount_expression": "final_base", "step": "final_invoice"},
+        {"line": 4, "description_sk": "DPH na konecnej fakture", "description_en": "VAT on final invoice", "debit": "343", "credit": "321", "amount": 1150.00, "amount_expression": "final_vat", "step": "final_invoice"},
+        {"line": 5, "description_sk": "Zuctovanie zalohy (zaklad)", "description_en": "Settlement of advance (base)", "debit": "321", "credit": "314", "amount": 2000.00, "amount_expression": "advance_base", "step": "settlement"},
+        {"line": 6, "description_sk": "Korekcia DPH zo zalohy", "description_en": "VAT correction from advance", "debit": "321", "credit": "343", "amount": 460.00, "amount_expression": "advance_vat", "step": "settlement"},
+        {"line": 7, "description_sk": "Doplatok", "description_en": "Remaining payment", "debit": "321", "credit": "221", "amount": 3690.00, "amount_expression": "final_invoice_total - advance_total", "step": "payment"}
+      ],
+      "dph_treatment": "advance_with_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["DPH law SS 19 ods. 4"],
+      "notes": ["DPH arises on advance when payment received by supplier", "Supplier must issue tax document within 15 days"]
+    },
+    {
+      "id": "sale_goods_domestic",
+      "category": "sale",
+      "subcategory": "goods",
+      "title_sk": "Predaj tovaru tuzemskemu odberatelovi",
+      "title_en": "Sale of goods to domestic customer",
+      "scenario": {
+        "invoice_total": 3690.00,
+        "tax_base": 3000.00,
+        "vat_rate": 23,
+        "vat_amount": 690.00,
+        "cost_of_goods_sold": 2200.00,
+        "customer_country": "SK",
+        "customer_vat_payer": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby za tovar", "description_en": "Revenue from goods sale", "debit": "311", "credit": "604", "amount": 3000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vystupe", "description_en": "Output VAT", "debit": "311", "credit": "343", "amount": 690.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Naklady na predany tovar", "description_en": "Cost of goods sold", "debit": "504", "credit": "132", "amount": 2200.00, "amount_expression": "cost_of_goods_sold"}
+      ],
+      "dph_treatment": "standard_output_vat",
+      "kv_section": "A1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["Postupy uctovania (ucet 604, 504)"],
+      "notes": ["If customer is non-VAT payer, KV section = D2 (not via ERP) or D1 (via e-kasa)"]
+    },
+    {
+      "id": "sale_goods_eu_ic_supply",
+      "category": "sale",
+      "subcategory": "goods",
+      "title_sk": "Predaj tovaru do EU - dodanie do EU",
+      "title_en": "Sale of goods to EU - intra-community supply",
+      "scenario": {
+        "invoice_total": 5000.00,
+        "tax_base": 5000.00,
+        "vat_rate": 0,
+        "vat_amount": 0,
+        "cost_of_goods_sold": 3500.00,
+        "customer_country": "CZ",
+        "customer_vat_id": "CZ12345678",
+        "customer_vat_payer": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby za tovar", "description_en": "Revenue from goods sale", "debit": "311", "credit": "604", "amount": 5000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Naklady na predany tovar", "description_en": "Cost of goods sold", "debit": "504", "credit": "132", "amount": 3500.00, "amount_expression": "cost_of_goods_sold"}
+      ],
+      "dph_treatment": "exempt_ic_supply",
+      "kv_section": null,
+      "dph_return_lines": ["15", "16"],
+      "suhrnny_vykaz": true,
+      "suhrnny_vykaz_code": "0",
+      "legal_source": ["DPH law SS 43"],
+      "notes": ["No DPH charged - exempt intra-community supply", "Must be reported in Suhrnny vykaz (EC Sales List)", "Requires valid EU VAT ID of customer"]
+    },
+    {
+      "id": "sale_retail_cash_ekasa",
+      "category": "sale",
+      "subcategory": "goods",
+      "title_sk": "Maloobchodny predaj v hotovosti (e-kasa)",
+      "title_en": "Retail cash sale via e-kasa",
+      "scenario": {
+        "invoice_total": 49.20,
+        "tax_base": 40.00,
+        "vat_rate": 23,
+        "vat_amount": 9.20,
+        "customer_country": "SK",
+        "customer_vat_payer": false,
+        "payment_method": "cash"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzba v hotovosti", "description_en": "Cash revenue", "debit": "211", "credit": "604", "amount": 40.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vystupe", "description_en": "Output VAT", "debit": "211", "credit": "343", "amount": 9.20, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "standard_output_vat",
+      "kv_section": "D1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["DPH law SS 71-75"],
+      "notes": ["D1 section for sales via electronic cash register (e-kasa/ERP)"]
+    },
+    {
+      "id": "sale_service_domestic",
+      "category": "sale",
+      "subcategory": "service",
+      "title_sk": "Predaj sluzieb tuzemskemu odberatelovi",
+      "title_en": "Sale of services to domestic customer",
+      "scenario": {
+        "invoice_total": 2460.00,
+        "tax_base": 2000.00,
+        "vat_rate": 23,
+        "vat_amount": 460.00,
+        "customer_country": "SK",
+        "customer_vat_payer": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby za sluzby", "description_en": "Revenue from services", "debit": "311", "credit": "602", "amount": 2000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vystupe", "description_en": "Output VAT", "debit": "311", "credit": "343", "amount": 460.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "standard_output_vat",
+      "kv_section": "A1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["Postupy uctovania (ucet 602)"],
+      "notes": []
+    },
+    {
+      "id": "sale_service_eu_b2b",
+      "category": "sale",
+      "subcategory": "service",
+      "title_sk": "Predaj sluzieb do EU (B2B)",
+      "title_en": "Sale of services to EU customer (B2B)",
+      "scenario": {
+        "invoice_total": 8500.00,
+        "tax_base": 8500.00,
+        "vat_rate": 0,
+        "vat_amount": 0,
+        "customer_country": "DE",
+        "customer_vat_id": "DE987654321",
+        "customer_vat_payer": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby za sluzby", "description_en": "Revenue from services", "debit": "311", "credit": "602", "amount": 8500.00, "amount_expression": "tax_base"}
+      ],
+      "dph_treatment": "not_subject_to_sk_vat",
+      "kv_section": null,
+      "dph_return_lines": ["15"],
+      "suhrnny_vykaz": true,
+      "suhrnny_vykaz_code": "0",
+      "legal_source": ["DPH law SS 15 ods. 1"],
+      "notes": ["Place of supply = customer's country (B2B rule)", "Invoice must state 'prenesenie danovej povinnosti'", "Reported in Suhrnny vykaz"]
+    },
+    {
+      "id": "sale_service_non_eu",
+      "category": "sale",
+      "subcategory": "service",
+      "title_sk": "Predaj sluzieb mimo EU",
+      "title_en": "Sale of services to non-EU customer",
+      "scenario": {
+        "invoice_total": 4000.00,
+        "tax_base": 4000.00,
+        "vat_rate": 0,
+        "vat_amount": 0,
+        "customer_country": "US"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby za sluzby", "description_en": "Revenue from services", "debit": "311", "credit": "602", "amount": 4000.00, "amount_expression": "tax_base"}
+      ],
+      "dph_treatment": "not_subject_to_sk_vat",
+      "kv_section": null,
+      "dph_return_lines": ["15"],
+      "suhrnny_vykaz": false,
+      "legal_source": ["DPH law SS 15 ods. 1"],
+      "notes": ["Not in Suhrnny vykaz (only EU customers)"]
+    },
+    {
+      "id": "sale_fixed_asset_fully_depreciated",
+      "category": "sale",
+      "subcategory": "fixed_asset",
+      "title_sk": "Predaj plne odpisaneho stroja",
+      "title_en": "Sale of fully depreciated machine",
+      "scenario": {
+        "invoice_total": 2460.00,
+        "tax_base": 2000.00,
+        "vat_rate": 23,
+        "vat_amount": 460.00,
+        "original_cost": 12000.00,
+        "accumulated_depreciation": 12000.00,
+        "net_book_value": 0,
+        "customer_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby z predaja DHM", "description_en": "Revenue from asset sale", "debit": "311", "credit": "641", "amount": 2000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vystupe", "description_en": "Output VAT", "debit": "311", "credit": "343", "amount": 460.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Vyradenie - opravky", "description_en": "Derecognition - accumulated depreciation", "debit": "082", "credit": "022", "amount": 12000.00, "amount_expression": "accumulated_depreciation"}
+      ],
+      "dph_treatment": "standard_output_vat",
+      "kv_section": "A1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["Postupy uctovania SS 25 ods. 6"],
+      "notes": ["No residual value expense since fully depreciated"]
+    },
+    {
+      "id": "sale_fixed_asset_partial_depreciation",
+      "category": "sale",
+      "subcategory": "fixed_asset",
+      "title_sk": "Predaj ciastocne odpisaneho vozidla",
+      "title_en": "Sale of partially depreciated vehicle",
+      "scenario": {
+        "invoice_total": 18450.00,
+        "tax_base": 15000.00,
+        "vat_rate": 23,
+        "vat_amount": 3450.00,
+        "original_cost": 30000.00,
+        "accumulated_depreciation": 18000.00,
+        "net_book_value": 12000.00,
+        "customer_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby z predaja DHM", "description_en": "Revenue from asset sale", "debit": "311", "credit": "641", "amount": 15000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vystupe", "description_en": "Output VAT", "debit": "311", "credit": "343", "amount": 3450.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Zostatova cena do nakladov", "description_en": "Residual value to expense", "debit": "541", "credit": "082", "amount": 12000.00, "amount_expression": "net_book_value"},
+        {"line": 4, "description_sk": "Vyradenie majetku", "description_en": "Derecognition of asset", "debit": "082", "credit": "022", "amount": 30000.00, "amount_expression": "original_cost"}
+      ],
+      "dph_treatment": "standard_output_vat",
+      "kv_section": "A1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["Postupy uctovania SS 25 ods. 6"],
+      "notes": ["Profit on sale = 15,000 - 12,000 = 3,000 EUR (641 - 541)"]
+    },
+    {
+      "id": "advance_received_from_customer",
+      "category": "sale",
+      "subcategory": "advance",
+      "title_sk": "Prijata zaloha od odberatela s DPH",
+      "title_en": "Advance received from customer with VAT",
+      "scenario": {
+        "advance_total": 4920.00,
+        "advance_base": 4000.00,
+        "advance_vat": 920.00,
+        "final_invoice_total": 12300.00,
+        "final_base": 10000.00,
+        "final_vat": 2300.00,
+        "vat_rate": 23,
+        "customer_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Prijatie zalohy na ucet", "description_en": "Advance received to bank", "debit": "221", "credit": "324", "amount": 4920.00, "amount_expression": "advance_total", "step": "receipt"},
+        {"line": 2, "description_sk": "DPH zo zalohy (vystup)", "description_en": "Output VAT from advance", "debit": "324", "credit": "343", "amount": 920.00, "amount_expression": "advance_vat", "step": "tax_document"},
+        {"line": 3, "description_sk": "Trzby - konecna faktura", "description_en": "Revenue - final invoice", "debit": "311", "credit": "602", "amount": 10000.00, "amount_expression": "final_base", "step": "final_invoice"},
+        {"line": 4, "description_sk": "DPH na konecnej fakture", "description_en": "VAT on final invoice", "debit": "311", "credit": "343", "amount": 2300.00, "amount_expression": "final_vat", "step": "final_invoice"},
+        {"line": 5, "description_sk": "Zuctovanie zalohy", "description_en": "Settlement of advance", "debit": "324", "credit": "311", "amount": 4000.00, "amount_expression": "advance_base", "step": "settlement"},
+        {"line": 6, "description_sk": "Korekcia DPH zo zalohy", "description_en": "VAT correction from advance", "debit": "343", "credit": "311", "amount": 920.00, "amount_expression": "advance_vat", "step": "settlement"},
+        {"line": 7, "description_sk": "Inkaso doplatku", "description_en": "Receipt of remaining payment", "debit": "221", "credit": "311", "amount": 7380.00, "amount_expression": "final_invoice_total - advance_total", "step": "receipt"}
+      ],
+      "dph_treatment": "advance_output_vat",
+      "kv_section": "A1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["DPH law SS 19 ods. 4", "DPH law SS 72-74"],
+      "notes": ["Must issue tax document within 15 days of receiving advance", "DPH obligation arises on advance receipt date"]
+    },
+    {
+      "id": "dph_reduced_rate_19",
+      "category": "dph",
+      "subcategory": "reduced_rate",
+      "title_sk": "Nakup potravin so znizenou sadzbou 19%",
+      "title_en": "Purchase of food products at 19% reduced rate",
+      "scenario": {
+        "invoice_total": 1190.00,
+        "tax_base": 1000.00,
+        "vat_rate": 19,
+        "vat_amount": 190.00,
+        "supplier_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Material (potraviny)", "description_en": "Material (food products)", "debit": "112", "credit": "321", "amount": 1000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vstupe 19%", "description_en": "Input VAT 19%", "debit": "343", "credit": "321", "amount": 190.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "reduced_rate_I_input_vat",
+      "kv_section": "B2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["DPH law Annex 7"],
+      "notes": ["19% rate applies to selected food products per Annex 7"]
+    },
+    {
+      "id": "dph_reduced_rate_5",
+      "category": "dph",
+      "subcategory": "reduced_rate",
+      "title_sk": "Predaj novín a casopisov so znizenou sadzbou 5%",
+      "title_en": "Sale of newspapers/periodicals at 5% reduced rate",
+      "scenario": {
+        "invoice_total": 1050.00,
+        "tax_base": 1000.00,
+        "vat_rate": 5,
+        "vat_amount": 50.00,
+        "customer_country": "SK"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby za tovar", "description_en": "Revenue from goods", "debit": "311", "credit": "604", "amount": 1000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "DPH na vystupe 5%", "description_en": "Output VAT 5%", "debit": "311", "credit": "343", "amount": 50.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "reduced_rate_II_output_vat",
+      "kv_section": "A1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["DPH law Annex 7a"],
+      "notes": ["5% rate applies to newspapers, periodicals, books per Annex 7a"]
+    },
+    {
+      "id": "reverse_charge_domestic_construction",
+      "category": "dph",
+      "subcategory": "reverse_charge",
+      "title_sk": "Tuzemske samozdanenie - stavebne prace",
+      "title_en": "Domestic reverse charge - construction services",
+      "scenario": {
+        "invoice_total": 15000.00,
+        "tax_base": 15000.00,
+        "vat_rate": 23,
+        "vat_amount": 3450.00,
+        "supplier_country": "SK",
+        "reverse_charge": true,
+        "reverse_charge_type": "domestic_ss69_12j"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Naklady na stavebne prace", "description_en": "Construction service cost", "debit": "518", "credit": "321", "amount": 15000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Samozdanenie DPH - danova povinnost", "description_en": "Self-assessed VAT - output", "debit": "395", "credit": "343", "amount": 3450.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Samozdanenie DPH - narok na odpocet", "description_en": "Self-assessed VAT - input", "debit": "343", "credit": "395", "amount": 3450.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "domestic_reverse_charge",
+      "kv_section": "B1",
+      "kv_section_supplier": "A2",
+      "dph_return_lines": ["09", "20"],
+      "legal_source": ["DPH law SS 69 ods. 12 pism. j)"],
+      "notes": ["Supplier invoices WITHOUT DPH", "Invoice must state reverse charge reference", "Net DPH effect = 0 if fully deductible", "Account 395 used as clearing; alternatively use 343 analytical accounts"]
+    },
+    {
+      "id": "reverse_charge_domestic_mobile_phones",
+      "category": "dph",
+      "subcategory": "reverse_charge",
+      "title_sk": "Tuzemske samozdanenie - mobilne telefony nad 5000 EUR",
+      "title_en": "Domestic reverse charge - mobile phones base > 5000 EUR",
+      "scenario": {
+        "invoice_total": 8000.00,
+        "tax_base": 8000.00,
+        "vat_rate": 23,
+        "vat_amount": 1840.00,
+        "supplier_country": "SK",
+        "reverse_charge": true,
+        "reverse_charge_type": "domestic_ss69_12h"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Nakup tovaru", "description_en": "Goods purchased", "debit": "132", "credit": "321", "amount": 8000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Samozdanenie DPH - danova povinnost", "description_en": "Self-assessed VAT - output", "debit": "395", "credit": "343", "amount": 1840.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Samozdanenie DPH - narok na odpocet", "description_en": "Self-assessed VAT - input", "debit": "343", "credit": "395", "amount": 1840.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "domestic_reverse_charge",
+      "kv_section": "B1",
+      "kv_section_supplier": "A2",
+      "dph_return_lines": ["09", "20"],
+      "legal_source": ["DPH law SS 69 ods. 12 pism. h)"],
+      "notes": ["Applies when invoice base >= 5,000 EUR for mobile phones and integrated circuits"]
+    },
+    {
+      "id": "ic_acquisition_goods",
+      "category": "dph",
+      "subcategory": "reverse_charge",
+      "title_sk": "Nadobudnutie tovaru z EU",
+      "title_en": "Intra-community acquisition of goods",
+      "scenario": {
+        "invoice_total": 10000.00,
+        "tax_base": 10000.00,
+        "vat_rate": 23,
+        "vat_amount": 2300.00,
+        "supplier_country": "IT",
+        "supplier_vat_id": "IT01234567890",
+        "reverse_charge": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Obstaranie DHM", "description_en": "Asset acquisition", "debit": "042", "credit": "321", "amount": 10000.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Samozdanenie DPH - danova povinnost", "description_en": "Self-assessed VAT - output", "debit": "349", "credit": "343", "amount": 2300.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Samozdanenie DPH - narok na odpocet", "description_en": "Self-assessed VAT - input", "debit": "343", "credit": "349", "amount": 2300.00, "amount_expression": "vat_amount"},
+        {"line": 4, "description_sk": "Zaradenie do pouzivania", "description_en": "Asset placed in service", "debit": "022", "credit": "042", "amount": 10000.00, "amount_expression": "tax_base"}
+      ],
+      "dph_treatment": "ic_acquisition_self_assessed",
+      "kv_section": "B1",
+      "dph_return_lines": ["07", "08", "20"],
+      "legal_source": ["DPH law SS 11", "DPH law SS 69 ods. 6"],
+      "notes": []
+    },
+    {
+      "id": "triangulation",
+      "category": "dph",
+      "subcategory": "triangulation",
+      "title_sk": "Trojstranny obchod (ABC ako prostredna osoba)",
+      "title_en": "Triangulation (ABC as intermediary)",
+      "scenario": {
+        "purchase_amount": 6000.00,
+        "sale_amount": 8000.00,
+        "supplier_country": "DE",
+        "customer_country": "CZ",
+        "goods_shipped": "DE_to_CZ"
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Nakup tovaru", "description_en": "Purchase of goods", "debit": "504", "credit": "321", "amount": 6000.00, "amount_expression": "purchase_amount"},
+        {"line": 2, "description_sk": "Trzby za tovar", "description_en": "Revenue from goods sale", "debit": "311", "credit": "604", "amount": 8000.00, "amount_expression": "sale_amount"}
+      ],
+      "dph_treatment": "triangulation_simplification",
+      "kv_section": null,
+      "dph_return_lines": ["15"],
+      "suhrnny_vykaz": true,
+      "suhrnny_vykaz_code": "1",
+      "legal_source": ["DPH law SS 45"],
+      "notes": ["No DPH self-assessment by intermediary (simplification)", "Suhrnny vykaz code 1 = triangulation"]
+    },
+    {
+      "id": "exempt_financial_services",
+      "category": "dph",
+      "subcategory": "exempt",
+      "title_sk": "Oslobodene financne sluzby",
+      "title_en": "Exempt financial services (bank fees)",
+      "scenario": {
+        "invoice_total": 500.00,
+        "tax_base": 500.00,
+        "vat_rate": 0,
+        "vat_amount": 0,
+        "exempt": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Financne naklady", "description_en": "Financial service cost", "debit": "568", "credit": "321", "amount": 500.00, "amount_expression": "invoice_total"}
+      ],
+      "dph_treatment": "exempt_without_deduction",
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["DPH law SS 39"],
+      "notes": ["No DPH charged or deducted on exempt financial services"]
+    },
+    {
+      "id": "exempt_residential_rent",
+      "category": "dph",
+      "subcategory": "exempt",
+      "title_sk": "Oslobodeny prenajom bytu",
+      "title_en": "Exempt rent of residential property",
+      "scenario": {
+        "monthly_rent": 800.00,
+        "vat_rate": 0,
+        "vat_amount": 0,
+        "exempt": true
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Trzby z prenajmu", "description_en": "Rental revenue", "debit": "311", "credit": "602", "amount": 800.00, "amount_expression": "monthly_rent"}
+      ],
+      "dph_treatment": "exempt_without_deduction",
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["DPH law SS 38 ods. 3"],
+      "notes": ["Residential property rental is exempt from DPH"]
+    },
+    {
+      "id": "dph_settlement_liability",
+      "category": "dph",
+      "subcategory": "settlement",
+      "title_sk": "Vyuctovanie DPH - vlastna danova povinnost",
+      "title_en": "DPH return settlement - liability to pay",
+      "scenario": {
+        "output_vat": 5200.00,
+        "input_vat": 3800.00,
+        "vat_payable": 1400.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Uzavretie DPH na vystupe", "description_en": "Close output VAT", "debit": "343.vystup", "credit": "343.zuctovanie", "amount": 5200.00, "amount_expression": "output_vat"},
+        {"line": 2, "description_sk": "Uzavretie DPH na vstupe", "description_en": "Close input VAT", "debit": "343.zuctovanie", "credit": "343.vstup", "amount": 3800.00, "amount_expression": "input_vat"},
+        {"line": 3, "description_sk": "Uhrada DPH danovemu uradu", "description_en": "Payment of DPH to tax office", "debit": "343.zuctovanie", "credit": "221", "amount": 1400.00, "amount_expression": "vat_payable"}
+      ],
+      "dph_treatment": "period_settlement",
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["DPH law SS 78"],
+      "notes": ["Uses analytical accounts: 343.vstup, 343.vystup, 343.zuctovanie"]
+    },
+    {
+      "id": "dph_settlement_refund",
+      "category": "dph",
+      "subcategory": "settlement",
+      "title_sk": "Vyuctovanie DPH - nadmerny odpocet",
+      "title_en": "DPH return settlement - excessive deduction (refund)",
+      "scenario": {
+        "output_vat": 2100.00,
+        "input_vat": 4500.00,
+        "vat_receivable": 2400.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Uzavretie DPH na vystupe", "description_en": "Close output VAT", "debit": "343.vystup", "credit": "343.zuctovanie", "amount": 2100.00, "amount_expression": "output_vat"},
+        {"line": 2, "description_sk": "Uzavretie DPH na vstupe", "description_en": "Close input VAT", "debit": "343.zuctovanie", "credit": "343.vstup", "amount": 4500.00, "amount_expression": "input_vat"},
+        {"line": 3, "description_sk": "Prijatie nadmerneho odpoctu", "description_en": "DPH refund received", "debit": "221", "credit": "343.zuctovanie", "amount": 2400.00, "amount_expression": "vat_receivable"}
+      ],
+      "dph_treatment": "period_settlement_refund",
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["DPH law SS 79"],
+      "notes": ["Tax office returns excessive deduction within 30 days"]
+    },
+    {
+      "id": "payroll_monthly",
+      "category": "payroll",
+      "subcategory": "salary",
+      "title_sk": "Mesacne mzdy zamestnanca",
+      "title_en": "Monthly payroll for one employee",
+      "scenario": {
+        "gross_salary": 2000.00,
+        "employee_social_insurance_rate": 9.4,
+        "employee_social_insurance": 188.00,
+        "employee_health_insurance_rate": 4.0,
+        "employee_health_insurance": 80.00,
+        "employee_income_tax": 148.52,
+        "net_salary": 1583.48,
+        "employer_social_insurance_rate": 25.2,
+        "employer_social_insurance": 504.00,
+        "employer_health_insurance_rate": 10.0,
+        "employer_health_insurance": 200.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Hruba mzda", "description_en": "Gross wages", "debit": "521", "credit": "331", "amount": 2000.00, "amount_expression": "gross_salary"},
+        {"line": 2, "description_sk": "Socialne poistenie zamestnanec", "description_en": "Employee social insurance", "debit": "331", "credit": "336.SP", "amount": 188.00, "amount_expression": "employee_social_insurance"},
+        {"line": 3, "description_sk": "Zdravotne poistenie zamestnanec", "description_en": "Employee health insurance", "debit": "331", "credit": "336.ZP", "amount": 80.00, "amount_expression": "employee_health_insurance"},
+        {"line": 4, "description_sk": "Preddavok na dan z prijmov", "description_en": "Income tax advance", "debit": "331", "credit": "342", "amount": 148.52, "amount_expression": "employee_income_tax"},
+        {"line": 5, "description_sk": "Vyplata cistej mzdy", "description_en": "Net salary payment", "debit": "331", "credit": "221", "amount": 1583.48, "amount_expression": "net_salary"},
+        {"line": 6, "description_sk": "Socialne poistenie zamestnavatel", "description_en": "Employer social insurance", "debit": "524", "credit": "336.SP", "amount": 504.00, "amount_expression": "employer_social_insurance"},
+        {"line": 7, "description_sk": "Zdravotne poistenie zamestnavatel", "description_en": "Employer health insurance", "debit": "524", "credit": "336.ZP", "amount": 200.00, "amount_expression": "employer_health_insurance"},
+        {"line": 8, "description_sk": "Uhrada socialneho poistenia", "description_en": "Social insurance payment", "debit": "336.SP", "credit": "221", "amount": 692.00, "amount_expression": "employee_social_insurance + employer_social_insurance"},
+        {"line": 9, "description_sk": "Uhrada zdravotneho poistenia", "description_en": "Health insurance payment", "debit": "336.ZP", "credit": "221", "amount": 280.00, "amount_expression": "employee_health_insurance + employer_health_insurance"},
+        {"line": 10, "description_sk": "Uhrada dane z prijmov", "description_en": "Income tax payment", "debit": "342", "credit": "221", "amount": 148.52, "amount_expression": "employee_income_tax"}
+      ],
+      "dph_treatment": null,
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["Zakon o socialnom poisteni", "Zakon o zdravotnom poisteni", "Zakon o dani z prijmov"],
+      "notes": ["Account 336 uses analytical accounts per institution", "Payments due by 8th of following month (SP) and by date set by ZP"]
+    },
+    {
+      "id": "payroll_with_tax_bonus",
+      "category": "payroll",
+      "subcategory": "salary",
+      "title_sk": "Mzdy s danovym bonusom na dieta",
+      "title_en": "Payroll with child tax bonus",
+      "scenario": {
+        "gross_salary": 2000.00,
+        "tax_before_bonus": 148.52,
+        "tax_bonus": 140.00,
+        "net_tax": 8.52,
+        "children_count": 1
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Danovy bonus", "description_en": "Tax bonus (reduces tax liability)", "debit": "342", "credit": "331", "amount": 140.00, "amount_expression": "tax_bonus"}
+      ],
+      "dph_treatment": null,
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["Zakon o dani z prijmov SS 33"],
+      "notes": ["This is an additional entry on top of standard payroll", "Net salary increases by tax bonus amount"]
+    },
+    {
+      "id": "depreciation_straight_line",
+      "category": "other",
+      "subcategory": "depreciation",
+      "title_sk": "Rovnomerne odpisy stroja",
+      "title_en": "Straight-line depreciation of machinery",
+      "scenario": {
+        "asset_cost": 20000.00,
+        "depreciation_group": 2,
+        "useful_life_years": 6,
+        "annual_depreciation": 3333.33,
+        "monthly_depreciation": 277.78
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Mesacny odpis DHM", "description_en": "Monthly depreciation", "debit": "551", "credit": "082", "amount": 277.78, "amount_expression": "monthly_depreciation"}
+      ],
+      "dph_treatment": null,
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["Postupy uctovania SS 28", "Zakon o dani z prijmov SS 26-28"],
+      "notes": ["Account 082 for machinery. 081 for buildings. 073 for software."]
+    },
+    {
+      "id": "bank_charges",
+      "category": "other",
+      "subcategory": "bank",
+      "title_sk": "Bankove poplatky",
+      "title_en": "Bank charges",
+      "scenario": {
+        "monthly_fee": 15.00,
+        "foreign_payment_fee": 25.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Mesacny poplatok", "description_en": "Monthly bank fee", "debit": "568", "credit": "221", "amount": 15.00, "amount_expression": "monthly_fee"}
+      ],
+      "dph_treatment": "exempt_without_deduction",
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["DPH law SS 39"],
+      "notes": ["Bank services exempt from DPH - no DPH to deduct"]
+    },
+    {
+      "id": "bank_interest_received",
+      "category": "other",
+      "subcategory": "bank",
+      "title_sk": "Prijate uroky z banky",
+      "title_en": "Bank interest received",
+      "scenario": {
+        "interest_amount": 8.50
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Urokovy vynos", "description_en": "Interest income", "debit": "221", "credit": "662", "amount": 8.50, "amount_expression": "interest_amount"}
+      ],
+      "dph_treatment": null,
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": [],
+      "notes": []
+    },
+    {
+      "id": "year_end_profit",
+      "category": "other",
+      "subcategory": "closing",
+      "title_sk": "Uzavierka - prevod zisku",
+      "title_en": "Year-end closing - transfer profit",
+      "scenario": {
+        "net_profit": 25000.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Prevod zisku na schvalovanie", "description_en": "Transfer profit for approval", "debit": "710", "credit": "431", "amount": 25000.00, "amount_expression": "net_profit"}
+      ],
+      "dph_treatment": null,
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["Postupy uctovania"],
+      "notes": ["710 = Ucet ziskov a strat", "431 = Vysledok hospodarenia v schvalovani", "AGM decides on distribution to 428 (retained) or 364 (dividends)"]
+    },
+    {
+      "id": "prepaid_expense",
+      "category": "other",
+      "subcategory": "accrual",
+      "title_sk": "Naklady buducich obdobi (poistenie vopred)",
+      "title_en": "Prepaid expense (insurance paid in advance)",
+      "scenario": {
+        "total_prepaid": 1200.00,
+        "monthly_portion": 100.00,
+        "months": 12
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Platba poistneho vopred", "description_en": "Insurance prepayment", "debit": "381", "credit": "221", "amount": 1200.00, "amount_expression": "total_prepaid", "step": "payment"},
+        {"line": 2, "description_sk": "Mesacne rozpustenie", "description_en": "Monthly dissolution", "debit": "548", "credit": "381", "amount": 100.00, "amount_expression": "monthly_portion", "step": "monthly"}
+      ],
+      "dph_treatment": null,
+      "kv_section": null,
+      "dph_return_lines": [],
+      "legal_source": ["Postupy uctovania (casove rozlisenie)"],
+      "notes": ["Account 381 = Naklady buducich obdobi (prepaid expenses)", "Dissolved monthly over the period the expense relates to"]
+    },
+    {
+      "id": "credit_note_received",
+      "category": "other",
+      "subcategory": "credit_note",
+      "title_sk": "Prijaty dobropis od dodavatela",
+      "title_en": "Credit note received from supplier",
+      "scenario": {
+        "credit_note_total": 369.00,
+        "tax_base": 300.00,
+        "vat_rate": 23,
+        "vat_amount": 69.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Znizenie nakladov", "description_en": "Expense reduction", "debit": "321", "credit": "501", "amount": 300.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Znizenie DPH na vstupe", "description_en": "Input VAT reduction", "debit": "321", "credit": "343", "amount": 69.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "input_vat_reduction",
+      "kv_section": "C2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["DPH law SS 25", "DPH law SS 53"],
+      "notes": ["Reversal of original posting", "Reduces DPH deduction in current period"]
+    },
+    {
+      "id": "credit_note_issued",
+      "category": "other",
+      "subcategory": "credit_note",
+      "title_sk": "Vydany dobropis odberatelovi",
+      "title_en": "Credit note issued to customer",
+      "scenario": {
+        "credit_note_total": 615.00,
+        "tax_base": 500.00,
+        "vat_rate": 23,
+        "vat_amount": 115.00,
+        "goods_returned_cost": 380.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Znizenie trzby", "description_en": "Revenue reduction", "debit": "604", "credit": "311", "amount": 500.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Znizenie DPH na vystupe", "description_en": "Output VAT reduction", "debit": "343", "credit": "311", "amount": 115.00, "amount_expression": "vat_amount"},
+        {"line": 3, "description_sk": "Vrateny tovar na sklad", "description_en": "Goods returned to stock", "debit": "132", "credit": "504", "amount": 380.00, "amount_expression": "goods_returned_cost"}
+      ],
+      "dph_treatment": "output_vat_reduction",
+      "kv_section": "C1",
+      "dph_return_lines": ["03", "04"],
+      "legal_source": ["DPH law SS 25", "DPH law SS 53"],
+      "notes": ["Reduces output DPH in current period"]
+    },
+    {
+      "id": "charge_note_received",
+      "category": "other",
+      "subcategory": "credit_note",
+      "title_sk": "Prijaty tarchopis od dodavatela",
+      "title_en": "Charge note received from supplier (increase)",
+      "scenario": {
+        "charge_note_total": 246.00,
+        "tax_base": 200.00,
+        "vat_rate": 23,
+        "vat_amount": 46.00
+      },
+      "postings": [
+        {"line": 1, "description_sk": "Dodatocny naklad", "description_en": "Additional expense", "debit": "501", "credit": "321", "amount": 200.00, "amount_expression": "tax_base"},
+        {"line": 2, "description_sk": "Dodatocna DPH na vstupe", "description_en": "Additional input VAT", "debit": "343", "credit": "321", "amount": 46.00, "amount_expression": "vat_amount"}
+      ],
+      "dph_treatment": "standard_input_vat",
+      "kv_section": "C2",
+      "dph_return_lines": ["20"],
+      "legal_source": ["DPH law SS 25"],
+      "notes": ["Same direction as standard received invoice (additional deductible DPH)"]
+    }
+  ],
+  "kv_dph_sections": {
+    "A1": {"description": "Issued invoices to VAT payers", "condition": "Standard issued invoices with all required data"},
+    "A2": {"description": "Issued invoices - domestic reverse charge", "condition": "Supplier transfers DPH liability per SS 69 ods. 12"},
+    "B1": {"description": "Received invoices - reverse charge", "condition": "Buyer is person liable to pay DPH (domestic SS 69, EU SS 11, services SS 69 ods. 3)"},
+    "B2": {"description": "Standard received invoices", "condition": "Domestic supplier, standard DPH deduction claimed"},
+    "B3_1": {"description": "Simplified invoices (aggregate < 3000 EUR)", "condition": "e-kasa receipts, fuel receipts, total DPH deduction < 3,000 EUR per period"},
+    "B3_2": {"description": "Simplified invoices (aggregate >= 3000 EUR)", "condition": "Same docs, total DPH deduction >= 3,000 EUR, reported by supplier"},
+    "C1": {"description": "Issued credit/charge notes", "condition": "Corrections to A1/A2 invoices"},
+    "C2": {"description": "Received credit/charge notes", "condition": "Corrections to B1/B2 invoices"},
+    "D1": {"description": "Sales via e-kasa / ERP", "condition": "Retail sales through electronic cash register"},
+    "D2": {"description": "Other output without e-kasa", "condition": "Sales to non-VAT payers not via ERP (fuel stickers, tickets, etc.)"}
+  },
+  "social_insurance_rates_2025": {
+    "employee": {
+      "sickness": 1.4,
+      "old_age_pension": 4.0,
+      "disability": 3.0,
+      "unemployment": 1.0,
+      "total": 9.4
+    },
+    "employer": {
+      "sickness": 1.4,
+      "old_age_pension": 14.0,
+      "disability": 3.0,
+      "unemployment": 1.0,
+      "guarantee_fund": 0.25,
+      "reserve_fund": 4.75,
+      "accident": 0.8,
+      "total": 25.2
+    },
+    "health_insurance": {
+      "employee": 4.0,
+      "employer": 10.0
+    }
+  }
+}

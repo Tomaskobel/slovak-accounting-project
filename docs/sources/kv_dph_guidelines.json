@@ -1,0 +1,625 @@
+{
+  "source": "Finančná správa SR — KV DPH Methodology",
+  "title": "KV DPH Section Classification Logic",
+  "effective_date": "2025-01-01",
+  "form_version": "KVDPHv25",
+  "compiled": "2026-03-13",
+  "source_urls": [
+    "https://www.financnasprava.sk/sk/podnikatelia/dane/dan-z-pridanej-hodnoty/kontrolny-vykaz-dph",
+    "https://www.podnikajte.sk/dan-z-pridanej-hodnoty/ako-vyplnit-kontrolny-vykaz-dph",
+    "https://llarik.sk/blog/kontrolny-vykaz-dph",
+    "https://www.podnikajte.sk/dan-z-pridanej-hodnoty/kontrolny-vykaz-k-dph",
+    "https://www.mfsr.sk/files/archiv/92/Poucenie_KV_DPH_2021.pdf"
+  ],
+  "filing": {
+    "deadline_days_after_period": 25,
+    "format": "XML",
+    "electronic_only": true,
+    "empty_filing_required": true,
+    "penalty_first_offense_max_eur": 10000,
+    "penalty_repeated_max_eur": 100000
+  },
+  "vat_rates_2025": [
+    {"rate": 23, "label": "standard", "note": "Increased from 20% effective 2025-01-01"},
+    {"rate": 19, "label": "reduced", "note": "Selected goods and services"},
+    {"rate": 5, "label": "super_reduced", "note": "Basic food, press, etc."},
+    {"rate": 0, "label": "exempt_with_deduction", "note": "Exports, IC supply of goods"}
+  ],
+  "sections": [
+    {
+      "id": "A1",
+      "name_sk": "Faktúry vydané — štandardné tuzemské dodávky",
+      "name_en": "Invoices issued — standard domestic supplies",
+      "side": "supplier",
+      "type": "output_vat",
+      "reporting_style": "individual",
+      "classification_criteria": [
+        "Invoice issued by the VAT payer (supplier)",
+        "Supply of goods or services with place of supply in Slovakia",
+        "Supplier is liable for VAT (standard case under §69 ods. 1)",
+        "Customer has IČ DPH or IČO",
+        "Does NOT include supplies to private individuals (those go to D.2)",
+        "Does NOT include reverse charge supplies (those go to A.2)",
+        "Includes specified goods under §69(12)(f-i) where tax base per invoice < 5,000 EUR"
+      ],
+      "required_fields": [
+        {"field": "ic_dph_odberatela", "label_sk": "IČ DPH odberateľa", "label_en": "Customer VAT ID", "type": "string"},
+        {"field": "poradove_cislo_faktury", "label_sk": "Poradové číslo faktúry", "label_en": "Invoice sequential number", "type": "string"},
+        {"field": "datum_dodania", "label_sk": "Dátum dodania tovaru/služby", "label_en": "Date of supply", "type": "date"},
+        {"field": "zaklad_dane", "label_sk": "Základ dane", "label_en": "Tax base", "type": "decimal"},
+        {"field": "suma_dane", "label_sk": "Suma dane", "label_en": "VAT amount", "type": "decimal"},
+        {"field": "sadzba_dane", "label_sk": "Sadzba dane", "label_en": "VAT rate", "type": "decimal"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Standard domestic service invoice",
+          "scenario": "Company ABC s.r.o. issues invoice #2025001 for consulting to XY s.r.o.",
+          "data": {
+            "ic_dph_odberatela": "SK1234567890",
+            "poradove_cislo_faktury": "2025001",
+            "datum_dodania": "2025-03-15",
+            "zaklad_dane": 1000.00,
+            "suma_dane": 230.00,
+            "sadzba_dane": 23,
+            "total_invoice": 1230.00
+          },
+          "section": "A1",
+          "reasoning": "Standard domestic supply, supplier charges VAT, customer has VAT ID"
+        },
+        {
+          "description": "Specified goods below reverse charge threshold",
+          "scenario": "Supplier sells mobile phones to retailer, tax base 3,000 EUR (below 5,000 EUR threshold)",
+          "data": {
+            "ic_dph_odberatela": "SK9876543210",
+            "poradove_cislo_faktury": "2025050",
+            "datum_dodania": "2025-03-20",
+            "zaklad_dane": 3000.00,
+            "suma_dane": 690.00,
+            "sadzba_dane": 23,
+            "total_invoice": 3690.00
+          },
+          "section": "A1",
+          "reasoning": "Mobile phones but tax base < 5,000 EUR, so no reverse charge — standard A.1"
+        }
+      ],
+      "special_cases": [
+        "If invoice date differs from supply date, use supply date for period assignment",
+        "Missing supply date: use invoice issuance date as supply date"
+      ]
+    },
+    {
+      "id": "A2",
+      "name_sk": "Faktúry vydané — tuzemský prenos daňovej povinnosti",
+      "name_en": "Invoices issued — domestic reverse charge (supplier side)",
+      "side": "supplier",
+      "type": "reverse_charge_output",
+      "reporting_style": "individual",
+      "threshold": {
+        "amount": 5000,
+        "currency": "EUR",
+        "applies_to": "tax_base_per_invoice",
+        "applies_to_goods": ["agricultural_products", "metals", "mobile_phones", "integrated_circuits"],
+        "note": "Threshold applies to §69(12)(f-i) goods only. Construction works §69(12)(j) have NO threshold."
+      },
+      "classification_criteria": [
+        "Invoice issued by the supplier",
+        "Recipient bears VAT liability under §69 ods. 12 písm. f) to j)",
+        "For goods under §69(12)(f-i): tax base per invoice >= 5,000 EUR",
+        "For construction works under §69(12)(j): always, regardless of amount",
+        "Supplier does NOT charge VAT — only tax base reported"
+      ],
+      "reverse_charge_categories": [
+        {"paragraph": "§69(12)(f)", "category": "agricultural_products", "label_sk": "Poľnohospodárske plodiny", "threshold_eur": 5000, "commodity_code_required": true},
+        {"paragraph": "§69(12)(g)", "category": "metals", "label_sk": "Kovy a kovové výrobky", "threshold_eur": 5000, "commodity_code_required": true},
+        {"paragraph": "§69(12)(h)", "category": "mobile_phones", "label_sk": "Mobilné telefóny", "threshold_eur": 5000, "commodity_code_required": false, "goods_type_required": true},
+        {"paragraph": "§69(12)(i)", "category": "integrated_circuits", "label_sk": "Integrované obvody", "threshold_eur": 5000, "commodity_code_required": false, "goods_type_required": true},
+        {"paragraph": "§69(12)(j)", "category": "construction_works", "label_sk": "Stavebné práce (CPA divízia F)", "threshold_eur": null, "commodity_code_required": false, "note": "No threshold — always reverse charge"}
+      ],
+      "required_fields": [
+        {"field": "ic_dph_odberatela", "label_sk": "IČ DPH odberateľa", "label_en": "Customer VAT ID", "type": "string"},
+        {"field": "poradove_cislo_faktury", "label_sk": "Poradové číslo faktúry", "label_en": "Invoice sequential number", "type": "string"},
+        {"field": "datum_dodania", "label_sk": "Dátum dodania", "label_en": "Date of supply", "type": "date"},
+        {"field": "zaklad_dane", "label_sk": "Základ dane", "label_en": "Tax base", "type": "decimal"},
+        {"field": "kod_tovaru", "label_sk": "Kód tovaru", "label_en": "Commodity code", "type": "string", "nullable": true, "required_for": ["agricultural_products", "metals"]},
+        {"field": "druh_tovaru", "label_sk": "Druh tovaru", "label_en": "Goods type", "type": "string", "nullable": true, "required_for": ["mobile_phones", "integrated_circuits"]},
+        {"field": "mnozstvo", "label_sk": "Množstvo", "label_en": "Quantity", "type": "decimal"},
+        {"field": "merna_jednotka", "label_sk": "Merná jednotka", "label_en": "Unit of measure", "type": "string"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Mobile phones above reverse charge threshold",
+          "scenario": "Telefonujeme s.r.o. supplies 400 mobile phones to Volám s.r.o. for 10,000 EUR tax base",
+          "data": {
+            "ic_dph_odberatela": "SK9865389560",
+            "poradove_cislo_faktury": "2025100",
+            "datum_dodania": "2025-04-01",
+            "zaklad_dane": 10000.00,
+            "druh_tovaru": "mobile_phones",
+            "mnozstvo": 400,
+            "merna_jednotka": "ks"
+          },
+          "section": "A2",
+          "reasoning": "Mobile phones, tax base 10,000 EUR >= 5,000 EUR threshold → reverse charge applies"
+        },
+        {
+          "description": "Construction works — no threshold",
+          "scenario": "Construction company issues invoice for building renovation, 8,000 EUR tax base",
+          "data": {
+            "ic_dph_odberatela": "SK1122334455",
+            "poradove_cislo_faktury": "2025200",
+            "datum_dodania": "2025-04-15",
+            "zaklad_dane": 8000.00
+          },
+          "section": "A2",
+          "reasoning": "CPA F construction work — always reverse charge, no threshold"
+        }
+      ],
+      "special_cases": [
+        "No VAT amount on the invoice — supplier does not charge VAT in reverse charge",
+        "Combined invoice for multiple commodity types: each commodity category evaluated separately against 5,000 EUR threshold",
+        "Construction works: no threshold applies, always A.2"
+      ]
+    },
+    {
+      "id": "B1",
+      "name_sk": "Prijaté faktúry — prenos daňovej povinnosti (samozdanenie)",
+      "name_en": "Received invoices — reverse charge / self-assessment",
+      "side": "customer",
+      "type": "reverse_charge_input",
+      "reporting_style": "individual",
+      "classification_criteria": [
+        "Invoices received where the RECIPIENT bears VAT liability",
+        "Under §69 ods. 2: services from foreign suppliers (EU)",
+        "Under §69 ods. 3: services from third country suppliers",
+        "Under §69 ods. 6: gas, electricity, heat, cooling from foreign suppliers",
+        "Under §69 ods. 7: goods supplied with installation/assembly by foreign person",
+        "Under §69 ods. 9: gold transactions",
+        "Under §69 ods. 10: emission allowances",
+        "Under §69 ods. 11: IC acquisition of goods",
+        "Under §69 ods. 12: domestic reverse charge (specified goods, construction)",
+        "No amount threshold — ALL reverse charge invoices go here regardless of amount",
+        "Reported even if deduction is NOT claimed or deferred to later period"
+      ],
+      "required_fields": [
+        {"field": "ic_dph_dodavatela", "label_sk": "IČ DPH dodávateľa", "label_en": "Supplier VAT ID", "type": "string", "note": "Can be foreign VAT ID"},
+        {"field": "poradove_cislo_faktury", "label_sk": "Poradové číslo faktúry", "label_en": "Invoice number", "type": "string"},
+        {"field": "datum_dodania", "label_sk": "Dátum dodania / vzniku daňovej povinnosti", "label_en": "Date of supply / tax liability", "type": "date"},
+        {"field": "zaklad_dane", "label_sk": "Základ dane", "label_en": "Tax base", "type": "decimal"},
+        {"field": "suma_dane", "label_sk": "Suma dane", "label_en": "VAT amount (self-assessed)", "type": "decimal"},
+        {"field": "sadzba_dane", "label_sk": "Sadzba dane", "label_en": "VAT rate", "type": "decimal"},
+        {"field": "odpocitana_dan", "label_sk": "Odpočítaná daň", "label_en": "Deducted VAT", "type": "decimal"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Services from EU supplier",
+          "scenario": "ABC s.r.o. receives invoice from Czech advertising agency for 500 EUR",
+          "data": {
+            "ic_dph_dodavatela": "CZ12345679",
+            "poradove_cislo_faktury": "PF123",
+            "datum_dodania": "2025-03-10",
+            "zaklad_dane": 500.00,
+            "suma_dane": 115.00,
+            "sadzba_dane": 23,
+            "odpocitana_dan": 115.00
+          },
+          "section": "B1",
+          "reasoning": "Services from EU supplier — reverse charge under §69(2), self-assessed 23% VAT"
+        },
+        {
+          "description": "IC acquisition of goods",
+          "scenario": "Company acquires goods from German supplier worth 3,000 EUR",
+          "data": {
+            "ic_dph_dodavatela": "DE123456789",
+            "poradove_cislo_faktury": "INV-2025-4455",
+            "datum_dodania": "2025-04-05",
+            "zaklad_dane": 3000.00,
+            "suma_dane": 690.00,
+            "sadzba_dane": 23,
+            "odpocitana_dan": 690.00
+          },
+          "section": "B1",
+          "reasoning": "Intra-community acquisition — reverse charge under §69(11)"
+        },
+        {
+          "description": "Domestic reverse charge — construction",
+          "scenario": "Retailer receives construction subcontractor invoice for 8,000 EUR",
+          "data": {
+            "ic_dph_dodavatela": "SK5566778899",
+            "poradove_cislo_faktury": "2025-STAV-001",
+            "datum_dodania": "2025-05-01",
+            "zaklad_dane": 8000.00,
+            "suma_dane": 1840.00,
+            "sadzba_dane": 23,
+            "odpocitana_dan": 1840.00
+          },
+          "section": "B1",
+          "reasoning": "Domestic reverse charge for construction works §69(12)(j)"
+        }
+      ],
+      "special_cases": [
+        "All fields MUST be present — unlike B.2, missing fields cannot be filled with '0'",
+        "Deduction may be 0 if not claimed — still must appear in B.1",
+        "Right to deduct arises only upon receiving the invoice, causing timing differences vs tax liability"
+      ]
+    },
+    {
+      "id": "B2",
+      "name_sk": "Prijaté faktúry — tuzemské s odpočtom DPH",
+      "name_en": "Received invoices — standard domestic with input VAT deduction",
+      "side": "customer",
+      "type": "input_vat",
+      "reporting_style": "individual",
+      "classification_criteria": [
+        "Invoices received from DOMESTIC (Slovak) VAT payers",
+        "Supplier charged standard VAT on the invoice",
+        "Recipient claims input VAT deduction in the CURRENT period",
+        "Invoice is NOT a simplified invoice (those go to B.3)",
+        "Does NOT include reverse charge invoices (those go to B.1)"
+      ],
+      "required_fields": [
+        {"field": "ic_dph_dodavatela", "label_sk": "IČ DPH dodávateľa", "label_en": "Supplier VAT ID", "type": "string"},
+        {"field": "poradove_cislo_faktury", "label_sk": "Poradové číslo faktúry", "label_en": "Invoice number", "type": "string"},
+        {"field": "datum_dodania", "label_sk": "Dátum dodania", "label_en": "Date of supply", "type": "date"},
+        {"field": "zaklad_dane", "label_sk": "Základ dane", "label_en": "Tax base", "type": "decimal"},
+        {"field": "suma_dane", "label_sk": "Suma dane", "label_en": "VAT amount", "type": "decimal"},
+        {"field": "sadzba_dane", "label_sk": "Sadzba dane", "label_en": "VAT rate", "type": "decimal"},
+        {"field": "odpocitana_dan", "label_sk": "Odpočítaná daň", "label_en": "Deducted VAT", "type": "decimal"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Standard domestic office rental",
+          "scenario": "Office receives rental invoice from Prenájom s.r.o. for 1,000 EUR + VAT",
+          "data": {
+            "ic_dph_dodavatela": "SK8888888888",
+            "poradove_cislo_faktury": "NAJ-2025-003",
+            "datum_dodania": "2025-03-31",
+            "zaklad_dane": 1000.00,
+            "suma_dane": 230.00,
+            "sadzba_dane": 23,
+            "odpocitana_dan": 230.00
+          },
+          "section": "B2",
+          "reasoning": "Standard domestic invoice, supplier charged 23% VAT, full deduction claimed"
+        },
+        {
+          "description": "Office supplies with partial deduction",
+          "scenario": "Company receives invoice for mixed-use supplies, claims 50% deduction",
+          "data": {
+            "ic_dph_dodavatela": "SK7777777777",
+            "poradove_cislo_faktury": "F2025-0088",
+            "datum_dodania": "2025-04-10",
+            "zaklad_dane": 200.00,
+            "suma_dane": 46.00,
+            "sadzba_dane": 23,
+            "odpocitana_dan": 23.00
+          },
+          "section": "B2",
+          "reasoning": "Standard domestic invoice. Only 50% deduction claimed due to mixed use."
+        }
+      ],
+      "special_cases": [
+        "Reported in the period when deduction is CLAIMED, not when invoice is received",
+        "Cash-basis VAT payers (§68d): deduction occurs when payment is made",
+        "100% advance payment invoice replaces final invoice — do not duplicate",
+        "Missing required fields: enter '0' (unlike B.1 where all data must be present)"
+      ]
+    },
+    {
+      "id": "B3",
+      "name_sk": "Zjednodušené faktúry (agregované)",
+      "name_en": "Simplified invoices (aggregated)",
+      "side": "customer",
+      "type": "input_vat_simplified",
+      "reporting_style": "aggregated",
+      "threshold": {
+        "amount": 3000,
+        "currency": "EUR",
+        "applies_to": "total_deducted_vat_all_simplified_invoices_in_period",
+        "below_threshold": "B3.1 — single summary line, no supplier identification",
+        "at_or_above_threshold": "B3.2 — grouped by supplier VAT ID"
+      },
+      "classification_criteria": [
+        "Documents that are NOT full invoices (zjednodušené faktúry)",
+        "Input VAT deduction claimed from these documents",
+        "E-cash register receipts (doklady z pokladníc e-kasa)",
+        "Fuel pump receipts (doklady z tankovacích automatov)",
+        "Documents under 100 EUR: parking tickets, highway vignettes, transit tickets, toll receipts",
+        "Other documents under §74 ods. 3 of the VAT Act"
+      ],
+      "sub_sections": {
+        "B3.1": {
+          "name_sk": "Celková odpočítaná daň < 3 000 EUR",
+          "name_en": "Total deducted VAT < 3,000 EUR",
+          "description": "Single summary line. No individual supplier identification required.",
+          "required_fields": [
+            {"field": "zaklad_dane", "label_en": "Total tax base", "type": "decimal"},
+            {"field": "suma_dane", "label_en": "Total VAT amount", "type": "decimal"},
+            {"field": "odpocitana_dan", "label_en": "Total deducted VAT", "type": "decimal"}
+          ]
+        },
+        "B3.2": {
+          "name_sk": "Celková odpočítaná daň >= 3 000 EUR",
+          "name_en": "Total deducted VAT >= 3,000 EUR",
+          "description": "Aggregated totals grouped by supplier VAT ID.",
+          "required_fields": [
+            {"field": "ic_dph_dodavatela", "label_en": "Supplier VAT ID", "type": "string"},
+            {"field": "zaklad_dane", "label_en": "Tax base (per supplier)", "type": "decimal"},
+            {"field": "suma_dane", "label_en": "VAT amount (per supplier)", "type": "decimal"},
+            {"field": "odpocitana_dan", "label_en": "Deducted VAT (per supplier)", "type": "decimal"}
+          ]
+        }
+      },
+      "examples": [
+        {
+          "description": "Low-volume simplified invoices (B3.1)",
+          "scenario": "Company has fuel receipts and toll sticker, total deducted VAT 30.67 EUR",
+          "data": {
+            "fuel_receipt_base": 83.33,
+            "fuel_receipt_vat": 19.17,
+            "toll_sticker_base": 50.00,
+            "toll_sticker_vat": 11.50,
+            "total_deducted_vat": 30.67
+          },
+          "section": "B3.1",
+          "reasoning": "Total deducted VAT 30.67 EUR < 3,000 EUR → B.3.1 single summary"
+        },
+        {
+          "description": "High-volume simplified invoices (B3.2)",
+          "scenario": "Large transport company with many fuel purchases, total deducted VAT 4,500 EUR",
+          "data": {
+            "total_deducted_vat": 4500.00,
+            "note": "Must group by each fuel station supplier VAT ID"
+          },
+          "section": "B3.2",
+          "reasoning": "Total deducted VAT 4,500 EUR >= 3,000 EUR → B.3.2 grouped by supplier"
+        }
+      ]
+    },
+    {
+      "id": "C1",
+      "name_sk": "Opravné doklady vydané (strana dodávateľa)",
+      "name_en": "Credit notes / corrections issued (supplier side)",
+      "side": "supplier",
+      "type": "correction_output",
+      "reporting_style": "individual",
+      "corrects_sections": ["A1", "A2"],
+      "classification_criteria": [
+        "Credit notes (dobropisy) correcting previously reported invoices in A.1 or A.2",
+        "Correction documents for uncollectible debts under §25a",
+        "Subsequent collection documents if debtor pays after write-off",
+        "Any correction to a previously reported supply"
+      ],
+      "required_fields": [
+        {"field": "ic_dph_odberatela", "label_sk": "IČ DPH odberateľa", "label_en": "Customer VAT ID", "type": "string"},
+        {"field": "poradove_cislo_opravneho_dokladu", "label_sk": "Poradové číslo opravného dokladu", "label_en": "Credit note number", "type": "string"},
+        {"field": "poradove_cislo_povodnej_faktury", "label_sk": "Poradové číslo pôvodnej faktúry", "label_en": "Original invoice number", "type": "string", "note": "REQUIRED — must reference original"},
+        {"field": "rozdiel_zakladu_dane", "label_sk": "Rozdiel základu dane", "label_en": "Difference in tax base", "type": "decimal", "note": "Can be negative"},
+        {"field": "rozdiel_sumy_dane", "label_sk": "Rozdiel sumy dane", "label_en": "Difference in VAT amount", "type": "decimal", "note": "Can be negative"},
+        {"field": "sadzba_dane", "label_sk": "Sadzba dane", "label_en": "VAT rate", "type": "decimal"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Credit note for uncollectible debt",
+          "scenario": "ABC issues correction document for uncollectible 600 EUR service debt",
+          "data": {
+            "ic_dph_odberatela": "SK1090444444",
+            "poradove_cislo_opravneho_dokladu": "2025999",
+            "poradove_cislo_povodnej_faktury": "2024050",
+            "rozdiel_zakladu_dane": -600.00,
+            "rozdiel_sumy_dane": -138.00,
+            "sadzba_dane": 23
+          },
+          "section": "C1",
+          "reasoning": "Correction to previously issued invoice due to uncollectible debt"
+        }
+      ],
+      "special_cases": [
+        "Original invoice number MUST always be referenced",
+        "Multiple original invoices in one credit note: list all original invoice numbers",
+        "Timing: report in period when correction occurs, not when document is issued",
+        "For A.2 corrections: also include commodity code, goods type, quantity difference"
+      ]
+    },
+    {
+      "id": "C2",
+      "name_sk": "Opravné doklady prijaté (strana odberateľa)",
+      "name_en": "Credit notes / corrections received (customer side)",
+      "side": "customer",
+      "type": "correction_input",
+      "reporting_style": "individual",
+      "corrects_sections": ["B1", "B2"],
+      "classification_criteria": [
+        "Credit notes (dobropisy) received correcting previously reported invoices in B.1 or B.2",
+        "Correction documents from suppliers for uncollectible debts",
+        "VAT adjustments under §53b (payment outstanding > 100 days past due)",
+        "Subsequent collection documents if payment made after write-off"
+      ],
+      "required_fields": [
+        {"field": "ic_dph_dodavatela", "label_sk": "IČ DPH dodávateľa", "label_en": "Supplier VAT ID", "type": "string"},
+        {"field": "poradove_cislo_opravneho_dokladu", "label_sk": "Poradové číslo opravného dokladu", "label_en": "Credit note number", "type": "string"},
+        {"field": "poradove_cislo_povodnej_faktury", "label_sk": "Poradové číslo pôvodnej faktúry", "label_en": "Original invoice number", "type": "string", "note": "REQUIRED — must reference original"},
+        {"field": "rozdiel_zakladu_dane", "label_sk": "Rozdiel základu dane", "label_en": "Difference in tax base", "type": "decimal"},
+        {"field": "rozdiel_sumy_dane", "label_sk": "Rozdiel sumy dane", "label_en": "Difference in VAT amount", "type": "decimal"},
+        {"field": "rozdiel_odpocitanej_dane", "label_sk": "Rozdiel odpočítanej dane", "label_en": "Difference in deducted VAT", "type": "decimal"},
+        {"field": "sadzba_dane", "label_sk": "Sadzba dane", "label_en": "VAT rate", "type": "decimal"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Credit note received from supplier",
+          "scenario": "Company receives credit note for -1,500 EUR from Dobják s.r.o.",
+          "data": {
+            "ic_dph_dodavatela": "SK1066666666",
+            "poradove_cislo_opravneho_dokladu": "D230703",
+            "poradove_cislo_povodnej_faktury": "F2024100",
+            "rozdiel_zakladu_dane": -1500.00,
+            "rozdiel_sumy_dane": -345.00,
+            "rozdiel_odpocitanej_dane": -345.00,
+            "sadzba_dane": 23
+          },
+          "section": "C2",
+          "reasoning": "Received credit note correcting a B.2 invoice"
+        },
+        {
+          "description": "§53b adjustment — unpaid invoice > 100 days",
+          "scenario": "Invoice remains unpaid 100+ days past due, must reduce input VAT by 460 EUR",
+          "data": {
+            "ic_dph_dodavatela": "SK2233445566",
+            "poradove_cislo_opravneho_dokladu": "INT-2025-ADJ01",
+            "poradove_cislo_povodnej_faktury": "F2024200",
+            "rozdiel_zakladu_dane": -2000.00,
+            "rozdiel_sumy_dane": -460.00,
+            "rozdiel_odpocitanej_dane": -460.00,
+            "sadzba_dane": 23
+          },
+          "section": "C2",
+          "reasoning": "§53b mandatory adjustment — payment outstanding > 100 days past due date"
+        }
+      ],
+      "special_cases": [
+        "Credit notes must be reported within 30 days of issuance",
+        "§53b adjustment: when invoice unpaid > 100 days past due, recipient MUST reduce deduction",
+        "If debt subsequently paid after §53b write-off, a reverse correction goes to C.2"
+      ]
+    },
+    {
+      "id": "D1",
+      "name_sk": "Tržby z pokladníc e-kasa",
+      "name_en": "E-cash register sales",
+      "side": "supplier",
+      "type": "output_vat_cash_register",
+      "reporting_style": "aggregated",
+      "classification_criteria": [
+        "Aggregate sales data from electronic cash registers (e-kasa pokladnica)",
+        "Sales to end consumers (private individuals)",
+        "Mandatory for businesses required to use e-kasa"
+      ],
+      "required_fields": [
+        {"field": "celkovy_obrat", "label_sk": "Celkový obrat z pokladníc", "label_en": "Total turnover from cash registers", "type": "decimal"},
+        {"field": "zaklad_dane_by_rate", "label_sk": "Základ dane podľa sadzby", "label_en": "Tax base per VAT rate", "type": "object"},
+        {"field": "suma_dane_by_rate", "label_sk": "Suma dane podľa sadzby", "label_en": "VAT amount per rate", "type": "object"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Monthly retail e-kasa summary",
+          "scenario": "Retail shop monthly e-kasa total 20,000 EUR at 23%",
+          "data": {
+            "celkovy_obrat": 20000.00,
+            "zaklad_dane_23": 16260.16,
+            "suma_dane_23": 3739.84
+          },
+          "section": "D1",
+          "reasoning": "Aggregate e-kasa sales, all at standard 23% rate"
+        }
+      ],
+      "special_cases": [
+        "If a sale through e-kasa also has a full invoice reported in A.1, do NOT duplicate in D.1",
+        "Only aggregate totals — no individual transaction detail"
+      ]
+    },
+    {
+      "id": "D2",
+      "name_sk": "Ostatné dodávky bez faktúry / bez e-kasy",
+      "name_en": "Other non-invoiced supplies / not through e-kasa",
+      "side": "supplier",
+      "type": "output_vat_other",
+      "reporting_style": "aggregated",
+      "classification_criteria": [
+        "Taxable supplies where no invoice is required (sales to private individuals)",
+        "Supplies NOT through e-kasa",
+        "Invoices issued to customers WITHOUT IČ DPH (private individuals)",
+        "Príjmové pokladničné doklady for cash sales not via e-kasa"
+      ],
+      "required_fields": [
+        {"field": "zaklad_dane_by_rate", "label_sk": "Základ dane podľa sadzby", "label_en": "Tax base per VAT rate", "type": "object"},
+        {"field": "suma_dane_by_rate", "label_sk": "Suma dane podľa sadzby", "label_en": "VAT amount per rate", "type": "object"},
+        {"field": "kod_opravy", "label_sk": "Kód opravy", "label_en": "Correction code", "type": "integer", "nullable": true}
+      ],
+      "examples": [
+        {
+          "description": "Invoice to private individual",
+          "scenario": "Consulting firm issues invoice to a private individual for 500 EUR + 115 EUR VAT",
+          "data": {
+            "zaklad_dane_23": 500.00,
+            "suma_dane_23": 115.00
+          },
+          "section": "D2",
+          "reasoning": "Invoice to private individual without VAT ID — aggregated in D.2"
+        }
+      ],
+      "special_cases": [
+        "Only aggregated summary by VAT rate — no individual transactions",
+        "Includes invoices to private individuals that would otherwise go to A.1 if customer had VAT ID"
+      ]
+    }
+  ],
+  "correction_logic": {
+    "opravny_kv": {
+      "name_sk": "Opravný kontrolný výkaz",
+      "name_en": "Corrective control statement",
+      "timing": "Before 25-day deadline",
+      "behavior": "Completely REPLACES the original filing",
+      "scope": "Must contain ALL data for the period, not just corrections"
+    },
+    "dodatocny_kv": {
+      "name_sk": "Dodatočný kontrolný výkaz",
+      "name_en": "Supplementary control statement",
+      "timing": "After 25-day deadline",
+      "behavior": "Contains ONLY the changes using correction codes",
+      "codes": [
+        {"code": 1, "meaning_sk": "Storno pôvodného riadku", "meaning_en": "Cancellation of originally reported row"},
+        {"code": 2, "meaning_sk": "Doplnenie nového riadku", "meaning_en": "Addition of a new row"}
+      ],
+      "correction_procedure": "To correct a row: submit code 1 for the wrong row + code 2 for the correct row"
+    }
+  },
+  "exclusions": {
+    "description": "Transactions NOT reported in KV DPH at all",
+    "items": [
+      {"paragraph": "§43", "description_sk": "Oslobodené dodanie tovaru do iného ČŠ", "description_en": "Exempt IC supply of goods"},
+      {"paragraph": "§47", "description_sk": "Vývoz tovaru", "description_en": "Export of goods"},
+      {"paragraph": "§48", "description_sk": "Oslobodené služby", "description_en": "Exempt services"},
+      {"paragraph": "§53(5)", "description_sk": "DPH z krádeže", "description_en": "VAT on stolen goods"},
+      {"paragraph": "§50(4)", "description_sk": "Ročná úprava koeficientu", "description_en": "Annual coefficient adjustment"},
+      {"paragraph": "§54-54d", "description_sk": "Úprava odpočítanej dane pri IM", "description_en": "Capital asset deduction adjustment"},
+      {"paragraph": "§55", "description_sk": "Odpočet pri registrácii", "description_en": "Registration-period deduction"},
+      {"paragraph": "import", "description_sk": "DPH pri dovoze tovaru", "description_en": "Import VAT (reported separately)"},
+      {"paragraph": "tourist_refund", "description_sk": "Vrátenie dane turistom", "description_en": "Tourist VAT refunds"},
+      {"paragraph": "deregistration", "description_sk": "Vysporiadanie DPH pri zrušení registrácie", "description_en": "Deregistration VAT settlement"}
+    ]
+  },
+  "classification_decision_tree": {
+    "supplier_side": {
+      "standard_domestic_with_vat": {
+        "customer_has_vat_id": "A1",
+        "customer_is_private_individual": "D2"
+      },
+      "reverse_charge_§69_12": {
+        "construction_works_cpa_f": "A2",
+        "specified_goods_f_to_i": {
+          "tax_base_gte_5000": "A2",
+          "tax_base_lt_5000": "A1"
+        }
+      },
+      "e_kasa_sale": "D1",
+      "credit_note_correction": "C1",
+      "exempt_or_export": "EXCLUDED"
+    },
+    "customer_side": {
+      "reverse_charge_self_assessment": "B1",
+      "standard_domestic_with_vat_deduction": "B2",
+      "simplified_invoice": {
+        "total_period_deducted_vat_lt_3000": "B3.1",
+        "total_period_deducted_vat_gte_3000": "B3.2"
+      },
+      "credit_note_correction": "C2",
+      "exempt_or_import": "EXCLUDED"
+    }
+  }
+}

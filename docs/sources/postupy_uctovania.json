@@ -1,0 +1,1504 @@
+{
+  "metadata": {
+    "source": "Opatrenie MF SR c. 23054/2002-92 v zneni neskorsich predpisov",
+    "last_amendment": "MF/014948/2024-74 (effective 1.1.2025)",
+    "scope": "Entrepreneurs (podnikatelia) using double-entry bookkeeping",
+    "extracted": "2026-03-13",
+    "purpose": "Structured booking rules for Slovak AI Accountant deterministic engine"
+  },
+  "booking_rules": [
+    {
+      "id": "supplier_invoice_service",
+      "section": "§50, §65",
+      "action": "received_supplier_invoice",
+      "description_sk": "Prijata dodavatelska faktura za sluzby",
+      "description_en": "Received supplier invoice for services",
+      "category": "service",
+      "postings": [
+        {"debit": "518", "credit": "321", "amount": "tax_base", "description": "Service cost (excl. VAT)"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "expense_type": "service",
+        "vat_deductible": true
+      },
+      "legal_source": "§65 — Uctova skupina 51 Sluzby"
+    },
+    {
+      "id": "supplier_invoice_material",
+      "section": "§64, §43",
+      "action": "received_supplier_invoice",
+      "description_sk": "Prijata dodavatelska faktura za material (sposob A)",
+      "description_en": "Received supplier invoice for material (Method A — perpetual)",
+      "category": "material",
+      "postings": [
+        {"debit": "111", "credit": "321", "amount": "tax_base", "description": "Material procurement"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "expense_type": "material",
+        "inventory_method": "A",
+        "vat_deductible": true
+      },
+      "related_rules": ["material_receipt_warehouse", "material_consumption"],
+      "legal_source": "§43-§45 — Uctova trieda 1 Zasoby, §64 — Uctova skupina 50"
+    },
+    {
+      "id": "material_receipt_warehouse",
+      "section": "§43",
+      "action": "warehouse_receipt",
+      "description_sk": "Prijatie materialu na sklad (sposob A)",
+      "description_en": "Material receipt to warehouse (Method A)",
+      "category": "material",
+      "postings": [
+        {"debit": "112", "credit": "111", "amount": "acquisition_cost", "description": "Material to warehouse"}
+      ],
+      "conditions": {
+        "inventory_method": "A",
+        "event": "warehouse_receipt"
+      },
+      "legal_source": "§43 — Uctovanie zasob sposobom A"
+    },
+    {
+      "id": "material_consumption",
+      "section": "§64",
+      "action": "material_consumption",
+      "description_sk": "Spotreba materialu zo skladu (sposob A)",
+      "description_en": "Material consumption from warehouse (Method A)",
+      "category": "material",
+      "postings": [
+        {"debit": "501", "credit": "112", "amount": "consumption_cost", "description": "Material consumption"}
+      ],
+      "conditions": {
+        "inventory_method": "A",
+        "event": "consumption"
+      },
+      "legal_source": "§64 ods. 1 pism. a) — Spotreba materialu sposob A"
+    },
+    {
+      "id": "supplier_invoice_material_method_b",
+      "section": "§64, §43",
+      "action": "received_supplier_invoice",
+      "description_sk": "Prijata dodavatelska faktura za material (sposob B)",
+      "description_en": "Received supplier invoice for material (Method B — periodic)",
+      "category": "material",
+      "postings": [
+        {"debit": "501", "credit": "321", "amount": "tax_base", "description": "Material directly to expense"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "expense_type": "material",
+        "inventory_method": "B",
+        "vat_deductible": true
+      },
+      "legal_source": "§64 ods. 1 pism. b) — Spotreba materialu sposob B"
+    },
+    {
+      "id": "supplier_invoice_goods",
+      "section": "§64, §43",
+      "action": "received_supplier_invoice",
+      "description_sk": "Prijata dodavatelska faktura za tovar (sposob A)",
+      "description_en": "Received supplier invoice for goods (Method A)",
+      "category": "goods",
+      "postings": [
+        {"debit": "131", "credit": "321", "amount": "tax_base", "description": "Goods procurement"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "expense_type": "goods",
+        "inventory_method": "A",
+        "vat_deductible": true
+      },
+      "related_rules": ["goods_receipt_warehouse", "goods_sold"],
+      "legal_source": "§43-§45 — Tovar sposob A"
+    },
+    {
+      "id": "goods_receipt_warehouse",
+      "section": "§43",
+      "action": "warehouse_receipt",
+      "description_sk": "Prijatie tovaru na sklad (sposob A)",
+      "description_en": "Goods receipt to warehouse (Method A)",
+      "category": "goods",
+      "postings": [
+        {"debit": "132", "credit": "131", "amount": "acquisition_cost", "description": "Goods to warehouse"}
+      ],
+      "conditions": {
+        "inventory_method": "A",
+        "event": "warehouse_receipt"
+      },
+      "legal_source": "§43 — Tovar sposob A"
+    },
+    {
+      "id": "goods_sold",
+      "section": "§64",
+      "action": "goods_sale",
+      "description_sk": "Predaj tovaru — naklad (sposob A)",
+      "description_en": "Goods sold — cost (Method A)",
+      "category": "goods",
+      "postings": [
+        {"debit": "504", "credit": "132", "amount": "cost_of_goods", "description": "Cost of goods sold"}
+      ],
+      "conditions": {
+        "inventory_method": "A",
+        "event": "sale"
+      },
+      "legal_source": "§64 — Predany tovar"
+    },
+    {
+      "id": "supplier_invoice_energy",
+      "section": "§64",
+      "action": "received_supplier_invoice",
+      "description_sk": "Prijata faktura za energie",
+      "description_en": "Received invoice for energy (electricity, gas, water)",
+      "category": "energy",
+      "postings": [
+        {"debit": "502", "credit": "321", "amount": "tax_base", "description": "Energy consumption"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "expense_type": "energy",
+        "vat_deductible": true
+      },
+      "legal_source": "§64 ods. 2 — Spotreba energie"
+    },
+    {
+      "id": "supplier_invoice_repairs",
+      "section": "§65",
+      "action": "received_supplier_invoice",
+      "description_sk": "Prijata faktura za opravy a udrzbu",
+      "description_en": "Received invoice for repairs and maintenance",
+      "category": "service",
+      "postings": [
+        {"debit": "511", "credit": "321", "amount": "tax_base", "description": "Repairs and maintenance cost"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "expense_type": "repairs",
+        "vat_deductible": true
+      },
+      "legal_source": "§65 — Uctova skupina 51 Sluzby"
+    },
+    {
+      "id": "supplier_invoice_rent",
+      "section": "§65",
+      "action": "received_supplier_invoice",
+      "description_sk": "Prijata faktura za najomne",
+      "description_en": "Received invoice for rent",
+      "category": "service",
+      "postings": [
+        {"debit": "518", "credit": "321", "amount": "tax_base", "description": "Rent expense"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "expense_type": "rent",
+        "vat_deductible": true
+      },
+      "legal_source": "§65 — Ostatne sluzby"
+    },
+    {
+      "id": "customer_invoice_service",
+      "section": "§75",
+      "action": "issued_customer_invoice",
+      "description_sk": "Vydana faktura za sluzby",
+      "description_en": "Issued customer invoice for services",
+      "category": "service_revenue",
+      "postings": [
+        {"debit": "311", "credit": "602", "amount": "tax_base", "description": "Service revenue"},
+        {"debit": "311", "credit": "343", "amount": "vat_amount", "description": "Output VAT"}
+      ],
+      "conditions": {
+        "document_type": "issued_invoice",
+        "revenue_type": "service"
+      },
+      "legal_source": "§75 — Uctova skupina 60 Trzby"
+    },
+    {
+      "id": "customer_invoice_goods",
+      "section": "§75",
+      "action": "issued_customer_invoice",
+      "description_sk": "Vydana faktura za tovar",
+      "description_en": "Issued customer invoice for goods",
+      "category": "goods_revenue",
+      "postings": [
+        {"debit": "311", "credit": "604", "amount": "tax_base", "description": "Goods revenue"},
+        {"debit": "311", "credit": "343", "amount": "vat_amount", "description": "Output VAT"}
+      ],
+      "conditions": {
+        "document_type": "issued_invoice",
+        "revenue_type": "goods"
+      },
+      "legal_source": "§75 — Trzby za tovar"
+    },
+    {
+      "id": "customer_invoice_products",
+      "section": "§75",
+      "action": "issued_customer_invoice",
+      "description_sk": "Vydana faktura za vlastne vyrobky",
+      "description_en": "Issued customer invoice for own products",
+      "category": "product_revenue",
+      "postings": [
+        {"debit": "311", "credit": "601", "amount": "tax_base", "description": "Product revenue"},
+        {"debit": "311", "credit": "343", "amount": "vat_amount", "description": "Output VAT"}
+      ],
+      "conditions": {
+        "document_type": "issued_invoice",
+        "revenue_type": "own_products"
+      },
+      "legal_source": "§75 — Trzby za vlastne vyrobky"
+    },
+    {
+      "id": "cash_sale",
+      "section": "§75",
+      "action": "cash_sale",
+      "description_sk": "Trzba v hotovosti",
+      "description_en": "Cash sale",
+      "category": "cash_revenue",
+      "postings": [
+        {"debit": "211", "credit": "601", "amount": "tax_base", "description": "Cash revenue (or 602/604)"},
+        {"debit": "211", "credit": "343", "amount": "vat_amount", "description": "Output VAT"}
+      ],
+      "conditions": {
+        "document_type": "cash_receipt",
+        "payment_method": "cash"
+      },
+      "legal_source": "§75 — Trzby, §46 — Pokladnica"
+    },
+    {
+      "id": "purchase_intangible_asset",
+      "section": "§33-§35, §37",
+      "action": "asset_acquisition",
+      "description_sk": "Nakup dlhodobeho nehmotneho majetku",
+      "description_en": "Purchase of intangible asset",
+      "category": "intangible_asset",
+      "postings": [
+        {"debit": "041", "credit": "321", "amount": "tax_base", "description": "Intangible asset acquisition"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "asset_type": "intangible",
+        "vat_deductible": true
+      },
+      "related_rules": ["activate_intangible_asset", "depreciation_intangible"],
+      "legal_source": "§33-§35 — Obstaranie dlhodobeho majetku"
+    },
+    {
+      "id": "activate_intangible_asset",
+      "section": "§37",
+      "action": "asset_activation",
+      "description_sk": "Zaradenie DNM do pouzivania",
+      "description_en": "Activation of intangible asset into use",
+      "category": "intangible_asset",
+      "postings": [
+        {"debit": "01x", "credit": "041", "amount": "acquisition_cost", "description": "Activate intangible (012-019)"}
+      ],
+      "conditions": {
+        "event": "put_into_use",
+        "asset_type": "intangible"
+      },
+      "legal_source": "§37 — Dlhodoby nehmotny majetok"
+    },
+    {
+      "id": "purchase_tangible_asset",
+      "section": "§33-§35, §38",
+      "action": "asset_acquisition",
+      "description_sk": "Nakup dlhodobeho hmotneho majetku",
+      "description_en": "Purchase of tangible asset",
+      "category": "tangible_asset",
+      "postings": [
+        {"debit": "042", "credit": "321", "amount": "tax_base", "description": "Tangible asset acquisition"},
+        {"debit": "343", "credit": "321", "amount": "vat_amount", "description": "Input VAT (deductible)"}
+      ],
+      "conditions": {
+        "document_type": "received_invoice",
+        "asset_type": "tangible",
+        "vat_deductible": true
+      },
+      "related_rules": ["activate_tangible_asset", "depreciation_tangible"],
+      "legal_source": "§33-§35 — Obstaranie dlhodobeho majetku"
+    },
+    {
+      "id": "activate_tangible_asset",
+      "section": "§38",
+      "action": "asset_activation",
+      "description_sk": "Zaradenie DHM do pouzivania",
+      "description_en": "Activation of tangible asset into use",
+      "category": "tangible_asset",
+      "postings": [
+        {"debit": "02x", "credit": "042", "amount": "acquisition_cost", "description": "Activate tangible (021-029)"}
+      ],
+      "conditions": {
+        "event": "put_into_use",
+        "asset_type": "tangible"
+      },
+      "legal_source": "§38 — Dlhodoby hmotny majetok"
+    },
+    {
+      "id": "self_built_tangible_asset",
+      "section": "§33, §77",
+      "action": "asset_acquisition",
+      "description_sk": "Dlhodoby hmotny majetok vytvoreny vlastnou cinnostou",
+      "description_en": "Self-built tangible asset (own production)",
+      "category": "tangible_asset",
+      "postings": [
+        {"debit": "042", "credit": "624", "amount": "own_cost", "description": "Activation of self-built asset"}
+      ],
+      "conditions": {
+        "event": "own_production",
+        "asset_type": "tangible"
+      },
+      "related_rules": ["activate_tangible_asset"],
+      "legal_source": "§33 ods. 3, §77 — Aktivacia DHM"
+    },
+    {
+      "id": "self_built_intangible_asset",
+      "section": "§33, §77",
+      "action": "asset_acquisition",
+      "description_sk": "Dlhodoby nehmotny majetok vytvoreny vlastnou cinnostou",
+      "description_en": "Self-built intangible asset (own development)",
+      "category": "intangible_asset",
+      "postings": [
+        {"debit": "041", "credit": "623", "amount": "own_cost", "description": "Activation of self-built intangible"}
+      ],
+      "conditions": {
+        "event": "own_production",
+        "asset_type": "intangible"
+      },
+      "related_rules": ["activate_intangible_asset"],
+      "legal_source": "§33 ods. 3, §77 — Aktivacia DNM"
+    },
+    {
+      "id": "depreciation_intangible",
+      "section": "§20, §69",
+      "action": "depreciation",
+      "description_sk": "Mesacny odpis dlhodobeho nehmotneho majetku",
+      "description_en": "Monthly amortization of intangible asset",
+      "category": "depreciation",
+      "postings": [
+        {"debit": "551", "credit": "07x", "amount": "depreciation_amount", "description": "Amortization (073-079)"}
+      ],
+      "conditions": {
+        "event": "monthly_depreciation",
+        "asset_type": "intangible"
+      },
+      "legal_source": "§20, §69 — Odpisy"
+    },
+    {
+      "id": "depreciation_tangible",
+      "section": "§20, §69",
+      "action": "depreciation",
+      "description_sk": "Mesacny odpis dlhodobeho hmotneho majetku",
+      "description_en": "Monthly depreciation of tangible asset",
+      "category": "depreciation",
+      "postings": [
+        {"debit": "551", "credit": "08x", "amount": "depreciation_amount", "description": "Depreciation (081-089)"}
+      ],
+      "conditions": {
+        "event": "monthly_depreciation",
+        "asset_type": "tangible"
+      },
+      "legal_source": "§20, §69 — Odpisy"
+    },
+    {
+      "id": "sale_tangible_asset",
+      "section": "§36, §78",
+      "action": "asset_disposal",
+      "description_sk": "Predaj dlhodobeho hmotneho majetku",
+      "description_en": "Sale of tangible asset",
+      "category": "asset_disposal",
+      "postings": [
+        {"debit": "541", "credit": "08x", "amount": "remaining_book_value", "description": "Remaining depreciation to expense"},
+        {"debit": "08x", "credit": "02x", "amount": "accumulated_depreciation", "description": "Derecognition of asset"},
+        {"debit": "311", "credit": "641", "amount": "sale_price_net", "description": "Sale revenue"},
+        {"debit": "311", "credit": "343", "amount": "vat_amount", "description": "Output VAT on sale"}
+      ],
+      "conditions": {
+        "event": "sale",
+        "asset_type": "tangible"
+      },
+      "legal_source": "§36, §78 — Predaj DM"
+    },
+    {
+      "id": "sale_intangible_asset",
+      "section": "§36, §78",
+      "action": "asset_disposal",
+      "description_sk": "Predaj dlhodobeho nehmotneho majetku",
+      "description_en": "Sale of intangible asset",
+      "category": "asset_disposal",
+      "postings": [
+        {"debit": "541", "credit": "07x", "amount": "remaining_book_value", "description": "Remaining amortization to expense"},
+        {"debit": "07x", "credit": "01x", "amount": "accumulated_amortization", "description": "Derecognition of asset"},
+        {"debit": "311", "credit": "641", "amount": "sale_price_net", "description": "Sale revenue"},
+        {"debit": "311", "credit": "343", "amount": "vat_amount", "description": "Output VAT on sale"}
+      ],
+      "conditions": {
+        "event": "sale",
+        "asset_type": "intangible"
+      },
+      "legal_source": "§36, §78 — Predaj DM"
+    },
+    {
+      "id": "asset_scrapping",
+      "section": "§36",
+      "action": "asset_disposal",
+      "description_sk": "Vyradenie dlhodobeho majetku likvidaciou",
+      "description_en": "Asset scrapping / disposal by liquidation",
+      "category": "asset_disposal",
+      "postings": [
+        {"debit": "551", "credit": "08x", "amount": "remaining_book_value", "description": "Final depreciation to expense"},
+        {"debit": "08x", "credit": "02x", "amount": "original_cost", "description": "Derecognition"}
+      ],
+      "conditions": {
+        "event": "scrapping",
+        "asset_type": "tangible"
+      },
+      "legal_source": "§36 — Vyradenie DM"
+    },
+    {
+      "id": "asset_donation",
+      "section": "§36",
+      "action": "asset_disposal",
+      "description_sk": "Darovanie dlhodobeho majetku",
+      "description_en": "Donation of long-term asset",
+      "category": "asset_disposal",
+      "postings": [
+        {"debit": "543", "credit": "08x", "amount": "net_book_value", "description": "Donation expense (NBV)"},
+        {"debit": "08x", "credit": "02x", "amount": "original_cost", "description": "Derecognition"}
+      ],
+      "conditions": {
+        "event": "donation",
+        "asset_type": "tangible"
+      },
+      "legal_source": "§36 — Vyradenie DM darovanim"
+    },
+    {
+      "id": "asset_shortage",
+      "section": "§36",
+      "action": "asset_disposal",
+      "description_sk": "Manko na dlhodobom majetku",
+      "description_en": "Shortage/damage of long-term asset",
+      "category": "asset_disposal",
+      "postings": [
+        {"debit": "549", "credit": "08x", "amount": "net_book_value", "description": "Shortage/damage expense (NBV)"},
+        {"debit": "08x", "credit": "02x", "amount": "original_cost", "description": "Derecognition"}
+      ],
+      "conditions": {
+        "event": "shortage_or_damage",
+        "asset_type": "tangible"
+      },
+      "legal_source": "§36, §11 — Manka a skody"
+    },
+    {
+      "id": "payroll_gross_wages",
+      "section": "§66",
+      "action": "payroll",
+      "description_sk": "Hrube mzdy zamestnancov",
+      "description_en": "Gross wages — employees",
+      "category": "payroll",
+      "postings": [
+        {"debit": "521", "credit": "331", "amount": "gross_wages", "description": "Gross wages expense"}
+      ],
+      "conditions": {
+        "event": "payroll_calculation"
+      },
+      "legal_source": "§66 — Osobne naklady"
+    },
+    {
+      "id": "payroll_employee_insurance",
+      "section": "§51",
+      "action": "payroll",
+      "description_sk": "Odvody zamestnanca (SP, ZP)",
+      "description_en": "Employee social/health insurance deductions",
+      "category": "payroll",
+      "postings": [
+        {"debit": "331", "credit": "336", "amount": "employee_insurance", "description": "Employee SP+ZP deductions"}
+      ],
+      "conditions": {
+        "event": "payroll_calculation"
+      },
+      "legal_source": "§51 — Zuctovanie so zamestnancami"
+    },
+    {
+      "id": "payroll_employee_tax",
+      "section": "§52",
+      "action": "payroll",
+      "description_sk": "Zrazka dane z prijmov zamestnanca",
+      "description_en": "Employee income tax withholding",
+      "category": "payroll",
+      "postings": [
+        {"debit": "331", "credit": "342", "amount": "employee_tax", "description": "Employee income tax withheld"}
+      ],
+      "conditions": {
+        "event": "payroll_calculation"
+      },
+      "legal_source": "§52 ods. 3 — Ostatne priame dane"
+    },
+    {
+      "id": "payroll_employer_insurance",
+      "section": "§66",
+      "action": "payroll",
+      "description_sk": "Odvody zamestnavatela (SP, ZP)",
+      "description_en": "Employer social/health insurance contributions",
+      "category": "payroll",
+      "postings": [
+        {"debit": "524", "credit": "336", "amount": "employer_insurance", "description": "Employer SP+ZP contributions"}
+      ],
+      "conditions": {
+        "event": "payroll_calculation"
+      },
+      "legal_source": "§66 — Zakonne socialne poistenie"
+    },
+    {
+      "id": "payroll_net_payment",
+      "section": "§51",
+      "action": "payment",
+      "description_sk": "Vyplata cistej mzdy",
+      "description_en": "Net wage payment to employee",
+      "category": "payroll",
+      "postings": [
+        {"debit": "331", "credit": "221", "amount": "net_wages", "description": "Net wage bank transfer"}
+      ],
+      "conditions": {
+        "event": "wage_payment"
+      },
+      "legal_source": "§51 — Zamestnanci"
+    },
+    {
+      "id": "payroll_insurance_payment",
+      "section": "§51",
+      "action": "payment",
+      "description_sk": "Uhrada odvodov do SP a ZP",
+      "description_en": "Payment of insurance to Social/Health Insurance",
+      "category": "payroll",
+      "postings": [
+        {"debit": "336", "credit": "221", "amount": "total_insurance", "description": "Insurance payment to authorities"}
+      ],
+      "conditions": {
+        "event": "insurance_payment"
+      },
+      "legal_source": "§51 — Zuctovanie s organmi SP a ZP"
+    },
+    {
+      "id": "payroll_tax_payment",
+      "section": "§52",
+      "action": "payment",
+      "description_sk": "Uhrada dane z prijmov zo zavislej cinnosti",
+      "description_en": "Payment of withheld employee income tax",
+      "category": "payroll",
+      "postings": [
+        {"debit": "342", "credit": "221", "amount": "total_employee_tax", "description": "Tax payment to tax office"}
+      ],
+      "conditions": {
+        "event": "tax_payment"
+      },
+      "legal_source": "§52 ods. 3"
+    },
+    {
+      "id": "supplier_invoice_payment",
+      "section": "§50",
+      "action": "payment",
+      "description_sk": "Uhrada dodavatelskej faktury",
+      "description_en": "Payment of supplier invoice",
+      "category": "payment",
+      "postings": [
+        {"debit": "321", "credit": "221", "amount": "gross_amount", "description": "Supplier invoice payment"}
+      ],
+      "conditions": {
+        "event": "bank_payment",
+        "counterparty": "supplier"
+      },
+      "legal_source": "§50 — Dodavatelia"
+    },
+    {
+      "id": "customer_invoice_collection",
+      "section": "§49",
+      "action": "collection",
+      "description_sk": "Inkaso odberatelskej faktury",
+      "description_en": "Collection of customer invoice",
+      "category": "collection",
+      "postings": [
+        {"debit": "221", "credit": "311", "amount": "gross_amount", "description": "Customer payment received"}
+      ],
+      "conditions": {
+        "event": "bank_receipt",
+        "counterparty": "customer"
+      },
+      "legal_source": "§49 — Odberatelia"
+    },
+    {
+      "id": "income_tax_advance",
+      "section": "§52",
+      "action": "payment",
+      "description_sk": "Preddavok na dan z prijmov",
+      "description_en": "Income tax advance payment",
+      "category": "tax",
+      "postings": [
+        {"debit": "341", "credit": "221", "amount": "advance_amount", "description": "Income tax advance"}
+      ],
+      "conditions": {
+        "event": "tax_advance_payment"
+      },
+      "legal_source": "§52 ods. 1 — Dan z prijmov"
+    },
+    {
+      "id": "income_tax_yearend",
+      "section": "§10, §73",
+      "action": "year_end",
+      "description_sk": "Zauctovanie dane z prijmov za zdanovacie obdobie",
+      "description_en": "Year-end income tax recognition",
+      "category": "tax",
+      "postings": [
+        {"debit": "591", "credit": "341", "amount": "tax_liability", "description": "Current income tax expense"}
+      ],
+      "conditions": {
+        "event": "year_end_closing"
+      },
+      "legal_source": "§10, §73 — Dan z prijmov"
+    },
+    {
+      "id": "deferred_tax_liability",
+      "section": "§10",
+      "action": "year_end",
+      "description_sk": "Odlozeny danovy zavazok",
+      "description_en": "Deferred tax liability recognition",
+      "category": "tax",
+      "postings": [
+        {"debit": "592", "credit": "481", "amount": "deferred_tax_amount", "description": "Deferred tax liability"}
+      ],
+      "conditions": {
+        "event": "year_end_closing",
+        "deferred_tax_type": "liability"
+      },
+      "legal_source": "§10 — Odlozena dan"
+    },
+    {
+      "id": "deferred_tax_asset",
+      "section": "§10",
+      "action": "year_end",
+      "description_sk": "Odlozena danova pohladavka",
+      "description_en": "Deferred tax asset recognition",
+      "category": "tax",
+      "postings": [
+        {"debit": "481", "credit": "592", "amount": "deferred_tax_amount", "description": "Deferred tax asset"}
+      ],
+      "conditions": {
+        "event": "year_end_closing",
+        "deferred_tax_type": "asset"
+      },
+      "legal_source": "§10 — Odlozena dan"
+    },
+    {
+      "id": "vat_payment",
+      "section": "§52",
+      "action": "payment",
+      "description_sk": "Uhrada DPH danovemu uradu",
+      "description_en": "VAT payment to tax office",
+      "category": "tax",
+      "postings": [
+        {"debit": "343", "credit": "221", "amount": "vat_liability", "description": "VAT payment"}
+      ],
+      "conditions": {
+        "event": "vat_payment",
+        "vat_position": "liability"
+      },
+      "legal_source": "§52 ods. 4 — DPH"
+    },
+    {
+      "id": "vat_refund",
+      "section": "§52",
+      "action": "collection",
+      "description_sk": "Prijatie nadmerneho odpoctu DPH",
+      "description_en": "VAT refund received",
+      "category": "tax",
+      "postings": [
+        {"debit": "221", "credit": "343", "amount": "vat_refund", "description": "VAT refund received"}
+      ],
+      "conditions": {
+        "event": "vat_refund",
+        "vat_position": "receivable"
+      },
+      "legal_source": "§52 ods. 4 — DPH"
+    },
+    {
+      "id": "fx_loss_settlement",
+      "section": "§24",
+      "action": "fx_difference",
+      "description_sk": "Kurzova strata pri uhrade",
+      "description_en": "Foreign exchange loss on settlement",
+      "category": "fx",
+      "postings": [
+        {"debit": "563", "credit": "321", "amount": "fx_loss", "description": "FX loss on payable settlement"}
+      ],
+      "conditions": {
+        "event": "foreign_currency_settlement",
+        "fx_direction": "loss"
+      },
+      "legal_source": "§24 — Kurzove rozdiely"
+    },
+    {
+      "id": "fx_gain_settlement",
+      "section": "§24",
+      "action": "fx_difference",
+      "description_sk": "Kurzovy zisk pri uhrade",
+      "description_en": "Foreign exchange gain on settlement",
+      "category": "fx",
+      "postings": [
+        {"debit": "321", "credit": "663", "amount": "fx_gain", "description": "FX gain on payable settlement"}
+      ],
+      "conditions": {
+        "event": "foreign_currency_settlement",
+        "fx_direction": "gain"
+      },
+      "legal_source": "§24 — Kurzove rozdiely"
+    },
+    {
+      "id": "allowance_receivable_create",
+      "section": "§18, §57",
+      "action": "allowance",
+      "description_sk": "Tvorba opravnej polozky k pohladavkam",
+      "description_en": "Creation of allowance for doubtful receivables",
+      "category": "allowance",
+      "postings": [
+        {"debit": "547", "credit": "391", "amount": "allowance_amount", "description": "Allowance creation — receivables"}
+      ],
+      "conditions": {
+        "event": "allowance_creation",
+        "asset_type": "receivable"
+      },
+      "legal_source": "§18, §57 — Opravne polozky k pohladavkam"
+    },
+    {
+      "id": "allowance_receivable_release",
+      "section": "§18, §57",
+      "action": "allowance",
+      "description_sk": "Zrusenie opravnej polozky k pohladavkam",
+      "description_en": "Release of allowance for receivables",
+      "category": "allowance",
+      "postings": [
+        {"debit": "391", "credit": "547", "amount": "release_amount", "description": "Allowance release — receivables"}
+      ],
+      "conditions": {
+        "event": "allowance_release",
+        "asset_type": "receivable"
+      },
+      "legal_source": "§18, §57 — Opravne polozky k pohladavkam"
+    },
+    {
+      "id": "allowance_inventory_create",
+      "section": "§18",
+      "action": "allowance",
+      "description_sk": "Tvorba opravnej polozky k zasobam",
+      "description_en": "Creation of allowance for inventory",
+      "category": "allowance",
+      "postings": [
+        {"debit": "505", "credit": "19x", "amount": "allowance_amount", "description": "Allowance creation — inventory"}
+      ],
+      "conditions": {
+        "event": "allowance_creation",
+        "asset_type": "inventory"
+      },
+      "legal_source": "§18 — Opravne polozky, §64 ods. 4"
+    },
+    {
+      "id": "allowance_lt_asset_create",
+      "section": "§18, §69",
+      "action": "allowance",
+      "description_sk": "Tvorba opravnej polozky k dlhodobemu majetku",
+      "description_en": "Creation of allowance for long-term assets",
+      "category": "allowance",
+      "postings": [
+        {"debit": "553", "credit": "09x", "amount": "allowance_amount", "description": "Allowance creation — LT assets"}
+      ],
+      "conditions": {
+        "event": "allowance_creation",
+        "asset_type": "long_term"
+      },
+      "legal_source": "§18, §69 — Opravne polozky k DM"
+    },
+    {
+      "id": "receivable_writeoff",
+      "section": "§57",
+      "action": "writeoff",
+      "description_sk": "Odpis pohladavky",
+      "description_en": "Receivable write-off",
+      "category": "writeoff",
+      "postings": [
+        {"debit": "546", "credit": "311", "amount": "writeoff_amount", "description": "Receivable written off"},
+        {"debit": "391", "credit": "547", "amount": "existing_allowance", "description": "Release existing allowance"}
+      ],
+      "conditions": {
+        "event": "receivable_writeoff"
+      },
+      "legal_source": "§57 — Odpis pohladavok"
+    },
+    {
+      "id": "reserve_create_statutory",
+      "section": "§19, §60",
+      "action": "reserve",
+      "description_sk": "Tvorba zakonnej rezervy",
+      "description_en": "Creation of statutory reserve",
+      "category": "reserve",
+      "postings": [
+        {"debit": "548", "credit": "451", "amount": "reserve_amount", "description": "Statutory reserve creation"}
+      ],
+      "conditions": {
+        "event": "reserve_creation",
+        "reserve_type": "statutory"
+      },
+      "legal_source": "§19, §60 — Rezervy"
+    },
+    {
+      "id": "reserve_create_shortterm",
+      "section": "§19",
+      "action": "reserve",
+      "description_sk": "Tvorba kratkodbej rezervy",
+      "description_en": "Creation of short-term reserve",
+      "category": "reserve",
+      "postings": [
+        {"debit": "548", "credit": "323", "amount": "reserve_amount", "description": "Short-term reserve creation"}
+      ],
+      "conditions": {
+        "event": "reserve_creation",
+        "reserve_type": "short_term"
+      },
+      "legal_source": "§19 — Rezervy"
+    },
+    {
+      "id": "financial_leasing_recognition",
+      "section": "§30a",
+      "action": "leasing",
+      "description_sk": "Zauctovanie financneho leasingu (najomca)",
+      "description_en": "Financial leasing recognition (lessee)",
+      "category": "leasing",
+      "postings": [
+        {"debit": "042", "credit": "474", "amount": "present_value", "description": "Lease asset at PV of payments"}
+      ],
+      "conditions": {
+        "event": "lease_inception",
+        "lease_type": "financial",
+        "role": "lessee"
+      },
+      "related_rules": ["activate_tangible_asset", "leasing_payment"],
+      "legal_source": "§30a — Financny prenajom"
+    },
+    {
+      "id": "leasing_payment",
+      "section": "§30a",
+      "action": "payment",
+      "description_sk": "Splatka financneho leasingu",
+      "description_en": "Financial leasing installment payment",
+      "category": "leasing",
+      "postings": [
+        {"debit": "474", "credit": "221", "amount": "principal_portion", "description": "Lease principal repayment"},
+        {"debit": "562", "credit": "221", "amount": "interest_portion", "description": "Lease interest expense"}
+      ],
+      "conditions": {
+        "event": "lease_payment",
+        "lease_type": "financial"
+      },
+      "legal_source": "§30a — Financny prenajom"
+    },
+    {
+      "id": "prepaid_expense",
+      "section": "§5, §56",
+      "action": "accrual",
+      "description_sk": "Naklady buducich obdobi (napr. predplatne)",
+      "description_en": "Prepaid expense (e.g. advance rent, subscription)",
+      "category": "accrual",
+      "postings": [
+        {"debit": "381", "credit": "221", "amount": "prepaid_amount", "description": "Prepaid expense"}
+      ],
+      "conditions": {
+        "event": "prepayment",
+        "accrual_type": "prepaid_expense"
+      },
+      "related_rules": ["prepaid_expense_release"],
+      "legal_source": "§5, §56 — Casove rozlisenie"
+    },
+    {
+      "id": "prepaid_expense_release",
+      "section": "§5, §56",
+      "action": "accrual",
+      "description_sk": "Rozpustenie nakladov buducich obdobi",
+      "description_en": "Release of prepaid expense to current period",
+      "category": "accrual",
+      "postings": [
+        {"debit": "5xx", "credit": "381", "amount": "period_amount", "description": "Prepaid expense release to expense"}
+      ],
+      "conditions": {
+        "event": "period_end",
+        "accrual_type": "prepaid_release"
+      },
+      "legal_source": "§56 ods. 2 — Naklady buducich obdobi"
+    },
+    {
+      "id": "deferred_revenue",
+      "section": "§5, §56",
+      "action": "accrual",
+      "description_sk": "Vynosy buducich obdobi (prijem vopred)",
+      "description_en": "Deferred revenue (payment received in advance)",
+      "category": "accrual",
+      "postings": [
+        {"debit": "221", "credit": "384", "amount": "deferred_amount", "description": "Deferred revenue"}
+      ],
+      "conditions": {
+        "event": "advance_receipt",
+        "accrual_type": "deferred_revenue"
+      },
+      "legal_source": "§56 ods. 9 — Vynosy buducich obdobi"
+    },
+    {
+      "id": "deferred_revenue_release",
+      "section": "§5, §56",
+      "action": "accrual",
+      "description_sk": "Rozpustenie vynosov buducich obdobi",
+      "description_en": "Release of deferred revenue to current period",
+      "category": "accrual",
+      "postings": [
+        {"debit": "384", "credit": "6xx", "amount": "period_amount", "description": "Deferred revenue release to revenue"}
+      ],
+      "conditions": {
+        "event": "period_end",
+        "accrual_type": "deferred_revenue_release"
+      },
+      "legal_source": "§56 — Vynosy buducich obdobi"
+    },
+    {
+      "id": "grant_received_for_asset",
+      "section": "§52a",
+      "action": "grant",
+      "description_sk": "Prijata dotacia na obstaranie majetku",
+      "description_en": "Grant received for asset acquisition",
+      "category": "grant",
+      "postings": [
+        {"debit": "221", "credit": "346", "amount": "grant_amount", "description": "Grant receipt (state budget)"},
+        {"debit": "346", "credit": "384", "amount": "grant_amount", "description": "Defer grant to future periods"}
+      ],
+      "conditions": {
+        "event": "grant_receipt",
+        "grant_type": "asset_acquisition"
+      },
+      "legal_source": "§52a — Dotacie"
+    },
+    {
+      "id": "grant_release_to_revenue",
+      "section": "§52a",
+      "action": "grant",
+      "description_sk": "Rozpustenie dotacie do vynosov",
+      "description_en": "Grant release to revenue (matching depreciation)",
+      "category": "grant",
+      "postings": [
+        {"debit": "384", "credit": "648", "amount": "period_grant", "description": "Grant revenue recognition"}
+      ],
+      "conditions": {
+        "event": "period_end",
+        "grant_type": "revenue_release"
+      },
+      "legal_source": "§52a — Dotacie na majetok"
+    },
+    {
+      "id": "profit_distribution_dividends",
+      "section": "§59",
+      "action": "profit_distribution",
+      "description_sk": "Rozdelenie zisku — dividendy",
+      "description_en": "Profit distribution — dividends to shareholders",
+      "category": "equity",
+      "postings": [
+        {"debit": "431", "credit": "364", "amount": "dividend_amount", "description": "Dividends declared"}
+      ],
+      "conditions": {
+        "event": "profit_distribution",
+        "distribution_type": "dividends"
+      },
+      "legal_source": "§59 ods. 15 — Vysledok hospodarenia"
+    },
+    {
+      "id": "profit_distribution_reserve_fund",
+      "section": "§59",
+      "action": "profit_distribution",
+      "description_sk": "Pridelenie do zakonneho rezervneho fondu",
+      "description_en": "Allocation to statutory reserve fund",
+      "category": "equity",
+      "postings": [
+        {"debit": "431", "credit": "421", "amount": "reserve_amount", "description": "To statutory reserve fund"}
+      ],
+      "conditions": {
+        "event": "profit_distribution",
+        "distribution_type": "reserve_fund"
+      },
+      "legal_source": "§59 ods. 12 — Zakonny rezervny fond"
+    },
+    {
+      "id": "profit_retained",
+      "section": "§59",
+      "action": "profit_distribution",
+      "description_sk": "Nerozdeleny zisk",
+      "description_en": "Retained earnings",
+      "category": "equity",
+      "postings": [
+        {"debit": "431", "credit": "428", "amount": "retained_amount", "description": "Retained earnings"}
+      ],
+      "conditions": {
+        "event": "profit_distribution",
+        "distribution_type": "retained"
+      },
+      "legal_source": "§59 ods. 13 — Nerozdeleny zisk"
+    },
+    {
+      "id": "opening_books_asset",
+      "section": "§7",
+      "action": "opening",
+      "description_sk": "Otvorenie uctovnych knih — aktivny ucet",
+      "description_en": "Opening books — asset account",
+      "category": "closing_opening",
+      "postings": [
+        {"debit": "0xx-3xx", "credit": "701", "amount": "opening_balance", "description": "Open asset balance from 701"}
+      ],
+      "conditions": {
+        "event": "opening_books",
+        "account_side": "active"
+      },
+      "legal_source": "§7 — Otvaranie uctovnych knih"
+    },
+    {
+      "id": "opening_books_liability",
+      "section": "§7",
+      "action": "opening",
+      "description_sk": "Otvorenie uctovnych knih — pasivny ucet",
+      "description_en": "Opening books — liability/equity account",
+      "category": "closing_opening",
+      "postings": [
+        {"debit": "701", "credit": "3xx-4xx", "amount": "opening_balance", "description": "Open liability/equity balance to 701"}
+      ],
+      "conditions": {
+        "event": "opening_books",
+        "account_side": "passive"
+      },
+      "legal_source": "§7 — Otvaranie uctovnych knih"
+    },
+    {
+      "id": "closing_expense_to_pl",
+      "section": "§8",
+      "action": "closing",
+      "description_sk": "Uzavretie nakladovych uctov do uctu ziskov a strat",
+      "description_en": "Close expense accounts to P&L",
+      "category": "closing_opening",
+      "postings": [
+        {"debit": "710", "credit": "5xx", "amount": "account_balance", "description": "Close expense to P&L"}
+      ],
+      "conditions": {
+        "event": "closing_books",
+        "account_class": "5"
+      },
+      "legal_source": "§8 — Uzavieranie uctovnych knih"
+    },
+    {
+      "id": "closing_revenue_to_pl",
+      "section": "§8",
+      "action": "closing",
+      "description_sk": "Uzavretie vynosovych uctov do uctu ziskov a strat",
+      "description_en": "Close revenue accounts to P&L",
+      "category": "closing_opening",
+      "postings": [
+        {"debit": "6xx", "credit": "710", "amount": "account_balance", "description": "Close revenue to P&L"}
+      ],
+      "conditions": {
+        "event": "closing_books",
+        "account_class": "6"
+      },
+      "legal_source": "§8 — Uzavieranie uctovnych knih"
+    },
+    {
+      "id": "uninvoiced_delivery",
+      "section": "§50",
+      "action": "accrual",
+      "description_sk": "Nevyfakturovana dodavka",
+      "description_en": "Uninvoiced delivery (goods/services received, no invoice yet)",
+      "category": "accrual",
+      "postings": [
+        {"debit": "5xx", "credit": "326", "amount": "estimated_amount", "description": "Estimated expense for uninvoiced delivery"}
+      ],
+      "conditions": {
+        "event": "period_end",
+        "accrual_type": "uninvoiced_delivery"
+      },
+      "legal_source": "§50 — Nevyfakturovane dodavky (326)"
+    },
+    {
+      "id": "bank_loan_receipt",
+      "section": "§46, §61",
+      "action": "financing",
+      "description_sk": "Prijatie bankoveho uveru",
+      "description_en": "Bank loan received",
+      "category": "financing",
+      "postings": [
+        {"debit": "221", "credit": "461", "amount": "loan_amount", "description": "Long-term bank loan received"}
+      ],
+      "conditions": {
+        "event": "loan_receipt",
+        "loan_type": "long_term"
+      },
+      "legal_source": "§61 — Bankove uvery"
+    },
+    {
+      "id": "bank_loan_repayment",
+      "section": "§61",
+      "action": "payment",
+      "description_sk": "Splatka bankoveho uveru",
+      "description_en": "Bank loan repayment",
+      "category": "financing",
+      "postings": [
+        {"debit": "461", "credit": "221", "amount": "principal", "description": "Loan principal repayment"},
+        {"debit": "562", "credit": "221", "amount": "interest", "description": "Loan interest expense"}
+      ],
+      "conditions": {
+        "event": "loan_repayment"
+      },
+      "legal_source": "§61, §70 ods. 2 — Uroky"
+    },
+    {
+      "id": "interest_expense",
+      "section": "§70",
+      "action": "financial_expense",
+      "description_sk": "Urokovy naklad",
+      "description_en": "Interest expense (bank loans, supplier financing)",
+      "category": "financial",
+      "postings": [
+        {"debit": "562", "credit": "221", "amount": "interest_amount", "description": "Interest paid"}
+      ],
+      "conditions": {
+        "event": "interest_payment"
+      },
+      "legal_source": "§70 — Financne naklady, ucet 562"
+    },
+    {
+      "id": "bank_fees",
+      "section": "§70",
+      "action": "financial_expense",
+      "description_sk": "Bankove poplatky",
+      "description_en": "Bank fees and charges",
+      "category": "financial",
+      "postings": [
+        {"debit": "568", "credit": "221", "amount": "fee_amount", "description": "Bank fees"}
+      ],
+      "conditions": {
+        "event": "bank_fee"
+      },
+      "legal_source": "§70 — Ostatne financne naklady, ucet 568"
+    },
+    {
+      "id": "interest_revenue",
+      "section": "§80",
+      "action": "financial_revenue",
+      "description_sk": "Urokovy vynos",
+      "description_en": "Interest revenue (bank deposits, loans given)",
+      "category": "financial",
+      "postings": [
+        {"debit": "221", "credit": "662", "amount": "interest_amount", "description": "Interest received"}
+      ],
+      "conditions": {
+        "event": "interest_receipt"
+      },
+      "legal_source": "§80 — Financne vynosy, ucet 662"
+    },
+    {
+      "id": "social_fund_contribution",
+      "section": "§61",
+      "action": "social_fund",
+      "description_sk": "Prispevok do socialneho fondu",
+      "description_en": "Social fund contribution (employer mandatory)",
+      "category": "payroll",
+      "postings": [
+        {"debit": "527", "credit": "472", "amount": "contribution_amount", "description": "Social fund contribution"}
+      ],
+      "conditions": {
+        "event": "social_fund_contribution"
+      },
+      "legal_source": "§61 ods. 4 — Zavazky zo socialneho fondu (472)"
+    },
+    {
+      "id": "social_fund_usage",
+      "section": "§61",
+      "action": "social_fund",
+      "description_sk": "Pouzitie socialneho fondu",
+      "description_en": "Social fund usage (employee benefits)",
+      "category": "payroll",
+      "postings": [
+        {"debit": "472", "credit": "221", "amount": "benefit_amount", "description": "Social fund benefit payment"}
+      ],
+      "conditions": {
+        "event": "social_fund_usage"
+      },
+      "legal_source": "§61 ods. 4 — Zavazky zo socialneho fondu"
+    },
+    {
+      "id": "motor_vehicle_tax",
+      "section": "§67",
+      "action": "tax",
+      "description_sk": "Dan z motorovych vozidiel",
+      "description_en": "Motor vehicle tax",
+      "category": "tax",
+      "postings": [
+        {"debit": "531", "credit": "345", "amount": "tax_amount", "description": "Motor vehicle tax expense"}
+      ],
+      "conditions": {
+        "event": "tax_assessment",
+        "tax_type": "motor_vehicle"
+      },
+      "legal_source": "§67 — Dane a poplatky, ucet 531"
+    },
+    {
+      "id": "real_estate_tax",
+      "section": "§67",
+      "action": "tax",
+      "description_sk": "Dan z nehnutelnosti",
+      "description_en": "Real estate tax",
+      "category": "tax",
+      "postings": [
+        {"debit": "532", "credit": "345", "amount": "tax_amount", "description": "Real estate tax expense"}
+      ],
+      "conditions": {
+        "event": "tax_assessment",
+        "tax_type": "real_estate"
+      },
+      "legal_source": "§67 — Dane a poplatky, ucet 532"
+    },
+    {
+      "id": "advance_paid_to_supplier",
+      "section": "§49",
+      "action": "advance",
+      "description_sk": "Poskytnuty preddavok dodavatelovi",
+      "description_en": "Advance payment to supplier",
+      "category": "advance",
+      "postings": [
+        {"debit": "314", "credit": "221", "amount": "advance_amount", "description": "Advance paid to supplier"}
+      ],
+      "conditions": {
+        "event": "advance_payment",
+        "direction": "given"
+      },
+      "legal_source": "§49 — Poskytnutne preddavky (314)"
+    },
+    {
+      "id": "advance_received_from_customer",
+      "section": "§50",
+      "action": "advance",
+      "description_sk": "Prijaty preddavok od odberatela",
+      "description_en": "Advance received from customer",
+      "category": "advance",
+      "postings": [
+        {"debit": "221", "credit": "324", "amount": "advance_amount", "description": "Advance received from customer"}
+      ],
+      "conditions": {
+        "event": "advance_receipt",
+        "direction": "received"
+      },
+      "legal_source": "§50 — Prijate preddavky (324)"
+    },
+    {
+      "id": "cash_withdrawal_from_bank",
+      "section": "§46",
+      "action": "transfer",
+      "description_sk": "Vyber hotovosti z banky",
+      "description_en": "Cash withdrawal from bank",
+      "category": "cash",
+      "postings": [
+        {"debit": "261", "credit": "221", "amount": "withdrawal_amount", "description": "Money in transit — from bank"},
+        {"debit": "211", "credit": "261", "amount": "withdrawal_amount", "description": "Cash received"}
+      ],
+      "conditions": {
+        "event": "cash_withdrawal"
+      },
+      "legal_source": "§46 — Financne ucty, ucet 261"
+    },
+    {
+      "id": "cash_deposit_to_bank",
+      "section": "§46",
+      "action": "transfer",
+      "description_sk": "Vlozenie hotovosti do banky",
+      "description_en": "Cash deposit to bank",
+      "category": "cash",
+      "postings": [
+        {"debit": "261", "credit": "211", "amount": "deposit_amount", "description": "Money in transit — from cash"},
+        {"debit": "221", "credit": "261", "amount": "deposit_amount", "description": "Bank account credited"}
+      ],
+      "conditions": {
+        "event": "cash_deposit"
+      },
+      "legal_source": "§46 — Financne ucty, ucet 261"
+    }
+  ],
+  "chart_of_accounts": {
+    "class_0": {
+      "name_sk": "Dlhodoby majetok",
+      "name_en": "Long-term assets",
+      "groups": [
+        {"group": "01", "name": "Dlhodoby nehmotny majetok", "accounts": ["012", "013", "014", "015", "019"]},
+        {"group": "02", "name": "Dlhodoby hmotny majetok — odpisovany", "accounts": ["021", "022", "025", "026", "029"]},
+        {"group": "03", "name": "Dlhodoby hmotny majetok — neodpisovany", "accounts": ["031", "032"]},
+        {"group": "04", "name": "Obstaranie dlhodobeho majetku", "accounts": ["041", "042", "043"]},
+        {"group": "05", "name": "Poskytnutne preddavky na dlhodoby majetok", "accounts": ["051", "052", "053"]},
+        {"group": "06", "name": "Dlhodoby financny majetok", "accounts": ["061", "062", "063", "065", "066", "067", "069"]},
+        {"group": "07", "name": "Opravky k dlhodobemu nehmotnemu majetku", "accounts": ["072", "073", "074", "075", "079"]},
+        {"group": "08", "name": "Opravky k dlhodobemu hmotnemu majetku", "accounts": ["081", "082", "085", "086", "089"]},
+        {"group": "09", "name": "Opravne polozky k dlhodobemu majetku", "accounts": ["091", "092", "093", "094", "095", "096", "097", "098"]}
+      ]
+    },
+    "class_1": {
+      "name_sk": "Zasoby",
+      "name_en": "Inventories",
+      "groups": [
+        {"group": "11", "name": "Material", "accounts": ["111", "112", "119"]},
+        {"group": "12", "name": "Zasoby vlastnej vyroby", "accounts": ["121", "122", "123", "124"]},
+        {"group": "13", "name": "Tovar", "accounts": ["131", "132", "133", "139"]},
+        {"group": "19", "name": "Opravne polozky k zasobam", "accounts": ["191", "192", "193", "194", "195", "196"]}
+      ]
+    },
+    "class_2": {
+      "name_sk": "Financne ucty",
+      "name_en": "Financial accounts",
+      "groups": [
+        {"group": "21", "name": "Peniaze", "accounts": ["211", "213"]},
+        {"group": "22", "name": "Ucty v bankach", "accounts": ["221"]},
+        {"group": "23", "name": "Bezne bankove uvery", "accounts": ["231", "232"]},
+        {"group": "24", "name": "Ine kratkodobe financne vypomoci", "accounts": ["241", "249"]},
+        {"group": "25", "name": "Kratkodoby financny majetok", "accounts": ["251", "252", "253", "255", "256", "257", "259"]},
+        {"group": "26", "name": "Prevody medzi financnymi uctami", "accounts": ["261"]},
+        {"group": "29", "name": "Opravne polozky ku kratkodobemu financnemu majetku", "accounts": ["291"]}
+      ]
+    },
+    "class_3": {
+      "name_sk": "Zuctovacie vztahy",
+      "name_en": "Settlement relationships",
+      "groups": [
+        {"group": "31", "name": "Pohladavky", "accounts": ["311", "312", "313", "314", "315", "316"]},
+        {"group": "32", "name": "Zavazky", "accounts": ["321", "322", "323", "324", "325", "326"]},
+        {"group": "33", "name": "Zuctovanie so zamestnancami a organmi", "accounts": ["331", "333", "335", "336"]},
+        {"group": "34", "name": "Zuctovanie dani a dotacii", "accounts": ["341", "342", "343", "345", "346", "347"]},
+        {"group": "35", "name": "Pohladavky voci spolocnikom", "accounts": ["351", "353", "354", "355", "358"]},
+        {"group": "36", "name": "Zavazky voci spolocnikom", "accounts": ["361", "364", "365", "366", "367", "368"]},
+        {"group": "37", "name": "Ine pohladavky a zavazky", "accounts": ["371", "372", "373", "374", "375", "376", "377", "378", "379"]},
+        {"group": "38", "name": "Casove rozlisenie", "accounts": ["381", "382", "383", "384", "385"]},
+        {"group": "39", "name": "Opravne polozky a vnutorne zuctovanie", "accounts": ["391", "395", "398"]}
+      ]
+    },
+    "class_4": {
+      "name_sk": "Kapitalove ucty a dlhodobe zavazky",
+      "name_en": "Capital accounts and long-term liabilities",
+      "groups": [
+        {"group": "41", "name": "Zakladne imanie a kapitalove fondy", "accounts": ["411", "412", "413", "414", "415", "416", "417", "418", "419"]},
+        {"group": "42", "name": "Fondy tvorene zo zisku", "accounts": ["421", "422", "423", "427", "428", "429"]},
+        {"group": "43", "name": "Vysledok hospodarenia", "accounts": ["431"]},
+        {"group": "45", "name": "Rezervy", "accounts": ["451", "459"]},
+        {"group": "46", "name": "Bankove uvery", "accounts": ["461"]},
+        {"group": "47", "name": "Dlhodobe zavazky", "accounts": ["471", "472", "473", "474", "475", "476", "478", "479"]},
+        {"group": "48", "name": "Odlozeny danovy zavazok a pohladavka", "accounts": ["481"]},
+        {"group": "49", "name": "Fyzicka osoba — podnikatel", "accounts": ["491"]}
+      ]
+    },
+    "class_5": {
+      "name_sk": "Naklady",
+      "name_en": "Expenses",
+      "groups": [
+        {"group": "50", "name": "Spotrebovane nakupy", "accounts": ["501", "502", "503", "504", "505", "507"]},
+        {"group": "51", "name": "Sluzby", "accounts": ["511", "512", "513", "518"]},
+        {"group": "52", "name": "Osobne naklady", "accounts": ["521", "522", "523", "524", "525", "526", "527", "528"]},
+        {"group": "53", "name": "Dane a poplatky", "accounts": ["531", "532", "538"]},
+        {"group": "54", "name": "Ine naklady na hospodarsku cinnost", "accounts": ["541", "542", "543", "544", "545", "546", "547", "548", "549"]},
+        {"group": "55", "name": "Odpisy a opravne polozky k DM", "accounts": ["551", "553", "555", "557"]},
+        {"group": "56", "name": "Financne naklady", "accounts": ["561", "562", "563", "564", "565", "566", "567", "568", "569"]},
+        {"group": "59", "name": "Dane z prijmov a prevodove ucty", "accounts": ["591", "592", "595", "596"]}
+      ]
+    },
+    "class_6": {
+      "name_sk": "Vynosy",
+      "name_en": "Revenues",
+      "groups": [
+        {"group": "60", "name": "Trzby za vlastne vykony a tovar", "accounts": ["601", "602", "604", "606", "607"]},
+        {"group": "61", "name": "Zmeny stavu vnutroorganizacnych zasob", "accounts": ["611", "612", "613", "614"]},
+        {"group": "62", "name": "Aktivacia", "accounts": ["621", "622", "623", "624"]},
+        {"group": "64", "name": "Ine vynosy z hospodarskej cinnosti", "accounts": ["641", "642", "644", "645", "646", "648"]},
+        {"group": "65", "name": "Zuctovanie niektorych poloziek", "accounts": ["655", "657"]},
+        {"group": "66", "name": "Financne vynosy", "accounts": ["661", "662", "663", "664", "665", "666", "667", "668"]}
+      ]
+    },
+    "class_7": {
+      "name_sk": "Uzavierkove ucty a podsuvahove ucty",
+      "name_en": "Closing and off-balance sheet accounts",
+      "groups": [
+        {"group": "70", "name": "Suvahove uzavierkove ucty", "accounts": ["701", "702"]},
+        {"group": "71", "name": "Vysledkovy uzavierkovy ucet", "accounts": ["710", "711"]},
+        {"group": "75-79", "name": "Podsuvahove ucty", "accounts": []}
+      ]
+    }
+  },
+  "vat_rules_summary": {
+    "output_vat": {
+      "description": "DPH z predaja (vystupna dan)",
+      "booking": "Debit 311 / Credit 343",
+      "section": "§52 ods. 4"
+    },
+    "input_vat_deductible": {
+      "description": "DPH z nakupu s narokom na odpocet (vstupna dan)",
+      "booking": "Debit 343 / Credit 321",
+      "section": "§52 ods. 4"
+    },
+    "input_vat_non_deductible": {
+      "description": "DPH z nakupu bez naroku na odpocet — sucast nakladu",
+      "booking": "Included in expense/asset cost, NOT on 343",
+      "section": "§52 ods. 5"
+    },
+    "eu_acquisition_self_assessment": {
+      "description": "DPH pri nadobudnuti tovaru z EU (samozdanenie)",
+      "booking": "Debit 343 analytical / Credit 343 analytical",
+      "section": "§52 ods. 6"
+    },
+    "prorated_deduction": {
+      "description": "Koeficient pre pomerny odpocet DPH",
+      "booking": "Difference to 548 (expense) or 648 (revenue)",
+      "section": "§52 ods. 8"
+    },
+    "theft_vat_adjustment": {
+      "description": "DPH pri kradezi majetku — odvod vo vyske odpocitanej dane",
+      "booking": "Debit 549 / Credit 343",
+      "section": "§52 ods. 10"
+    }
+  },
+  "amendment_2025": {
+    "effective_date": "2025-01-01",
+    "reference": "Opatrenie c. MF/014948/2024-74",
+    "changes": [
+      {
+        "topic": "Dorovnavacia dan (top-up tax)",
+        "description": "Global minimum tax for large groups per Act 507/2023 Z.z.",
+        "accounts_affected": ["341", "591"],
+        "section": "§52 ods. 1, §67 ods. 1"
+      },
+      {
+        "topic": "Dan z financnych transakcii",
+        "description": "Financial transaction tax per Act 279/2024 Z.z.",
+        "accounts_affected": ["538"],
+        "section": "§67 ods. 2"
+      },
+      {
+        "topic": "Kryptoaktiva (crypto-assets)",
+        "description": "Crypto-assets acquired through network validation — revenue on 668, off-balance tracking",
+        "accounts_affected": ["668"],
+        "section": "§80 ods. 8, §85 ods. 2 pism. n)"
+      },
+      {
+        "topic": "Utility tokens",
+        "description": "New section §30f for utility token accounting",
+        "accounts_affected": [],
+        "section": "§30f"
+      }
+    ]
+  }
+}
