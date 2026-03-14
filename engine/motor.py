@@ -35,10 +35,12 @@ class Transakcia:
     platitel_dph_dodavatel: Optional[bool] = None
     forma_uhrady: Optional[str] = None
     metoda_zasob: Optional[str] = None
+    tuzemsky_prenos: Optional[bool] = None
 
     # Amounts
     zaklad_dane: Optional[Decimal] = None
     celkova_vyska_uhrady: Optional[Decimal] = None
+    celkova_suma: Optional[Decimal] = None  # Direct total (for non-DPH transactions)
     sadzba_dane: Optional[Decimal] = None
     nadobudacia_cena: Optional[Decimal] = None
     preddavkova_suma: Optional[Decimal] = None
@@ -91,7 +93,7 @@ def _podmienka_zodpoveda(hodnota_pravidla, hodnota_transakcie) -> bool:
     return hodnota_pravidla == hodnota_transakcie
 
 
-def najdi_zhody(transakcia: Transakcia, pravidla: list[Pravidlo] = None) -> list[Pravidlo]:
+def najdi_zhody(transakcia: Transakcia, pravidla: Optional[list[Pravidlo]] = None) -> list[Pravidlo]:
     """Nájdi všetky pravidlá, ktoré sa zhodujú s transakciou."""
     if pravidla is None:
         pravidla = VSETKY_PRAVIDLA
@@ -113,6 +115,8 @@ def najdi_zhody(transakcia: Transakcia, pravidla: list[Pravidlo] = None) -> list
             continue
         if not _podmienka_zodpoveda(pod.metoda_zasob, transakcia.metoda_zasob):
             continue
+        if not _podmienka_zodpoveda(pod.tuzemsky_prenos, transakcia.tuzemsky_prenos):
+            continue
         zhody.append(p)
 
     return zhody
@@ -122,7 +126,7 @@ def najdi_zhody(transakcia: Transakcia, pravidla: list[Pravidlo] = None) -> list
 # Step 2: Resolve — pick the best rule if multiple match
 # ---------------------------------------------------------------------------
 
-def vyber_pravidlo(transakcia: Transakcia, pravidla: list[Pravidlo] = None) -> Pravidlo:
+def vyber_pravidlo(transakcia: Transakcia, pravidla: Optional[list[Pravidlo]] = None) -> Pravidlo:
     """Nájdi zhody a vyrieš konflikty. Vráti jedno pravidlo."""
     zhody = najdi_zhody(transakcia, pravidla)
     return vyriesit_konflikty(zhody)
@@ -153,6 +157,9 @@ def _vypocitaj_sumu(
         return dan(zd, sadzba)
 
     if vzorec == VzorecSumy.CELKOVA_VYSKA:
+        # Direct total for non-DPH transactions (bankové poplatky, cestovné, etc.)
+        if transakcia.celkova_suma is not None and transakcia.zaklad_dane is None:
+            return transakcia.celkova_suma
         zd = _vypocitaj_sumu(VzorecSumy.ZAKLAD_DANE, transakcia, sadzba)
         d = _vypocitaj_sumu(VzorecSumy.DAN, transakcia, sadzba)
         return celkova_vyska(zd, d)
@@ -205,8 +212,8 @@ def generuj_zapis(pravidlo: Pravidlo, transakcia: Transakcia) -> UctovnyZapis:
         ))
 
     # Compute totals
-    suma_md = sum(r.suma for r in riadky_zapisu if r.strana == StranaUctu.MA_DAT)
-    suma_d = sum(r.suma for r in riadky_zapisu if r.strana == StranaUctu.DAL)
+    suma_md = sum((r.suma for r in riadky_zapisu if r.strana == StranaUctu.MA_DAT), Decimal("0"))
+    suma_d = sum((r.suma for r in riadky_zapisu if r.strana == StranaUctu.DAL), Decimal("0"))
 
     # DPH detail
     zaklad = None
@@ -268,7 +275,7 @@ def validuj_zapis(zapis: UctovnyZapis) -> list[str]:
 # Full pipeline: transakcia → účtovný zápis
 # ---------------------------------------------------------------------------
 
-def zauctuj(transakcia: Transakcia, pravidla: list[Pravidlo] = None) -> UctovnyZapis:
+def zauctuj(transakcia: Transakcia, pravidla: Optional[list[Pravidlo]] = None) -> UctovnyZapis:
     """Kompletný pipeline: zhoda → výber → výpočet → generovanie → validácia.
 
     Raises ValueError if no rule matches or validation fails.

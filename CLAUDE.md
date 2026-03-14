@@ -506,12 +506,12 @@ That is a much better problem to have.
   - Conditions, posting lines, DPH treatment, KV DPH sections, legal sources, variants, edge cases
 - **Execution rule schema + engine complete (2026-03-14):**
   - `engine/schema.py` — Dataclass schema: Pravidlo, Podmienky, RiadokZapisu + enums (SmerTransakcie, TypPlnenia, DphTreatment, KvDphSekcia, etc.)
-  - `engine/pravidla.py` — 14 declarative rules (10 transaction types + variants/steps) encoded as Pravidlo objects
+  - `engine/pravidla.py` — 24 declarative rules (20 transaction types + variants/steps) encoded as Pravidlo objects
   - `engine/motor.py` — Deterministic execution pipeline: najdi_zhody → vyber_pravidlo → generuj_zapis → validuj_zapis → zauctuj
-  - `engine/test_motor.py` — 15 pipeline tests (all passing)
+  - `engine/test_motor.py` — 25 pipeline tests (all passing)
   - Conflict resolution: priority + specificity (number of non-None conditions)
   - Multi-step support: krok/celkovo_krokov for DHM purchase (2 steps), preddavok (3 steps)
-  - **Total: 86 tests, all passing in 0.03s**
+  - **Total: 95 tests, all passing in 0.08s**
 - No accountant available — using practical examples + law text + confidence flags as interim validation
 - **Verbatim law text scraper complete (2026-03-14):**
   - `scraper/` module — fetches raw HTML from static.slov-lex.sk, parses into hierarchical sections, stores in Supabase
@@ -541,23 +541,33 @@ That is a much better problem to have.
 ### Step 3: Find a Slovak accountant willing to validate
 Not blocking development. Using practical examples as ground truth. Accountant validates when found.
 
-### Step 4: Expand rule coverage
-Add 20+ more transaction types to reach 90% coverage of common s.r.o. operations:
-- Nákup materiálu od neplatiteľa DPH
-- Dovoz z tretej krajiny (s clom)
-- Predaj do EÚ (oslobodenie)
-- Vývoz mimo EÚ
-- Hotovostný predaj cez e-kasu (D.1)
-- Tuzemský prenos — stavebné práce (A.2)
-- Tuzemský prenos — elektronika > 5000 EUR (A.2)
-- Faktúra za energie
-- Cestovné náhrady
-- Bankové poplatky
+### ~~Step 4: Expand rule coverage~~ ✅ DONE (2026-03-14)
+10 new transaction types added (24 total rules, 95 tests passing):
+- Nákup materiálu od neplatiteľa DPH (BEZ_DPH)
+- Dovoz z tretej krajiny s clom (VSTUPNA_DAN, B2)
+- Predaj do EÚ — oslobodenie (OSLOBODENIE_S_ODPOCTOM, A1)
+- Vývoz mimo EÚ (OSLOBODENIE_S_ODPOCTOM, no KV)
+- Tuzemský prenos — stavebné práce (PRENOS, A2) — `tuzemsky_prenos` condition added
+- Tuzemský prenos — elektronika >5000 EUR (PRENOS, A2)
+- Faktúra za energie (VSTUPNA_DAN, B2, účet 502)
+- Bankové poplatky (OSLOBODENIE_BEZ_ODPOCTU, no KV, účet 568)
+- Hotovostný predaj cez e-kasu (VYSTUPNA_DAN, D1)
+- Cestovné náhrady (BEZ_DPH, účet 512/333)
+Schema extended: `tuzemsky_prenos` condition on Podmienky, `celkova_suma` on Transakcia.
 
-### Step 5: Graph storage in Supabase
-Migrate pravidla.py rules to Supabase tables for versioning and querying.
-Add effective dates, graph versioning, rule lifecycle management.
+### ~~Step 5: Graph storage in Supabase~~ ✅ DONE (2026-03-14)
+`graph_pravidla` table in Supabase — 24 rules synced (version 1).
+- JSONB columns for `podmienky` (conditions) and `riadky` (posting lines)
+- GIN index on podmienky for condition queries
+- Bi-temporal versioning: `pravidlo_id` + `graph_version` unique constraint
+- `engine/sync_pravidla.py` — sync script with `--check` dry-run mode
+- RLS enabled with public read, anon write policies
 
-### Step 6: AI classification layer
-Build the Layer 3 classifier that routes ambiguous transactions to human review.
-Standard transactions go directly through the deterministic engine.
+### ~~Step 6: AI classification layer~~ ✅ DONE (2026-03-14)
+`engine/klasifikator.py` — Claude-powered transaction classifier (Layer 3).
+- `klasifikuj(popis)` → Klasifikacia with confidence score, structured fields, rule match
+- `klasifikuj_a_zauctuj(popis)` → classification + journal entry in one call
+- Three confidence levels: uspesna (≥0.8), neista (0.5-0.8), neznama (<0.5)
+- Tool use for structured output, system prompt with Slovak regulatory context
+- `engine/__main__.py` — CLI: `python3 -m engine classify --book "description"`
+- Uses claude-sonnet-4-20250514, ANTHROPIC_API_KEY from ~/.zshrc

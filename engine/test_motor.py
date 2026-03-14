@@ -378,11 +378,13 @@ class TestValidacia:
         """Žiadne pravidlo sa nezhoduje → ValueError."""
         t = Transakcia(
             smer=SmerTransakcie.NAKUP,
-            typ_plnenia=TypPlnenia.ENERGIA,  # No rule for this yet
-            krajina_dodavatela=KrajinaDodavatela.SK,
+            typ_plnenia=TypPlnenia.DLHODOBY_MAJETOK,
+            krajina_dodavatela=KrajinaDodavatela.TRETIA_KRAJINA,
         )
+        # Filter to empty set — no rules match DHM from non-EU with no other conditions
+        pravidla_prazdne = [p for p in VSETKY_PRAVIDLA if p.id == "neexistujuce"]
         with pytest.raises(ValueError, match="Žiadne pravidlá"):
-            zauctuj(t)
+            zauctuj(t, pravidla_prazdne)
 
 
 # ===========================================================================
@@ -423,3 +425,274 @@ class TestKonfliktRiesenie:
         )
         pravidlo = vyber_pravidlo(t)
         assert pravidlo.id == "nadobudnutie_tovaru_eu"
+
+
+# ===========================================================================
+# 11. Nákup materiálu od neplatiteľa DPH
+# ===========================================================================
+
+class TestNakupNeplatitel:
+    """Nákup materiálu od tuzemského neplatiteľa DPH."""
+
+    def test_zakladny(self):
+        """Celá suma ide do obstarávacej ceny, žiadna DPH."""
+        t = Transakcia(
+            smer=SmerTransakcie.NAKUP,
+            typ_plnenia=TypPlnenia.MATERIAL,
+            krajina_dodavatela=KrajinaDodavatela.SK,
+            platitel_dph_kupujuci=True,
+            platitel_dph_dodavatel=False,
+            metoda_zasob="A",
+            celkova_suma=Decimal("800"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "nakup_materialu_neplatitel"
+        assert zapis.dph_treatment == DphTreatment.BEZ_DPH
+        assert zapis.kv_dph_sekcia == KvDphSekcia.ZIADNA
+        assert len(zapis.riadky) == 2
+
+        md_112 = [r for r in zapis.riadky if r.ucet == "112"]
+        assert md_112[0].suma == Decimal("800.00")
+
+
+# ===========================================================================
+# 12. Dovoz z tretej krajiny
+# ===========================================================================
+
+class TestDovozTretiaKrajina:
+    """Dovoz tovaru z tretej krajiny s clom."""
+
+    def test_zakladny(self):
+        """Dovoz: základ dane (colná hodnota + clo) = 5250, DPH 23 % = 1207.50.
+        MD 131: 5250, MD 343: 1207.50, D 321: 5250, D 379: 1207.50.
+        """
+        t = Transakcia(
+            smer=SmerTransakcie.NAKUP,
+            typ_plnenia=TypPlnenia.TOVAR,
+            krajina_dodavatela=KrajinaDodavatela.TRETIA_KRAJINA,
+            platitel_dph_kupujuci=True,
+            zaklad_dane=Decimal("5250"),  # colná hodnota + clo
+            sadzba_dane=Decimal("23"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "dovoz_tovar_tretia_krajina"
+        assert zapis.dph_treatment == DphTreatment.VSTUPNA_DAN
+        assert zapis.kv_dph_sekcia == KvDphSekcia.B2
+
+        md_131 = [r for r in zapis.riadky if r.ucet == "131"]
+        assert md_131[0].suma == Decimal("5250.00")
+
+        md_343 = [r for r in zapis.riadky if r.ucet == "343"]
+        assert md_343[0].suma == Decimal("1207.50")
+
+
+# ===========================================================================
+# 13. Predaj tovaru do EÚ — oslobodenie
+# ===========================================================================
+
+class TestPredajEU:
+    """Predaj tovaru do iného členského štátu EÚ."""
+
+    def test_oslobodenie(self):
+        """Oslobodené dodanie do EÚ: základ 4000, COGS 3000, žiadna DPH."""
+        t = Transakcia(
+            smer=SmerTransakcie.PREDAJ,
+            typ_plnenia=TypPlnenia.TOVAR,
+            krajina_dodavatela=KrajinaDodavatela.EU,
+            platitel_dph_dodavatel=True,
+            zaklad_dane=Decimal("4000"),
+            nadobudacia_cena=Decimal("3000"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "predaj_tovaru_eu"
+        assert zapis.dph_treatment == DphTreatment.OSLOBODENIE_S_ODPOCTOM
+        assert zapis.kv_dph_sekcia == KvDphSekcia.A1
+
+        # No DPH line
+        ucty_343 = [r for r in zapis.riadky if r.ucet == "343"]
+        assert len(ucty_343) == 0
+
+        # Revenue
+        d_604 = [r for r in zapis.riadky if r.ucet == "604"]
+        assert d_604[0].suma == Decimal("4000.00")
+
+
+# ===========================================================================
+# 14. Vývoz mimo EÚ
+# ===========================================================================
+
+class TestVyvoz:
+    """Vývoz tovaru mimo EÚ."""
+
+    def test_oslobodenie(self):
+        """Vývoz: základ 6000, COGS 4500, žiadna DPH, žiadna KV DPH."""
+        t = Transakcia(
+            smer=SmerTransakcie.PREDAJ,
+            typ_plnenia=TypPlnenia.TOVAR,
+            krajina_dodavatela=KrajinaDodavatela.TRETIA_KRAJINA,
+            platitel_dph_dodavatel=True,
+            zaklad_dane=Decimal("6000"),
+            nadobudacia_cena=Decimal("4500"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "vyvoz_tovaru"
+        assert zapis.dph_treatment == DphTreatment.OSLOBODENIE_S_ODPOCTOM
+        assert zapis.kv_dph_sekcia == KvDphSekcia.ZIADNA
+
+
+# ===========================================================================
+# 15. Tuzemský prenos — stavebné práce
+# ===========================================================================
+
+class TestPrenosStavebne:
+    """Tuzemský prenos daňovej povinnosti — stavebné práce."""
+
+    def test_samozdanenie(self):
+        """Stavebné práce: základ 10000, DPH 2300 (samozdanenie)."""
+        t = Transakcia(
+            smer=SmerTransakcie.NAKUP,
+            typ_plnenia=TypPlnenia.SLUZBA,
+            krajina_dodavatela=KrajinaDodavatela.SK,
+            platitel_dph_kupujuci=True,
+            platitel_dph_dodavatel=True,
+            tuzemsky_prenos=True,
+            zaklad_dane=Decimal("10000"),
+            sadzba_dane=Decimal("23"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "prenos_stavebne_prace"
+        assert zapis.dph_treatment == DphTreatment.PRENOS_DANOVEJ_POVINNOSTI
+        assert zapis.kv_dph_sekcia == KvDphSekcia.A2
+
+        # Net DPH effect = 0 (MD 343 = D 343)
+        md_343 = sum(r.suma for r in zapis.riadky if r.ucet == "343" and r.strana == StranaUctu.MA_DAT)
+        d_343 = sum(r.suma for r in zapis.riadky if r.ucet == "343" and r.strana == StranaUctu.DAL)
+        assert md_343 == d_343 == Decimal("2300.00")
+
+
+# ===========================================================================
+# 17. Faktúra za energie
+# ===========================================================================
+
+class TestNakupEnergie:
+    """Faktúra za energie."""
+
+    def test_zakladny(self):
+        """Elektrina: základ 400, DPH 92, celkom 492."""
+        t = Transakcia(
+            smer=SmerTransakcie.NAKUP,
+            typ_plnenia=TypPlnenia.ENERGIA,
+            krajina_dodavatela=KrajinaDodavatela.SK,
+            platitel_dph_kupujuci=True,
+            platitel_dph_dodavatel=True,
+            zaklad_dane=Decimal("400"),
+            sadzba_dane=Decimal("23"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "nakup_energie"
+        assert zapis.kv_dph_sekcia == KvDphSekcia.B2
+
+        md_502 = [r for r in zapis.riadky if r.ucet == "502"]
+        assert md_502[0].suma == Decimal("400.00")
+
+
+# ===========================================================================
+# 18. Bankové poplatky
+# ===========================================================================
+
+class TestBankovePoplatky:
+    """Bankové poplatky — oslobodené od DPH."""
+
+    def test_zakladny(self):
+        """Bankový poplatok 15 EUR, žiadna DPH."""
+        t = Transakcia(
+            smer=SmerTransakcie.NAKUP,
+            typ_plnenia=TypPlnenia.SLUZBA,
+            krajina_dodavatela=KrajinaDodavatela.SK,
+            platitel_dph_kupujuci=True,
+            forma_uhrady="banka",
+            celkova_suma=Decimal("15"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "bankove_poplatky"
+        assert zapis.dph_treatment == DphTreatment.OSLOBODENIE_BEZ_ODPOCTU
+        assert zapis.kv_dph_sekcia == KvDphSekcia.ZIADNA
+
+        md_568 = [r for r in zapis.riadky if r.ucet == "568"]
+        assert md_568[0].suma == Decimal("15.00")
+
+        d_221 = [r for r in zapis.riadky if r.ucet == "221"]
+        assert d_221[0].suma == Decimal("15.00")
+
+
+# ===========================================================================
+# 19. Hotovostný predaj cez e-kasu
+# ===========================================================================
+
+class TestHotovostnyPredaj:
+    """Hotovostný predaj cez e-kasu — D.1 KV DPH."""
+
+    def test_zakladny(self):
+        """Predaj za hotovosť: základ 100, DPH 23, celkom 123."""
+        t = Transakcia(
+            smer=SmerTransakcie.PREDAJ,
+            typ_plnenia=TypPlnenia.TOVAR,
+            krajina_dodavatela=KrajinaDodavatela.SK,
+            platitel_dph_dodavatel=True,
+            forma_uhrady="hotovost",
+            zaklad_dane=Decimal("100"),
+            sadzba_dane=Decimal("23"),
+        )
+        zapis = zauctuj(t)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "hotovostny_predaj_ekasa"
+        assert zapis.kv_dph_sekcia == KvDphSekcia.D1
+
+        md_211 = [r for r in zapis.riadky if r.ucet == "211"]
+        assert md_211[0].suma == Decimal("123.00")
+
+
+# ===========================================================================
+# 20. Cestovné náhrady
+# ===========================================================================
+
+class TestCestovneNahrady:
+    """Cestovné náhrady zamestnancom."""
+
+    def test_zakladny(self):
+        """Cestovné 250 EUR, žiadna DPH."""
+        t = Transakcia(
+            smer=SmerTransakcie.NAKUP,
+            typ_plnenia=TypPlnenia.SLUZBA,
+            krajina_dodavatela=KrajinaDodavatela.SK,
+            celkova_suma=Decimal("250"),
+        )
+        # Filter to cestovne_nahrady explicitly (low priority, would match others)
+        pravidla_cestovne = [p for p in VSETKY_PRAVIDLA if p.id == "cestovne_nahrady"]
+        zapis = zauctuj(t, pravidla_cestovne)
+
+        assert zapis.je_vyvazeny
+        assert zapis.pravidlo_id == "cestovne_nahrady"
+        assert zapis.dph_treatment == DphTreatment.BEZ_DPH
+        assert zapis.kv_dph_sekcia == KvDphSekcia.ZIADNA
+
+        md_512 = [r for r in zapis.riadky if r.ucet == "512"]
+        assert md_512[0].suma == Decimal("250.00")
+
+        d_333 = [r for r in zapis.riadky if r.ucet == "333"]
+        assert d_333[0].suma == Decimal("250.00")

@@ -1,5 +1,5 @@
 """
-Pravidlá účtovania — the 10 core s.r.o. booking rules encoded as declarative objects.
+Pravidlá účtovania — 24 s.r.o. booking rules encoded as declarative objects.
 
 Each rule maps conditions → posting lines + DPH treatment + KV DPH section.
 Extracted from Postupy účtovania, DPH law, and practical examples.
@@ -409,6 +409,292 @@ PREDDAVOK_KROK3 = Pravidlo(
 
 
 # ---------------------------------------------------------------------------
+# 11. Nákup materiálu od neplatiteľa DPH
+# ---------------------------------------------------------------------------
+NAKUP_MATERIALU_NEPLATITEL = Pravidlo(
+    id="nakup_materialu_neplatitel",
+    nazov="Nákup materiálu od tuzemského neplatiteľa DPH",
+    name_en="Purchase of material from domestic non-VAT-payer",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.NAKUP,
+        typ_plnenia=TypPlnenia.MATERIAL,
+        krajina_dodavatela=KrajinaDodavatela.SK,
+        platitel_dph_kupujuci=True,
+        platitel_dph_dodavatel=False,
+        metoda_zasob="A",
+    ),
+    riadky=(
+        RiadokZapisu("112", StranaUctu.MA_DAT, VzorecSumy.CELKOVA_VYSKA, "Materiál na sklade"),
+        RiadokZapisu("321", StranaUctu.DAL, VzorecSumy.CELKOVA_VYSKA, "Dodávatelia"),
+    ),
+    dph_treatment=DphTreatment.BEZ_DPH,
+    kv_dph_sekcia=KvDphSekcia.ZIADNA,
+    povinne_vstupy=("datum_faktury", "dodavatel_nazov", "celkova_suma"),
+    pravny_zdroj="Postupy účtovania § 30-32",
+    priorita=115,
+    dovera="high",
+    poznamky="Dodávateľ nie je platiteľ DPH — faktúra bez DPH, celá suma do obstarávacej ceny",
+)
+
+# ---------------------------------------------------------------------------
+# 12. Dovoz tovaru z tretej krajiny (s clom)
+# ---------------------------------------------------------------------------
+DOVOZ_TOVAR_TRETIA_KRAJINA = Pravidlo(
+    id="dovoz_tovar_tretia_krajina",
+    nazov="Dovoz tovaru z tretej krajiny (s clom a DPH na vstupe)",
+    name_en="Import of goods from non-EU country (with customs duty)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.NAKUP,
+        typ_plnenia=TypPlnenia.TOVAR,
+        krajina_dodavatela=KrajinaDodavatela.TRETIA_KRAJINA,
+        platitel_dph_kupujuci=True,
+    ),
+    riadky=(
+        RiadokZapisu("131", StranaUctu.MA_DAT, VzorecSumy.ZAKLAD_DANE, "Tovar na sklade (colná hodnota + clo)"),
+        RiadokZapisu("343", StranaUctu.MA_DAT, VzorecSumy.DAN, "DPH — vstupná daň pri dovoze"),
+        RiadokZapisu("321", StranaUctu.DAL, VzorecSumy.ZAKLAD_DANE, "Dodávatelia (zahraničný)"),
+        RiadokZapisu("379", StranaUctu.DAL, VzorecSumy.DAN, "Iné záväzky (DPH colnému úradu)"),
+    ),
+    dph_treatment=DphTreatment.VSTUPNA_DAN,
+    sadzba_dane_id="sadzba_dane_23",
+    kv_dph_sekcia=KvDphSekcia.B2,
+    povinne_vstupy=("datum_faktury", "colne_vyhlasenie", "zaklad_dane", "sadzba_dane"),
+    pravny_zdroj="DPH § 12, § 20 ods. 1, § 49; Postupy účtovania § 35",
+    priorita=120,
+    dovera="high",
+    poznamky="Základ dane = colná hodnota + clo + vedľajšie náklady (zadáva sa ako zaklad_dane). DPH platí dovozca cez colný úrad.",
+)
+
+# ---------------------------------------------------------------------------
+# 13. Predaj tovaru do EÚ — oslobodenie od DPH
+# ---------------------------------------------------------------------------
+PREDAJ_TOVARU_EU = Pravidlo(
+    id="predaj_tovaru_eu",
+    nazov="Predaj tovaru do iného členského štátu EÚ (oslobodené)",
+    name_en="Intra-community supply of goods to EU (exempt with deduction)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.PREDAJ,
+        typ_plnenia=TypPlnenia.TOVAR,
+        krajina_dodavatela=KrajinaDodavatela.EU,
+        platitel_dph_dodavatel=True,
+    ),
+    riadky=(
+        RiadokZapisu("311", StranaUctu.MA_DAT, VzorecSumy.ZAKLAD_DANE, "Odberatelia (EÚ)"),
+        RiadokZapisu("604", StranaUctu.DAL, VzorecSumy.ZAKLAD_DANE, "Tržby za tovar"),
+        RiadokZapisu("504", StranaUctu.MA_DAT, VzorecSumy.NADOBUDACIA_CENA, "Predaný tovar (COGS)"),
+        RiadokZapisu("132", StranaUctu.DAL, VzorecSumy.NADOBUDACIA_CENA, "Tovar na sklade"),
+    ),
+    dph_treatment=DphTreatment.OSLOBODENIE_S_ODPOCTOM,
+    kv_dph_sekcia=KvDphSekcia.A1,
+    povinne_vstupy=("datum_dodania", "odberatel_ico_dph_eu", "krajina_odberatela", "zaklad_dane", "nadobudacia_cena"),
+    pravny_zdroj="DPH § 43 ods. 1 — oslobodenie pri dodaní tovaru do IČŠ",
+    priorita=120,
+    dovera="high",
+    poznamky="Bez DPH — oslobodené s právom na odpočet. Povinné uviesť v súhrnnom výkaze.",
+)
+
+# ---------------------------------------------------------------------------
+# 14. Vývoz tovaru mimo EÚ
+# ---------------------------------------------------------------------------
+VYVOZ_TOVARU = Pravidlo(
+    id="vyvoz_tovaru",
+    nazov="Vývoz tovaru mimo EÚ (oslobodené)",
+    name_en="Export of goods outside EU (exempt with deduction)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.PREDAJ,
+        typ_plnenia=TypPlnenia.TOVAR,
+        krajina_dodavatela=KrajinaDodavatela.TRETIA_KRAJINA,
+        platitel_dph_dodavatel=True,
+    ),
+    riadky=(
+        RiadokZapisu("311", StranaUctu.MA_DAT, VzorecSumy.ZAKLAD_DANE, "Odberatelia (zahraničný)"),
+        RiadokZapisu("604", StranaUctu.DAL, VzorecSumy.ZAKLAD_DANE, "Tržby za tovar"),
+        RiadokZapisu("504", StranaUctu.MA_DAT, VzorecSumy.NADOBUDACIA_CENA, "Predaný tovar (COGS)"),
+        RiadokZapisu("132", StranaUctu.DAL, VzorecSumy.NADOBUDACIA_CENA, "Tovar na sklade"),
+    ),
+    dph_treatment=DphTreatment.OSLOBODENIE_S_ODPOCTOM,
+    kv_dph_sekcia=KvDphSekcia.ZIADNA,
+    povinne_vstupy=("datum_dodania", "odberatel_nazov", "krajina_odberatela", "zaklad_dane", "nadobudacia_cena", "colne_vyhlasenie"),
+    pravny_zdroj="DPH § 47 — oslobodenie pri vývoze tovaru",
+    priorita=120,
+    dovera="high",
+    poznamky="Vývoz potvrdený colným vyhlásením. Neuvádza sa v KV DPH.",
+)
+
+# ---------------------------------------------------------------------------
+# 15. Tuzemský prenos daňovej povinnosti — stavebné práce (§ 69 ods. 12 písm. j)
+# ---------------------------------------------------------------------------
+PRENOS_STAVEBNE_PRACE = Pravidlo(
+    id="prenos_stavebne_prace",
+    nazov="Tuzemský prenos daňovej povinnosti — stavebné práce",
+    name_en="Domestic reverse charge — construction services (§ 69/12/j)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.NAKUP,
+        typ_plnenia=TypPlnenia.SLUZBA,
+        krajina_dodavatela=KrajinaDodavatela.SK,
+        platitel_dph_kupujuci=True,
+        platitel_dph_dodavatel=True,
+        tuzemsky_prenos=True,
+    ),
+    riadky=(
+        RiadokZapisu("518", StranaUctu.MA_DAT, VzorecSumy.ZAKLAD_DANE, "Ostatné služby (stavebné práce)"),
+        RiadokZapisu("343", StranaUctu.MA_DAT, VzorecSumy.DAN, "DPH — prenos, výstupná povinnosť"),
+        RiadokZapisu("343", StranaUctu.DAL, VzorecSumy.DAN, "DPH — prenos, vstupný odpočet"),
+        RiadokZapisu("321", StranaUctu.DAL, VzorecSumy.ZAKLAD_DANE, "Dodávatelia (bez DPH)"),
+    ),
+    dph_treatment=DphTreatment.PRENOS_DANOVEJ_POVINNOSTI,
+    sadzba_dane_id="sadzba_dane_23",
+    kv_dph_sekcia=KvDphSekcia.A2,
+    povinne_vstupy=("datum_faktury", "dodavatel_ico_dph", "zaklad_dane", "sadzba_dane", "popis_stavebnych_prac"),
+    pravny_zdroj="DPH § 69 ods. 12 písm. j) — stavebné práce sekcie F CPA",
+    priorita=130,
+    dovera="high",
+    poznamky="Odberateľ platí daň. Dodávateľ fakturuje bez DPH. Odberateľ vykazuje v A.2 aj B.1 KV DPH.",
+)
+
+# ---------------------------------------------------------------------------
+# 16. Tuzemský prenos daňovej povinnosti — tovar (§ 69 ods. 12) — elektronika >5000 EUR
+# ---------------------------------------------------------------------------
+PRENOS_ELEKTRONIKA = Pravidlo(
+    id="prenos_elektronika",
+    nazov="Tuzemský prenos daňovej povinnosti — tovar nad 5 000 EUR (elektronika a pod.)",
+    name_en="Domestic reverse charge — goods above 5000 EUR (electronics etc.)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.NAKUP,
+        typ_plnenia=TypPlnenia.TOVAR,
+        krajina_dodavatela=KrajinaDodavatela.SK,
+        platitel_dph_kupujuci=True,
+        platitel_dph_dodavatel=True,
+        tuzemsky_prenos=True,
+    ),
+    riadky=(
+        RiadokZapisu("132", StranaUctu.MA_DAT, VzorecSumy.ZAKLAD_DANE, "Tovar na sklade"),
+        RiadokZapisu("343", StranaUctu.MA_DAT, VzorecSumy.DAN, "DPH — prenos, výstupná povinnosť"),
+        RiadokZapisu("343", StranaUctu.DAL, VzorecSumy.DAN, "DPH — prenos, vstupný odpočet"),
+        RiadokZapisu("321", StranaUctu.DAL, VzorecSumy.ZAKLAD_DANE, "Dodávatelia (bez DPH)"),
+    ),
+    dph_treatment=DphTreatment.PRENOS_DANOVEJ_POVINNOSTI,
+    sadzba_dane_id="sadzba_dane_23",
+    kv_dph_sekcia=KvDphSekcia.A2,
+    povinne_vstupy=("datum_faktury", "dodavatel_ico_dph", "zaklad_dane", "sadzba_dane"),
+    pravny_zdroj="DPH § 69 ods. 12 písm. f), g), h), i) — integrované obvody, mobily, tablety, laptopy >5000 EUR",
+    priorita=130,
+    dovera="high",
+    poznamky="Platí len ak základ dane na faktúre ≥ 5 000 EUR. Odberateľ platí daň.",
+)
+
+# ---------------------------------------------------------------------------
+# 17. Faktúra za energie (elektrina, plyn, teplo, voda)
+# ---------------------------------------------------------------------------
+NAKUP_ENERGIE = Pravidlo(
+    id="nakup_energie",
+    nazov="Faktúra za energie (elektrina, plyn, teplo, voda)",
+    name_en="Energy invoice (electricity, gas, heat, water)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.NAKUP,
+        typ_plnenia=TypPlnenia.ENERGIA,
+        krajina_dodavatela=KrajinaDodavatela.SK,
+        platitel_dph_kupujuci=True,
+        platitel_dph_dodavatel=True,
+    ),
+    riadky=(
+        RiadokZapisu("502", StranaUctu.MA_DAT, VzorecSumy.ZAKLAD_DANE, "Spotreba energie"),
+        RiadokZapisu("343", StranaUctu.MA_DAT, VzorecSumy.DAN, "DPH — vstupná daň"),
+        RiadokZapisu("321", StranaUctu.DAL, VzorecSumy.CELKOVA_VYSKA, "Dodávatelia"),
+    ),
+    dph_treatment=DphTreatment.VSTUPNA_DAN,
+    sadzba_dane_id="sadzba_dane_23",
+    kv_dph_sekcia=KvDphSekcia.B2,
+    povinne_vstupy=("datum_faktury", "dodavatel_ico_dph", "zaklad_dane", "sadzba_dane"),
+    pravny_zdroj="Postupy účtovania § 47, DPH § 49; účet 502",
+    priorita=100,
+    dovera="high",
+)
+
+# ---------------------------------------------------------------------------
+# 18. Bankové poplatky
+# ---------------------------------------------------------------------------
+BANKOVE_POPLATKY = Pravidlo(
+    id="bankove_poplatky",
+    nazov="Bankové poplatky (bez DPH)",
+    name_en="Bank fees (no VAT)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.NAKUP,
+        typ_plnenia=TypPlnenia.SLUZBA,
+        krajina_dodavatela=KrajinaDodavatela.SK,
+        platitel_dph_kupujuci=True,
+        platitel_dph_dodavatel=None,
+        forma_uhrady="banka",
+    ),
+    riadky=(
+        RiadokZapisu("568", StranaUctu.MA_DAT, VzorecSumy.CELKOVA_VYSKA, "Ostatné finančné náklady"),
+        RiadokZapisu("221", StranaUctu.DAL, VzorecSumy.CELKOVA_VYSKA, "Bankové účty"),
+    ),
+    dph_treatment=DphTreatment.OSLOBODENIE_BEZ_ODPOCTU,
+    kv_dph_sekcia=KvDphSekcia.ZIADNA,
+    povinne_vstupy=("datum_pohybu", "suma"),
+    pravny_zdroj="DPH § 39 — oslobodené finančné služby; účet 568",
+    priorita=110,
+    dovera="high",
+    poznamky="Bankové služby sú oslobodené od DPH podľa § 39. Nie je odpočet, nie je KV DPH.",
+)
+
+# ---------------------------------------------------------------------------
+# 19. Hotovostný predaj cez e-kasu (D.1 KV DPH)
+# ---------------------------------------------------------------------------
+HOTOVOSTNY_PREDAJ_EKASA = Pravidlo(
+    id="hotovostny_predaj_ekasa",
+    nazov="Hotovostný predaj cez e-kasu",
+    name_en="Cash sale via e-kasa (point of sale)",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.PREDAJ,
+        typ_plnenia=TypPlnenia.TOVAR,
+        krajina_dodavatela=KrajinaDodavatela.SK,
+        platitel_dph_dodavatel=True,
+        forma_uhrady="hotovost",
+    ),
+    riadky=(
+        RiadokZapisu("211", StranaUctu.MA_DAT, VzorecSumy.CELKOVA_VYSKA, "Pokladnica"),
+        RiadokZapisu("604", StranaUctu.DAL, VzorecSumy.ZAKLAD_DANE, "Tržby za tovar"),
+        RiadokZapisu("343", StranaUctu.DAL, VzorecSumy.DAN, "DPH — výstupná daň"),
+    ),
+    dph_treatment=DphTreatment.VYSTUPNA_DAN,
+    sadzba_dane_id="sadzba_dane_23",
+    kv_dph_sekcia=KvDphSekcia.D1,
+    povinne_vstupy=("datum_predaja", "celkova_suma", "sadzba_dane"),
+    pravny_zdroj="DPH § 8, § 71 ods. 1; Zákon 289/2008 Z.z. o e-kase",
+    priorita=110,
+    dovera="high",
+    poznamky="Pokladničný doklad z e-kasy. Uvádza sa v D.1 KV DPH (súhrnne za obdobie).",
+)
+
+# ---------------------------------------------------------------------------
+# 20. Cestovné náhrady (bez DPH)
+# ---------------------------------------------------------------------------
+CESTOVNE_NAHRADY = Pravidlo(
+    id="cestovne_nahrady",
+    nazov="Cestovné náhrady zamestnancom",
+    name_en="Travel expense reimbursement to employees",
+    podmienky=Podmienky(
+        smer=SmerTransakcie.NAKUP,
+        typ_plnenia=TypPlnenia.SLUZBA,
+        krajina_dodavatela=KrajinaDodavatela.SK,
+    ),
+    riadky=(
+        RiadokZapisu("512", StranaUctu.MA_DAT, VzorecSumy.CELKOVA_VYSKA, "Cestovné"),
+        RiadokZapisu("333", StranaUctu.DAL, VzorecSumy.CELKOVA_VYSKA, "Ostatné záväzky voči zamestnancom"),
+    ),
+    dph_treatment=DphTreatment.BEZ_DPH,
+    kv_dph_sekcia=KvDphSekcia.ZIADNA,
+    povinne_vstupy=("datum_cesty", "zamestnanec", "suma", "ucel_cesty"),
+    pravny_zdroj="Zákon 283/2002 Z.z. o cestovných náhradách; účet 512",
+    priorita=90,
+    dovera="high",
+    poznamky="Cestovné náhrady nie sú predmetom DPH. Zahŕňa: diety, cestovné, ubytovanie.",
+)
+
+
+# ---------------------------------------------------------------------------
 # Registry — all rules in one place
 # ---------------------------------------------------------------------------
 VSETKY_PRAVIDLA: list[Pravidlo] = [
@@ -426,4 +712,14 @@ VSETKY_PRAVIDLA: list[Pravidlo] = [
     PREDDAVOK_KROK1,
     PREDDAVOK_KROK2,
     PREDDAVOK_KROK3,
+    NAKUP_MATERIALU_NEPLATITEL,
+    DOVOZ_TOVAR_TRETIA_KRAJINA,
+    PREDAJ_TOVARU_EU,
+    VYVOZ_TOVARU,
+    PRENOS_STAVEBNE_PRACE,
+    PRENOS_ELEKTRONIKA,
+    NAKUP_ENERGIE,
+    BANKOVE_POPLATKY,
+    HOTOVOSTNY_PREDAJ_EKASA,
+    CESTOVNE_NAHRADY,
 ]

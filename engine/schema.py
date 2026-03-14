@@ -120,8 +120,9 @@ class Podmienky:
     krajina_dodavatela: Optional[KrajinaDodavatela] = None
     platitel_dph_kupujuci: Optional[bool] = None
     platitel_dph_dodavatel: Optional[bool] = None
-    forma_uhrady: Optional[str] = None     # "faktura", "hotovost", "preddavok"
+    forma_uhrady: Optional[str] = None     # "faktura", "hotovost", "preddavok", "banka"
     metoda_zasob: Optional[str] = None     # "A" (perpetual) or "B" (periodic)
+    tuzemsky_prenos: Optional[bool] = None  # § 69 ods. 12 — domestic reverse charge
 
 
 @dataclass(frozen=True)
@@ -176,6 +177,7 @@ def priorita_pravidla(pravidlo: Pravidlo) -> tuple[int, int]:
         podmienky.platitel_dph_dodavatel,
         podmienky.forma_uhrady,
         podmienky.metoda_zasob,
+        podmienky.tuzemsky_prenos,
     ] if v is not None)
     return (pravidlo.priorita, specificnost)
 
