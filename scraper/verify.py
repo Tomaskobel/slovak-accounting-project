@@ -61,10 +61,7 @@ def verify_law(law_id: str, effective_from: Optional[str] = None) -> dict:
 
     type_counts: dict[str, int] = {}
     empty_text = 0
-    orphaned = 0
     total_text_chars = 0
-
-    all_ids = {s["element_id"] for s in sections_data if s.get("element_id")}
 
     for s in sections_data:
         stype = s["section_type"]

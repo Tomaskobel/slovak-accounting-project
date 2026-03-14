@@ -1,7 +1,7 @@
 """Supabase storage operations for law documents and sections."""
 
 import logging
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 from typing import Optional
 
 from scraper.config import get_supabase
@@ -27,7 +27,7 @@ def store_document(
         The UUID of the stored document.
     """
     sb = get_supabase()
-    now = datetime.utcnow().isoformat()
+    now = datetime.now(timezone.utc).isoformat()
 
     data = {
         "law_id": law_id,
@@ -155,7 +155,7 @@ def store_sections(
     sb.table("law_documents").update({
         "section_count": total_inserted,
         "fetch_status": "parsed",
-        "parsed_at": datetime.utcnow().isoformat(),
+        "parsed_at": datetime.now(timezone.utc).isoformat(),
     }).eq("id", document_id).execute()
 
     return total_inserted
