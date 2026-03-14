@@ -489,24 +489,48 @@ That is a much better problem to have.
     - `dph_law` — Act 222/2004 Z.z., all VAT rules with 2025 rates (23%/19%/5%)
     - `kv_dph_guidelines` — KV DPH section classification (A1/A2/B1/B2/B3/C1/C2/D1/D2)
     - `practical_examples` — 42 worked examples as future test fixtures
-  - **Supabase:** project `anhowyrefeyxkaouwmjh` (slovak-accounting, eu-central-1), `regulatory_sections` table with pgvector
-- No code written yet
+  - **Supabase:** project `anhowyrefeyxkaouwmjh` (slovak-accounting, eu-central-1), `regulatory_sections` table with pgvector (512 rows)
+- **Engine pojmy (terms) table complete (2026-03-14):**
+  - `engine/pojmy.json` — 36 terms: 9 DPH calculations, 4 rates, 14 thresholds, 3 invariants, 3 rounding rules, 1 reverse charge, 2 KV DPH thresholds
+  - `engine/pojmy.py` — Python module with Decimal precision, ROUND_HALF_UP, typed functions using exact Slovak legal terminology
+  - `engine/test_pojmy.py` — 71 tests (all passing), fixtures from practical_examples
+  - All terms verified against source law text (33 exact ✓, 3 standard accounting ⚠)
+  - Terminology: Slovak-first (základ dane, daň, koeficient, samozdanenie — not English translations)
+- **Rule patterns extracted (2026-03-14):**
+  - `docs/analysis/rule_patterns_top10.md` — 10 most common s.r.o. transaction types fully reverse-engineered
+  - Conditions, posting lines, DPH treatment, KV DPH sections, legal sources, variants, edge cases
+- **Execution rule schema + engine complete (2026-03-14):**
+  - `engine/schema.py` — Dataclass schema: Pravidlo, Podmienky, RiadokZapisu + enums (SmerTransakcie, TypPlnenia, DphTreatment, KvDphSekcia, etc.)
+  - `engine/pravidla.py` — 14 declarative rules (10 transaction types + variants/steps) encoded as Pravidlo objects
+  - `engine/motor.py` — Deterministic execution pipeline: najdi_zhody → vyber_pravidlo → generuj_zapis → validuj_zapis → zauctuj
+  - `engine/test_motor.py` — 15 pipeline tests (all passing)
+  - Conflict resolution: priority + specificity (number of non-None conditions)
+  - Multi-step support: krok/celkovo_krokov for DHM purchase (2 steps), preddavok (3 steps)
+  - **Total: 86 tests, all passing in 0.03s**
+- No accountant available — using practical examples + law text + confidence flags as interim validation
 
 ## Next Steps
 
 ### Step 1: Find a Slovak accountant willing to validate
-Critical dependency — accountant validates every rule before production.
+Not blocking development. Using practical examples as ground truth. Accountant validates when found.
 
-### Step 2: Extract real rule patterns from source material
-Read the actual Postupy účtovania for 10 common s.r.o. transaction types. Extract the real rule logic — what conditions, what accounts, what amounts, what edge cases. Let the schemas emerge from what's actually in the law.
+### Step 2: Expand rule coverage
+Add 20+ more transaction types to reach 90% coverage of common s.r.o. operations:
+- Nákup materiálu od neplatiteľa DPH
+- Dovoz z tretej krajiny (s clom)
+- Predaj do EÚ (oslobodenie)
+- Vývoz mimo EÚ
+- Hotovostný predaj cez e-kasu (D.1)
+- Tuzemský prenos — stavebné práce (A.2)
+- Tuzemský prenos — elektronika > 5000 EUR (A.2)
+- Faktúra za energie
+- Cestovné náhrady
+- Bankové poplatky
 
-### Step 2: Extract real rule patterns from source material
-Read the actual Postupy účtovania for 10 common s.r.o. transaction types. Extract the real rule logic — what conditions, what accounts, what amounts, what edge cases. Let the schemas emerge from what's actually in the law.
+### Step 3: Graph storage in Supabase
+Migrate pravidla.py rules to Supabase tables for versioning and querying.
+Add effective dates, graph versioning, rule lifecycle management.
 
-### Step 3: Design both schemas
-1. **Knowledge graph schema** — from the patterns found in Step 2
-2. **Execution rule schema** — derived from graph, adding formula language, priority, conflict resolution
-3. Validate both with accountant against expected posting outputs
-
-### Step 4: Build evaluation pipeline
-Match → prioritize → resolve conflicts → compute amounts → generate postings → validate
+### Step 4: AI classification layer
+Build the Layer 3 classifier that routes ambiguous transactions to human review.
+Standard transactions go directly through the deterministic engine.
