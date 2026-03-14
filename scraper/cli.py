@@ -207,6 +207,88 @@ def cmd_pipeline(args: argparse.Namespace) -> None:
     print_report(report)
 
 
+def cmd_parse_pdf(args: argparse.Namespace) -> None:
+    """Parse a local PDF file into sections and store in Supabase."""
+    from scraper.config import get_supabase
+    from scraper.pdf_parser import extract_text_from_pdf, parse_postupy_uctovania, parse_kv_dph_guidelines
+    from scraper.parser import build_full_text
+
+    pdf_path = args.pdf_path
+    doc_type = args.type
+    effective_from = _parse_effective_date(args.date)
+
+    # Extract text from PDF
+    print(f"\n--- Step 1: Extract text from {pdf_path} ---")
+    raw_text = extract_text_from_pdf(pdf_path)
+    print(f"  Extracted {len(raw_text):,} characters")
+
+    # Parse into sections
+    print(f"\n--- Step 2: Parse ({doc_type}) ---")
+    if doc_type == "postupy":
+        law_id = "23054/2002-92"
+        law_title = "Opatrenie MF SR — Postupy účtovania pre podnikateľov (podvojné účtovníctvo)"
+        records = parse_postupy_uctovania(raw_text)
+    elif doc_type == "kv-dph":
+        law_id = "KV-DPH"
+        law_title = "Metodický pokyn Finančnej správy SR ku kontrolnému výkazu DPH"
+        records = parse_kv_dph_guidelines(raw_text)
+    else:
+        print(f"Unknown document type: {doc_type}. Use 'postupy' or 'kv-dph'.")
+        sys.exit(1)
+
+    print(f"  Parsed {len(records)} sections")
+
+    # Store in Supabase
+    print(f"\n--- Step 3: Store in Supabase ---")
+    with open(pdf_path, "rb") as f:
+        pdf_bytes = f.read()
+
+    doc_id = store_document(
+        law_id=law_id,
+        law_title=law_title,
+        collection="PDF",
+        effective_from=effective_from,
+        effective_to=None,
+        source_url=args.source_url or f"file://{pdf_path}",
+        raw_html=raw_text,  # Store extracted text in raw_html field
+    )
+    print(f"  Stored document → {doc_id}")
+
+    clear_sections(doc_id)
+    stored = store_sections(doc_id, law_id, effective_from, records)
+    print(f"  Stored {stored} sections")
+
+    # Verify
+    print(f"\n--- Step 4: Verify ---")
+    report = verify_law(law_id, effective_from.isoformat())
+    print_report(report)
+
+
+def cmd_fetch_pdf(args: argparse.Namespace) -> None:
+    """Download a PDF from URL and run parse-pdf pipeline."""
+    from scraper.pdf_parser import fetch_pdf
+    from pathlib import Path
+
+    url = args.url
+    doc_type = args.type
+    effective_from = _parse_effective_date(args.date)
+
+    # Download PDF
+    pdf_dir = Path("scraper/pdfs")
+    pdf_dir.mkdir(exist_ok=True)
+    filename = f"{doc_type}_{args.date}.pdf"
+    pdf_path = pdf_dir / filename
+
+    print(f"\n--- Downloading PDF from {url} ---")
+    fetch_pdf(url, pdf_path)
+    print(f"  Saved to {pdf_path}")
+
+    # Set up args for parse_pdf
+    args.pdf_path = str(pdf_path)
+    args.source_url = url
+    cmd_parse_pdf(args)
+
+
 def cmd_pipeline_all(args: argparse.Namespace) -> None:
     """Run full pipeline for all configured laws."""
     import time
@@ -269,6 +351,23 @@ def main() -> None:
     p_pipeline.add_argument("law_id", help="Law ID")
     p_pipeline.add_argument("--date", help="Effective date YYYYMMDD")
     p_pipeline.set_defaults(func=cmd_pipeline)
+
+    # parse-pdf
+    p_parse_pdf = subparsers.add_parser("parse-pdf", help="Parse a local PDF into sections")
+    p_parse_pdf.add_argument("pdf_path", help="Path to PDF file")
+    p_parse_pdf.add_argument("--type", required=True, choices=["postupy", "kv-dph"],
+                             help="Document type: postupy or kv-dph")
+    p_parse_pdf.add_argument("--date", required=True, help="Effective date YYYYMMDD")
+    p_parse_pdf.add_argument("--source-url", help="Original source URL")
+    p_parse_pdf.set_defaults(func=cmd_parse_pdf)
+
+    # fetch-pdf
+    p_fetch_pdf = subparsers.add_parser("fetch-pdf", help="Download PDF and parse")
+    p_fetch_pdf.add_argument("url", help="URL to download PDF from")
+    p_fetch_pdf.add_argument("--type", required=True, choices=["postupy", "kv-dph"],
+                             help="Document type: postupy or kv-dph")
+    p_fetch_pdf.add_argument("--date", required=True, help="Effective date YYYYMMDD")
+    p_fetch_pdf.set_defaults(func=cmd_fetch_pdf)
 
     # pipeline-all
     p_pipeline_all = subparsers.add_parser("pipeline-all", help="Full pipeline for all laws")

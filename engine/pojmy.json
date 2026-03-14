@@ -251,9 +251,9 @@
       "vstupy": null,
       "vystup_typ": "EUR",
       "validacia": null,
-      "pravny_zdroj": "§ 73 Z. 222/2004 Z.z.",
-      "podmienky": "Suma vrátane dane",
-      "poznamky": "Od 2025-01-01 zvýšené z 100 EUR na 400 EUR",
+      "pravny_zdroj": "§ 74 ods. 3 Z. 222/2004 Z.z.",
+      "podmienky": "Suma vrátane dane. Dva prahy: písm. a) bežný doklad ≤ 100 EUR, písm. b) doklad z e-kasa alebo tankového automatu ≤ 400 EUR",
+      "poznamky": "Pôvodne v pojmy.json uvedený § 73 — opravené na § 74 po verifikácii voči verbatim textu zákona. Prah 400 EUR platí len pre e-kasa/tankový automat doklady.",
       "overene": true,
       "hodnota": 400
     },
@@ -296,9 +296,9 @@
       "vstupy": null,
       "vystup_typ": "EUR",
       "validacia": null,
-      "pravny_zdroj": "§ 54d Z. 222/2004 Z.z.",
-      "podmienky": "Obstarávacia cena za kus, obdobie úpravy 5 rokov",
-      "poznamky": "Od 2025 znížené z 5 000 EUR na 1 700 EUR",
+      "pravny_zdroj": "§ 54 ods. 2 písm. a) Z. 222/2004 Z.z.",
+      "podmienky": "Obstarávacia cena bez dane alebo vlastné náklady za kus, obdobie úpravy odpočtu podľa § 54d — 5 rokov",
+      "poznamky": "Pôvodne uvedený § 54d — opravené na § 54 ods. 2 písm. a) (definícia investičného majetku). § 54d upravuje úpravu odpočtu, nie samotný prah. Verbatim: 'hnuteľné veci... obstarávacia cena bez dane alebo vlastné náklady sú viac ako 1 700 eur'",
       "overene": true,
       "hodnota": 1700
     },
@@ -311,10 +311,10 @@
       "vstupy": null,
       "vystup_typ": "EUR",
       "validacia": null,
-      "pravny_zdroj": "§ 14 Z. 222/2004 Z.z.",
+      "pravny_zdroj": "§ 14 Z. 222/2004 Z.z. (implementácia čl. 59c smernice 2006/112/ES)",
       "podmienky": "Ročná hodnota dodaní do iných ČŠ EÚ",
-      "poznamky": null,
-      "overene": true,
+      "poznamky": "Prah 10 000 EUR nie je explicitne uvedený v § 14 textu zákona — pochádza z EU smernice. Vyžaduje overenie presného ustanovenia v slovenskom zákone alebo v § 68b (OSS).",
+      "overene": false,
       "hodnota": 10000
     },
     {
@@ -386,10 +386,10 @@
       "vstupy": null,
       "vystup_typ": "EUR",
       "validacia": null,
-      "pravny_zdroj": "§ 4c Z. 222/2004 Z.z.",
+      "pravny_zdroj": "§ 4c Z. 222/2004 Z.z. (odkazuje na § 67 ods. 1 Z. 563/2009 Z.z. — Daňový poriadok)",
       "podmienky": null,
-      "poznamky": null,
-      "overene": true,
+      "poznamky": "§ 4c neexistuje ako samostatný paragraf v znení účinnom od 2025-04-01. Záruka pri registrácii je upravená v Daňovom poriadku (563/2009). Vyžaduje overenie presného paragrafu.",
+      "overene": false,
       "hodnota": 1000
     },
     {
@@ -401,10 +401,10 @@
       "vstupy": null,
       "vystup_typ": "EUR",
       "validacia": null,
-      "pravny_zdroj": "§ 4c Z. 222/2004 Z.z.",
+      "pravny_zdroj": "§ 4c Z. 222/2004 Z.z. (odkazuje na § 67 ods. 1 Z. 563/2009 Z.z. — Daňový poriadok)",
       "podmienky": null,
-      "poznamky": null,
-      "overene": true,
+      "poznamky": "§ 4c neexistuje ako samostatný paragraf v znení účinnom od 2025-04-01. Záruka pri registrácii je upravená v Daňovom poriadku (563/2009). Vyžaduje overenie presného paragrafu.",
+      "overene": false,
       "hodnota": 500000
     },
     {

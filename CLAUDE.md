@@ -495,6 +495,11 @@ That is a much better problem to have.
   - `engine/pojmy.py` — Python module with Decimal precision, ROUND_HALF_UP, typed functions using exact Slovak legal terminology
   - `engine/test_pojmy.py` — 71 tests (all passing), fixtures from practical_examples
   - All terms verified against source law text (33 exact ✓, 3 standard accounting ⚠)
+  - **Re-verified against verbatim Supabase text (2026-03-14):** 31/36 confirmed exact, 5 fixes applied:
+    - `prah_zjednodusena_faktura`: §73 → §74 ods. 3 (§73 = invoice timing, not simplified invoices)
+    - `prah_investicny_majetok`: §54d → §54 ods. 2 písm. a) (§54d = tax adjustment, not threshold definition)
+    - `prah_danova_zaruka_min/max`: §4c doesn't exist in 222/2004 effective 2025-04-01, likely in Daňový poriadok 563/2009 — marked `overene: false`
+    - `prah_zasielkovy_predaj`: 10,000 EUR not found in §14 text, may be EU directive — marked `overene: false`
   - Terminology: Slovak-first (základ dane, daň, koeficient, samozdanenie — not English translations)
 - **Rule patterns extracted (2026-03-14):**
   - `docs/analysis/rule_patterns_top10.md` — 10 most common s.r.o. transaction types fully reverse-engineered
@@ -515,16 +520,23 @@ That is a much better problem to have.
   - **431/2002 (Účtovníctvo):** 1,365 sections (101 §, 521 odsek, 478 písmeno, 105 bod, 1 príloha, 158 poznámok), 1.2 MB HTML, effective 2026-01-01
   - Verbatim text verified — §27 (DPH rates) shows exact "23 %", "19 %", "5 %" from law
   - CLI: `python3 -m scraper pipeline 222/2004 --date 20250401` (fetch → parse → verify)
-  - **Not yet scraped (PDF only):** Postupy účtovania (Opatrenie MF SR), KV DPH guidelines — deferred to PDF parser phase
+  - **Not yet scraped (PDF only):** ~~Postupy účtovania (Opatrenie MF SR), KV DPH guidelines~~ — NOW DONE (see below)
   - Project `.env` overrides global SUPABASE_URL/KEY to point to `anhowyrefeyxkaouwmjh` project
+- **PDF scraper complete (2026-03-14):**
+  - `scraper/pdf_parser.py` — pdfplumber parser for Postupy účtovania + KV DPH guidelines
+  - **23054/2002-92 (Postupy účtovania):** 1,212 sections (117 §, 632 odsek, 463 písmeno), 318K chars, effective 2024-03-15
+  - **KV-DPH (Kontrolný výkaz):** 10 sections (9 KV sections A.1-D.2 + intro), 84K chars
+  - CLI: `python3 -m scraper parse-pdf <file> --type postupy --date YYYYMMDD` or `fetch-pdf <url> --type kv-dph --date YYYYMMDD`
+  - Source PDFs from financnasprava.sk (downloaded to `scraper/pdfs/`, gitignored)
+  - **Supabase total: 4 documents, 4,830 sections of verbatim regulatory text**
 
 ## Next Steps
 
-### Step 1: Re-verify engine terms against verbatim law text
-Now that we have verbatim §27, §22-26, §49-50, §69 etc. in Supabase, cross-check every pojmy.json term against the actual stored text. Fix any discrepancies.
+### ~~Step 1: Re-verify engine terms against verbatim law text~~ ✅ DONE
+31/36 terms confirmed, 5 fixes applied to pojmy.json. See Current State for details.
 
-### Step 2: Add PDF scraper for Postupy účtovania + KV DPH guidelines
-The Opatrenie MF SR and KV DPH guidelines are PDF-only (not on slov-lex.sk). Build a PDF parser using pdfplumber.
+### ~~Step 2: Add PDF scraper for Postupy účtovania + KV DPH guidelines~~ ✅ DONE
+`scraper/pdf_parser.py` — pdfplumber-based parser. Postupy účtovania: 1,212 sections (117 §, 632 odsek, 463 písmeno, 318K chars). KV DPH guidelines: 10 sections (9 KV sections + intro, 84K chars). Both stored in Supabase.
 
 ### Step 3: Find a Slovak accountant willing to validate
 Not blocking development. Using practical examples as ground truth. Accountant validates when found.

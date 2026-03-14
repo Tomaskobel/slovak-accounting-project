@@ -29,3 +29,6 @@ Thumbs.db
 
 # Playwright MCP
 .playwright-mcp/
+
+# Downloaded PDFs (large binary files)
+scraper/pdfs/
