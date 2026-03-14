@@ -26,3 +26,6 @@ Thumbs.db
 # Secrets
 *.pem
 *.key
+
+# Playwright MCP
+.playwright-mcp/

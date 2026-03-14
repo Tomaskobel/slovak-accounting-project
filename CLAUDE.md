@@ -508,13 +508,28 @@ That is a much better problem to have.
   - Multi-step support: krok/celkovo_krokov for DHM purchase (2 steps), preddavok (3 steps)
   - **Total: 86 tests, all passing in 0.03s**
 - No accountant available — using practical examples + law text + confidence flags as interim validation
+- **Verbatim law text scraper complete (2026-03-14):**
+  - `scraper/` module — fetches raw HTML from static.slov-lex.sk, parses into hierarchical sections, stores in Supabase
+  - Supabase tables: `law_documents` (raw HTML per law version) + `law_sections` (hierarchical parsed sections)
+  - **222/2004 (DPH law):** 2,243 sections (170 §, 1000 odsek, 822 písmeno, 85 bod, 10 príloh, 135 poznámok), 1.9 MB HTML, effective 2025-04-01
+  - **431/2002 (Účtovníctvo):** 1,365 sections (101 §, 521 odsek, 478 písmeno, 105 bod, 1 príloha, 158 poznámok), 1.2 MB HTML, effective 2026-01-01
+  - Verbatim text verified — §27 (DPH rates) shows exact "23 %", "19 %", "5 %" from law
+  - CLI: `python3 -m scraper pipeline 222/2004 --date 20250401` (fetch → parse → verify)
+  - **Not yet scraped (PDF only):** Postupy účtovania (Opatrenie MF SR), KV DPH guidelines — deferred to PDF parser phase
+  - Project `.env` overrides global SUPABASE_URL/KEY to point to `anhowyrefeyxkaouwmjh` project
 
 ## Next Steps
 
-### Step 1: Find a Slovak accountant willing to validate
+### Step 1: Re-verify engine terms against verbatim law text
+Now that we have verbatim §27, §22-26, §49-50, §69 etc. in Supabase, cross-check every pojmy.json term against the actual stored text. Fix any discrepancies.
+
+### Step 2: Add PDF scraper for Postupy účtovania + KV DPH guidelines
+The Opatrenie MF SR and KV DPH guidelines are PDF-only (not on slov-lex.sk). Build a PDF parser using pdfplumber.
+
+### Step 3: Find a Slovak accountant willing to validate
 Not blocking development. Using practical examples as ground truth. Accountant validates when found.
 
-### Step 2: Expand rule coverage
+### Step 4: Expand rule coverage
 Add 20+ more transaction types to reach 90% coverage of common s.r.o. operations:
 - Nákup materiálu od neplatiteľa DPH
 - Dovoz z tretej krajiny (s clom)
@@ -527,10 +542,10 @@ Add 20+ more transaction types to reach 90% coverage of common s.r.o. operations
 - Cestovné náhrady
 - Bankové poplatky
 
-### Step 3: Graph storage in Supabase
+### Step 5: Graph storage in Supabase
 Migrate pravidla.py rules to Supabase tables for versioning and querying.
 Add effective dates, graph versioning, rule lifecycle management.
 
-### Step 4: AI classification layer
+### Step 6: AI classification layer
 Build the Layer 3 classifier that routes ambiguous transactions to human review.
 Standard transactions go directly through the deterministic engine.
